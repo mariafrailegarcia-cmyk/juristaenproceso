@@ -14,8 +14,11 @@ render— es automático.
 ## Cómo se hace un video (el flujo completo)
 
 ```
-guion.json ──► edge-tts genera la voz de cada escena (mp3)
-           ──► se mide la duración exacta de cada mp3
+guion.json ──► para cada escena:
+                 ¿hay grabación tuya en guiones/<exp>/audio/?
+                   SÍ → se normaliza su volumen y se usa
+                   NO → edge-tts genera una voz de borrador
+           ──► se mide la duración exacta de cada audio
            ──► cada escena del video dura lo que dura su voz
            ──► Remotion dibuja los 30 fotogramas de cada segundo
            ──► out/expediente-XXXX.mp4
@@ -29,16 +32,54 @@ npm run producir -- guiones/0000-presuncion-de-inocencia.json
 
 Opciones útiles:
 
-- `--sin-voz` — no llama a edge-tts; estima los tiempos por el texto.
-  Sirve para ver un borrador visual sin conexión a internet.
-- `--sin-render` — genera voces y tiempos pero no renderiza el mp4.
+- `--sin-voz` — no llama a edge-tts; las escenas sin grabación tuya usan
+  una duración estimada por el texto. Para borradores sin conexión.
+- `--sin-render` — prepara voces, `locucion.txt` y datos, sin renderizar.
 
 ## Para crear un video nuevo
 
 1. Copia un guion de la carpeta `guiones/` y cámbiale el número de
    expediente, el título y las escenas. **No hay que tocar nada más.**
-2. Ejecuta `npm run producir -- guiones/tu-guion.json`.
-3. El video aparece en `out/`.
+2. Ejecuta `npm run producir -- guiones/tu-guion.json --sin-render`.
+   Esto crea `guiones/<expediente>/locucion.txt` con el texto numerado
+   de cada escena, listo para leerlo al grabarte.
+3. Graba tu voz (ver siguiente sección) o salta este paso para
+   previsualizar con la voz sintética de borrador.
+4. Ejecuta `npm run producir -- guiones/tu-guion.json`.
+5. El video aparece en `out/`.
+
+## Tu voz: cómo grabar y dónde poner los audios
+
+La voz definitiva del canal es la tuya. El sistema funciona así: **si una
+escena tiene grabación tuya, la usa; si no, pone una voz sintética de
+borrador** (así puedes previsualizar el video completo antes de grabarte).
+
+Reglas de los archivos:
+
+- Un audio por escena, llamado exactamente `escena-01.mp3`,
+  `escena-02.mp3`… (siempre dos cifras). También valen `.m4a` (el formato
+  típico del móvil) y `.wav`.
+- Se guardan en `guiones/<expediente>/audio/`, por ejemplo
+  `guiones/0000/audio/escena-01.m4a`.
+- No te preocupes por el volumen: el pipeline lo normaliza con ffmpeg
+  (sonoridad −16 LUFS, el estándar para voz en YouTube) para que todas
+  las escenas suenen parejas aunque las grabes en días distintos.
+- Si regrabas una escena, sube el archivo nuevo con el mismo nombre:
+  el pipeline detecta el cambio y la reprocesa sola.
+
+### Subir los audios desde la web de GitHub (sin programar nada)
+
+1. Entra en el repositorio en github.com y navega a la carpeta
+   `guiones/<expediente>/audio/` (existe desde la primera vez que se
+   ejecuta el pipeline; dentro verás también `locucion.txt` un nivel
+   arriba, con el texto que leer en cada toma).
+2. Pulsa **Add file → Upload files** (arriba a la derecha).
+3. Arrastra tus audios a la zona de subida. Comprueba que los nombres
+   sean `escena-01.m4a`, `escena-02.m4a`…
+4. Abajo, escribe un mensaje tipo "Voces del expediente 0001" y pulsa
+   **Commit changes**.
+5. Pide en una sesión de Claude Code: «produce el expediente 0001» —
+   o ejecuta tú el comando del paso 4 de la sección anterior.
 
 ### Anatomía de una escena del guion
 
@@ -67,6 +108,9 @@ Para ampliar el catálogo se añade el tipo en `src/tipos.ts` y su dibujo en
 
 ```
 guiones/        ← los guiones: AQUÍ se crean los videos nuevos
+  <expediente>/
+    locucion.txt ← el texto numerado para leer al grabarte (lo crea el pipeline)
+    audio/       ← TUS grabaciones: escena-01.mp3, escena-02.m4a…
 scripts/
   config.mjs    ← la voz y su velocidad (un solo sitio para cambiarla)
   producir.mjs  ← el pipeline completo guion → mp4
@@ -93,10 +137,11 @@ src/
   fija** para que el temblor del trazo no parpadee entre fotogramas.
 - Marca de agua (§ con birrete) siempre visible abajo a la derecha al 50%.
 
-## La voz
+## La voz sintética de borrador
 
-Voz por defecto: `es-ES-ElviraNeural` (femenina, español de España) a
-velocidad `+4%`. Se cambia en `scripts/config.mjs`. Para escuchar otras:
+Para las escenas que aún no tienen grabación tuya se usa
+`es-ES-ElviraNeural` (femenina, español de España) a velocidad `+4%`.
+Se cambia en `scripts/config.mjs`. Para escuchar otras:
 
 ```bash
 python3 -m edge_tts --list-voices | grep es-ES

@@ -1,0 +1,30 @@
+EXPEDIENTE Nº 0000 — ¿Qué es la presunción de inocencia?
+
+Graba cada escena en un audio aparte y guárdalo como:
+  guiones/0000/audio/escena-NN.mp3   (o .m4a o .wav)
+
+────────────────────────────────────────
+
+▶ escena-01  (visual: titulo)
+
+  La presunción de inocencia: esa frase que todo el mundo cita y muy pocos saben explicar.
+
+────────────────────────────────────────
+
+▶ escena-02  (visual: balanza)
+
+  Eres inocente hasta que se demuestre lo contrario. Quien acusa, prueba. Tú, de entrada, no tienes que demostrar nada.
+
+────────────────────────────────────────
+
+▶ escena-03  (visual: lista)
+
+  Tres claves para el examen: es un derecho fundamental, artículo veinticuatro de la Constitución. La prueba la aporta la acusación. Y si hay duda, la duda te favorece.
+
+────────────────────────────────────────
+
+▶ escena-04  (visual: sello)
+
+  ¿Que no hay prueba suficiente? Entonces solo cabe una cosa.
+
+────────────────────────────────────────
