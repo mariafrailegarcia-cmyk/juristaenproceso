@@ -82,7 +82,7 @@ export const Balanza: React.FC<{
             textAlign: 'center',
             fontFamily: FUENTES.sans,
             fontWeight: 500,
-            fontSize: 34,
+            fontSize: Math.round((alto * 34) / 560),
             color: COLORES.tintaSuave,
             opacity: progreso >= 1 ? 1 : 0,
           }}

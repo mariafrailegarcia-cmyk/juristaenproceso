@@ -154,7 +154,7 @@ const VisualBalanza: React.FC<{visual: Extract<Visual, {tipo: 'balanza'}>; durac
           />
         </div>
       ) : null}
-      <Balanza etiquetas={visual.etiquetas} progreso={dibujo} alto={visual.texto ? 540 : 640} />
+      <Balanza etiquetas={visual.etiquetas} progreso={dibujo} alto={visual.texto ? 680 : 800} />
     </AbsoluteFill>
   );
 };
