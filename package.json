@@ -1,0 +1,27 @@
+{
+  "name": "juristaenproceso",
+  "version": "1.0.0",
+  "description": "Fábrica de videos para el canal de YouTube «Jurista en Proceso»: cada video se define con un guion.json y el código lo convierte en mp4.",
+  "private": true,
+  "scripts": {
+    "estudio": "remotion studio",
+    "producir": "node scripts/producir.mjs",
+    "sfx": "node scripts/generar-sfx.mjs",
+    "navegador": "npx @puppeteer/browsers install chrome-headless-shell@149.0.7790.0 --path .navegador"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.1.0",
+    "@fontsource/playfair-display": "^5.1.0",
+    "@remotion/cli": "^4.0.0",
+    "music-metadata": "^11.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.0",
+    "roughjs": "^4.6.6"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.6.0"
+  }
+}

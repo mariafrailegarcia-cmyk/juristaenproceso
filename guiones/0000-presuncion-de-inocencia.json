@@ -1,0 +1,42 @@
+{
+  "expediente": "0000",
+  "titulo": "¿Qué es la presunción de inocencia?",
+  "escenas": [
+    {
+      "voz": "La presunción de inocencia: esa frase que todo el mundo cita y muy pocos saben explicar.",
+      "visual": {
+        "tipo": "titulo",
+        "texto": "Presunción de inocencia",
+        "subtitulo": "todos la citan, pocos la explican"
+      }
+    },
+    {
+      "voz": "Eres inocente hasta que se demuestre lo contrario. Quien acusa, prueba. Tú, de entrada, no tienes que demostrar nada.",
+      "visual": {
+        "tipo": "balanza",
+        "etiquetas": ["quien acusa, prueba", "tú, de entrada: nada"],
+        "texto": "Inocente hasta que se demuestre lo contrario"
+      }
+    },
+    {
+      "voz": "Tres claves para el examen: es un derecho fundamental, artículo veinticuatro de la Constitución. La prueba la aporta la acusación. Y si hay duda, la duda te favorece.",
+      "visual": {
+        "tipo": "lista",
+        "titulo": "Tres claves",
+        "puntos": [
+          "Derecho fundamental: art. 24 CE",
+          "La prueba la aporta la acusación",
+          "In dubio pro reo: la duda te favorece"
+        ]
+      }
+    },
+    {
+      "voz": "¿Que no hay prueba suficiente? Entonces solo cabe una cosa.",
+      "visual": {
+        "tipo": "sello",
+        "texto": "ABSUELTO",
+        "apoyo": "Sin prueba suficiente, solo cabe…"
+      }
+    }
+  ]
+}
