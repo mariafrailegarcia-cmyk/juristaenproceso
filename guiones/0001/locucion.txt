@@ -1,0 +1,72 @@
+EXPEDIENTE Nº 0001 — ¿Qué es (de verdad) un proceso?
+
+Graba cada escena en un audio aparte y guárdalo como:
+  guiones/0001/audio/escena-NN.mp3   (o .m4a o .wav)
+
+────────────────────────────────────────
+
+▶ escena-01  (visual: monigote)
+
+  Le prestaste mil euros a tu amigo Marcos. Hace ocho meses. Marcos tiene trabajo, tiene coche nuevo y tiene la desfachatez de subir stories desde Bali. Lo que no tiene, por lo visto, es intención de devolverte el dinero. Le has escrito: te ha dejado en visto. Le has vuelto a escribir: te ha respondido "jajaja ya te hago bizum". No hay bizum. Hoy vamos a ver qué puede hacer el Derecho por ti. Spoiler: bastante más que mandar audios pasivo-agresivos.
+
+────────────────────────────────────────
+
+▶ escena-02  (visual: titulo)
+
+  Se abre la sesión. Expediente número cero, cero, cero, uno: ¿qué es, de verdad, un proceso? Y subrayo lo de "de verdad", porque esta palabra se usa para todo: procesos electorales, procesos creativos, alimentos procesados. Hoy la vamos a usar con precisión de cirujano. Porque si quieres recuperar tus mil euros, el proceso es, literalmente, tu único camino legal.
+
+────────────────────────────────────────
+
+▶ escena-03  (visual: lista)
+
+  Primera tentación: presentarte en casa de Marcos y llevarte su tele. Mala idea. Eso es tomarse la justicia por la propia mano, y lleva siglos prohibido, básicamente porque acababa fatal. En un Estado de Derecho, juzgar es monopolio de los jueces. Y aquí aparece el trípode sobre el que se sostiene toda esta asignatura, como un taburete de tres patas. Pata uno: la jurisdicción, la potestad de los jueces de juzgar y hacer ejecutar lo juzgado; lo dice el artículo 117.3 de la Constitución. Pata dos: la acción, tu derecho a acudir al juez y pedirle tutela para tus derechos e intereses. Y pata tres: el proceso, el instrumento que conecta las otras dos. Porque tú no puedes juzgar a Marcos, y el juez no puede pasearse por la calle repartiendo sentencias por iniciativa propia. El proceso es el puente: a través de él tú pides, y a través de él el juez ejerce su potestad. Quita cualquiera de las tres patas, y el taburete se va al suelo.
+
+────────────────────────────────────────
+
+▶ escena-04  (visual: definicion)
+
+  Tres palabras que todo el mundo confunde: proceso, procedimiento y juicio. Piensa en sacarte el carnet de conducir. El procedimiento es la secuencia de trámites en orden: matricularte, el teórico, las prácticas, el examen. La realidad exterior, el papeleo encadenado. El proceso es la realidad superior que lo engloba todo: "sacarse el carnet". Y el juicio es el momento de decidir: el examinador dictaminando si apruebas. En Derecho funciona igual. El procedimiento es el orden o sucesión de actuaciones: demanda, audiencia previa, juicio, sentencia. El proceso es esa realidad superior de la cual el procedimiento es solo un aspecto: proceso civil, proceso penal. Y el juicio, en sentido estricto, es la operación de juzgar, de decir el derecho; aunque también llamamos "juicio oral" al acto concreto donde se practican las pruebas ante el tribunal. El idioma no nos lo pone fácil. Para eso está este canal.
+
+────────────────────────────────────────
+
+▶ escena-05  (visual: titulo)
+
+  Volvamos a tus mil euros. Presentas tu demanda y arranca un proceso declarativo. Se llama así porque en él el juez "declara" el derecho: lo dice para tu caso concreto. Y puede decirlo de tres maneras distintas, según lo que le pidas.
+
+────────────────────────────────────────
+
+▶ escena-06  (visual: lista)
+
+  Una: la sentencia mero declarativa. Confirma. Se limita a declarar que un derecho o una situación existe o no existe; por ejemplo, que esa finca es tuya. Y con declararlo basta: no necesita ninguna actividad posterior. Dos: la sentencia constitutiva. Transforma. Crea, modifica o extingue un estado o situación jurídica: piensa en una sentencia de separación matrimonial. La sentencia, por sí misma, cambia la situación; no hay nada que ejecutar después. Y tres: la sentencia de condena. Ordena. Además de declarar, manda a una de las partes hacer, omitir o soportar algo: "Marcos, paga los mil euros". Y aquí llega la letra pequeña que nadie te cuenta en las películas: que el juez lo ordene no significa que Marcos pague.
+
+────────────────────────────────────────
+
+▶ escena-07  (visual: sello)
+
+  Si Marcos, sentencia en mano, sigue sin pagar, pasamos al proceso de ejecución. Aquí el Estado deja de declarar y empieza a actuar: localiza bienes y derechos de Marcos, los embarga y, si hace falta, los subasta para convertirlos en dinero y dártelo. Es la compulsión estatal: el juez y el letrado de la Administración de Justicia sustituyen al deudor y hacen lo que él debería haber hecho por las buenas. El Estado es, digamos, el único matón con licencia; y precisamente por eso tú no puedes serlo. Detalle elegante: la ejecución se despacha "inaudita parte debitoris", sin oír antes al deudor. ¿Latinajo injusto? No: ya existe un título, la sentencia, que dice quién tiene razón, y Marcos podrá oponerse inmediatamente después. Y un apunte más: no solo se ejecutan sentencias; también títulos extrajudiciales a los que la ley reconoce fuerza ejecutiva, como ciertas pólizas de crédito, letras de cambio o cheques.
+
+────────────────────────────────────────
+
+▶ escena-08  (visual: balanza)
+
+  Última pieza. Los procesos tardan. ¿Y si Marcos, mientras dura el pleito, vende el coche, vacía la cuenta y se declara espiritualmente desapegado de lo material? Tu sentencia llegaría tarde: sería papel mojado, inejecutable. Para eso existen las medidas cautelares: actuaciones que aseguran, durante el proceso de declaración, que la sentencia que llegue sirva de algo. Pides el embargo preventivo de sus bienes —un candado sobre esos mil euros— y esos bienes quedan afectados a la ejecución, por mucho que Marcos se los transmita a terceros. Se pueden pedir al iniciar el proceso, o incluso un poco antes. Y las hay para casi todo: se ha llegado a pedir como cautelar que no se televise la final de un campeonato de baloncesto. El Derecho será lento, pero ingenuo no es.
+
+────────────────────────────────────────
+
+▶ escena-09  (visual: lista)
+
+  Recapitulemos el expediente. El proceso es el instrumento que conecta tu derecho a pedir tutela con la potestad del juez. No es el procedimiento, que es la secuencia exterior de trámites; ni el juicio, que es la decisión. El proceso declarativo dice el derecho, y puede hacerlo con tres sentencias: las que confirman, las que transforman y las que ordenan. Si la orden no se cumple, la ejecución la convierte en realidad: por las buenas o por las embargadas. Y las medidas cautelares vigilan que, mientras tanto, nadie haga desaparecer el premio.
+
+────────────────────────────────────────
+
+▶ escena-10  (visual: lista)
+
+  Este expediente abre una miniserie sobre el proceso. En los próximos: los cuatro órdenes jurisdiccionales —civil, penal, contencioso-administrativo y laboral—, o por qué no es lo mismo que te despidan a que te detengan. Los principios del proceso. Las garantías constitucionales, presunción de inocencia incluida. Los actos procesales y su nulidad. Y la justicia gratuita y los métodos alternativos al pleito. Seis carpetas. Todas se admiten a trámite.
+
+────────────────────────────────────────
+
+▶ escena-11  (visual: sello)
+
+  Pregunta tipo examen, y va a los comentarios: el juez dicta sentencia de divorcio. ¿Qué tipo de sentencia es, y por qué no necesita un proceso de ejecución posterior? Tienes el video entero para responder sin mirar apuntes. Se levanta la sesión.
+
+────────────────────────────────────────
