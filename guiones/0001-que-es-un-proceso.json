@@ -1,0 +1,150 @@
+{
+  "expediente": "0001",
+  "titulo": "¿Qué es (de verdad) un proceso?",
+  "escenas": [
+    {
+      "voz": "Le prestaste mil euros a tu amigo Marcos. Hace ocho meses. Marcos tiene trabajo, tiene coche nuevo y tiene la desfachatez de subir stories desde Bali. Lo que no tiene, por lo visto, es intención de devolverte el dinero. Le has escrito: te ha dejado en visto. Le has vuelto a escribir: te ha respondido \"jajaja ya te hago bizum\". No hay bizum. Hoy vamos a ver qué puede hacer el Derecho por ti. Spoiler: bastante más que mandar audios pasivo-agresivos.",
+      "visual": {
+        "tipo": "coreografia",
+        "acciones": [
+          {"actor": "camara", "accion": "zoom", "a": [620, 720], "escala": 1.28, "t": 0, "dur": 0.4},
+          {"actor": "tu", "accion": "aparecer", "en": [430, 900], "t": 0},
+          {"prop": "billete", "accion": "aparecer", "en": [610, 610], "t": 0.02},
+          {"texto": "1.000 €", "accion": "rotulo", "estilo": "pluma", "en": [620, 465], "t": 0.04, "dur": 0.8},
+          {"actor": "marcos", "accion": "aparecer", "en": [1420, 900], "voltear": true, "t": 0.1},
+          {"prop": "billete", "accion": "flotar", "a": [1225, 630], "t": 0.06, "dur": 2.7},
+          {"actor": "camara", "accion": "zoom", "a": [980, 650], "escala": 1, "t": 0.11, "dur": 1.6},
+
+          {"texto": "8 meses", "accion": "rotulo", "estilo": "caer", "en": [960, 250], "t": 0.13, "dur": 1.0},
+          {"texto": "8 meses", "accion": "desaparecer", "t": 0.2, "dur": 0.5},
+
+          {"prop": "coche", "accion": "aparecer", "en": [1540, 815], "escala": 0.55, "t": 0.22},
+          {"prop": "palmera", "accion": "aparecer", "en": [1670, 770], "escala": 0.75, "t": 0.27},
+          {"texto": "Bali", "accion": "rotulo", "estilo": "pluma", "en": [1620, 510], "t": 0.31, "dur": 0.7},
+          {"actor": "marcos", "accion": "celebrar", "t": 0.32, "dur": 2.0},
+
+          {"texto": "1.000 €", "accion": "tachar", "t": 0.4},
+          {"prop": "billete", "accion": "desaparecer", "t": 0.41, "dur": 0.8},
+          {"actor": "marcos", "accion": "encogerse", "t": 0.43, "dur": 2.0},
+
+          {"actor": "camara", "accion": "zoom", "a": [960, 520], "escala": 1.18, "t": 0.51, "dur": 1.0},
+          {"prop": "movil", "accion": "aparecer", "en": [820, 500], "escala": 2.0, "t": 0.52},
+          {"actor": "tu", "accion": "mirar_movil", "t": 0.53},
+          {"texto": "visto", "accion": "rotulo", "estilo": "pluma", "en": [1060, 420], "t": 0.56, "dur": 0.6},
+          {"texto": "«jajaja ya te hago bizum»", "accion": "bocadillo", "estilo": "espera", "en": [1180, 335], "objetivo": "marcos", "t": 0.62, "dur": 1.2},
+
+          {"actor": "camara", "accion": "punch", "a": [820, 500], "escala": 1.32, "t": 0.74, "dur": 0.7},
+          {"texto": "No hay bizum", "accion": "rotulo", "estilo": "caer", "en": [960, 245], "t": 0.75, "dur": 1.0},
+          {"texto": "No hay bizum", "accion": "desaparecer", "t": 0.82, "dur": 0.5},
+
+          {"prop": "movil", "accion": "desaparecer", "t": 0.84, "dur": 0.7},
+          {"texto": "visto", "accion": "desaparecer", "t": 0.84, "dur": 0.4},
+          {"texto": "«jajaja ya te hago bizum»", "accion": "desaparecer", "t": 0.84, "dur": 0.4},
+          {"actor": "camara", "accion": "zoom", "a": [780, 650], "escala": 1.05, "t": 0.85, "dur": 1.2},
+          {"actor": "tu", "accion": "senalar", "objetivo": "marcos", "t": 0.87},
+          {"texto": "EXPEDIENTE Nº 0001", "accion": "sello", "en": [960, 315], "t": 0.93, "dur": 0.5},
+          {"actor": "tu", "accion": "celebrar", "t": 0.95}
+        ]
+      }
+    },
+    {
+      "voz": "Se abre la sesión. Expediente número cero, cero, cero, uno: ¿qué es, de verdad, un proceso? Y subrayo lo de \"de verdad\", porque esta palabra se usa para todo: procesos electorales, procesos creativos, alimentos procesados. Hoy la vamos a usar con precisión de cirujano. Porque si quieres recuperar tus mil euros, el proceso es, literalmente, tu único camino legal.",
+      "visual": {
+        "tipo": "titulo",
+        "texto": "¿Qué es (de verdad) un proceso?",
+        "subtitulo": "tu único camino legal para recuperar esos 1.000 €"
+      }
+    },
+    {
+      "voz": "Primera tentación: presentarte en casa de Marcos y llevarte su tele. Mala idea. Eso es tomarse la justicia por la propia mano, y lleva siglos prohibido, básicamente porque acababa fatal. En un Estado de Derecho, juzgar es monopolio de los jueces. Y aquí aparece el trípode sobre el que se sostiene toda esta asignatura, como un taburete de tres patas. Pata uno: la jurisdicción, la potestad de los jueces de juzgar y hacer ejecutar lo juzgado; lo dice el artículo 117.3 de la Constitución. Pata dos: la acción, tu derecho a acudir al juez y pedirle tutela para tus derechos e intereses. Y pata tres: el proceso, el instrumento que conecta las otras dos. Porque tú no puedes juzgar a Marcos, y el juez no puede pasearse por la calle repartiendo sentencias por iniciativa propia. El proceso es el puente: a través de él tú pides, y a través de él el juez ejerce su potestad. Quita cualquiera de las tres patas, y el taburete se va al suelo.",
+      "visual": {
+        "tipo": "lista",
+        "titulo": "El trípode",
+        "puntos": [
+          "Jurisdicción: juzgar y hacer ejecutar lo juzgado (art. 117.3 CE)",
+          "Acción: tu derecho a pedir tutela al juez",
+          "Proceso: el puente que conecta las otras dos"
+        ]
+      }
+    },
+    {
+      "voz": "Tres palabras que todo el mundo confunde: proceso, procedimiento y juicio. Piensa en sacarte el carnet de conducir. El procedimiento es la secuencia de trámites en orden: matricularte, el teórico, las prácticas, el examen. La realidad exterior, el papeleo encadenado. El proceso es la realidad superior que lo engloba todo: \"sacarse el carnet\". Y el juicio es el momento de decidir: el examinador dictaminando si apruebas. En Derecho funciona igual. El procedimiento es el orden o sucesión de actuaciones: demanda, audiencia previa, juicio, sentencia. El proceso es esa realidad superior de la cual el procedimiento es solo un aspecto: proceso civil, proceso penal. Y el juicio, en sentido estricto, es la operación de juzgar, de decir el derecho; aunque también llamamos \"juicio oral\" al acto concreto donde se practican las pruebas ante el tribunal. El idioma no nos lo pone fácil. Para eso está este canal.",
+      "visual": {
+        "tipo": "definicion",
+        "termino": "Proceso · procedimiento · juicio",
+        "definicion": "El procedimiento es la secuencia exterior de trámites; el proceso, la realidad superior que lo engloba; el juicio, la operación de decidir el derecho."
+      }
+    },
+    {
+      "voz": "Volvamos a tus mil euros. Presentas tu demanda y arranca un proceso declarativo. Se llama así porque en él el juez \"declara\" el derecho: lo dice para tu caso concreto. Y puede decirlo de tres maneras distintas, según lo que le pidas.",
+      "visual": {
+        "tipo": "titulo",
+        "texto": "Proceso declarativo",
+        "subtitulo": "el juez «declara» el derecho para tu caso concreto"
+      }
+    },
+    {
+      "voz": "Una: la sentencia mero declarativa. Confirma. Se limita a declarar que un derecho o una situación existe o no existe; por ejemplo, que esa finca es tuya. Y con declararlo basta: no necesita ninguna actividad posterior. Dos: la sentencia constitutiva. Transforma. Crea, modifica o extingue un estado o situación jurídica: piensa en una sentencia de separación matrimonial. La sentencia, por sí misma, cambia la situación; no hay nada que ejecutar después. Y tres: la sentencia de condena. Ordena. Además de declarar, manda a una de las partes hacer, omitir o soportar algo: \"Marcos, paga los mil euros\". Y aquí llega la letra pequeña que nadie te cuenta en las películas: que el juez lo ordene no significa que Marcos pague.",
+      "visual": {
+        "tipo": "lista",
+        "titulo": "Tres sentencias",
+        "puntos": [
+          "Mero declarativa: confirma — el derecho existe (o no)",
+          "Constitutiva: transforma — crea, modifica o extingue",
+          "De condena: ordena — «Marcos, paga los 1.000 €»"
+        ]
+      }
+    },
+    {
+      "voz": "Si Marcos, sentencia en mano, sigue sin pagar, pasamos al proceso de ejecución. Aquí el Estado deja de declarar y empieza a actuar: localiza bienes y derechos de Marcos, los embarga y, si hace falta, los subasta para convertirlos en dinero y dártelo. Es la compulsión estatal: el juez y el letrado de la Administración de Justicia sustituyen al deudor y hacen lo que él debería haber hecho por las buenas. El Estado es, digamos, el único matón con licencia; y precisamente por eso tú no puedes serlo. Detalle elegante: la ejecución se despacha \"inaudita parte debitoris\", sin oír antes al deudor. ¿Latinajo injusto? No: ya existe un título, la sentencia, que dice quién tiene razón, y Marcos podrá oponerse inmediatamente después. Y un apunte más: no solo se ejecutan sentencias; también títulos extrajudiciales a los que la ley reconoce fuerza ejecutiva, como ciertas pólizas de crédito, letras de cambio o cheques.",
+      "visual": {
+        "tipo": "sello",
+        "texto": "EJECUCIÓN",
+        "apoyo": "Si la sentencia no se cumple, el Estado embarga y subasta: inaudita parte debitoris"
+      }
+    },
+    {
+      "voz": "Última pieza. Los procesos tardan. ¿Y si Marcos, mientras dura el pleito, vende el coche, vacía la cuenta y se declara espiritualmente desapegado de lo material? Tu sentencia llegaría tarde: sería papel mojado, inejecutable. Para eso existen las medidas cautelares: actuaciones que aseguran, durante el proceso de declaración, que la sentencia que llegue sirva de algo. Pides el embargo preventivo de sus bienes —un candado sobre esos mil euros— y esos bienes quedan afectados a la ejecución, por mucho que Marcos se los transmita a terceros. Se pueden pedir al iniciar el proceso, o incluso un poco antes. Y las hay para casi todo: se ha llegado a pedir como cautelar que no se televise la final de un campeonato de baloncesto. El Derecho será lento, pero ingenuo no es.",
+      "visual": {
+        "tipo": "balanza",
+        "etiquetas": ["el pleito tarda", "la cautelar asegura"],
+        "texto": "Medidas cautelares: que la sentencia no llegue tarde"
+      }
+    },
+    {
+      "voz": "Recapitulemos el expediente. El proceso es el instrumento que conecta tu derecho a pedir tutela con la potestad del juez. No es el procedimiento, que es la secuencia exterior de trámites; ni el juicio, que es la decisión. El proceso declarativo dice el derecho, y puede hacerlo con tres sentencias: las que confirman, las que transforman y las que ordenan. Si la orden no se cumple, la ejecución la convierte en realidad: por las buenas o por las embargadas. Y las medidas cautelares vigilan que, mientras tanto, nadie haga desaparecer el premio.",
+      "visual": {
+        "tipo": "lista",
+        "titulo": "Recapitulemos",
+        "puntos": [
+          "Proceso: conecta tu acción con la jurisdicción",
+          "Declarativo: confirma, transforma u ordena",
+          "Ejecución: la orden se hace realidad",
+          "Cautelares: nadie esconde el premio"
+        ]
+      }
+    },
+    {
+      "voz": "Este expediente abre una miniserie sobre el proceso. En los próximos: los cuatro órdenes jurisdiccionales —civil, penal, contencioso-administrativo y laboral—, o por qué no es lo mismo que te despidan a que te detengan. Los principios del proceso. Las garantías constitucionales, presunción de inocencia incluida. Los actos procesales y su nulidad. Y la justicia gratuita y los métodos alternativos al pleito. Seis carpetas. Todas se admiten a trámite.",
+      "visual": {
+        "tipo": "lista",
+        "titulo": "La miniserie",
+        "puntos": [
+          "0002 · Los cuatro órdenes jurisdiccionales",
+          "0003 · Los principios del proceso",
+          "0004 · Las garantías constitucionales",
+          "0005 · Los actos procesales y su nulidad",
+          "0006 · Justicia gratuita y alternativas al pleito"
+        ]
+      }
+    },
+    {
+      "voz": "Pregunta tipo examen, y va a los comentarios: el juez dicta sentencia de divorcio. ¿Qué tipo de sentencia es, y por qué no necesita un proceso de ejecución posterior? Tienes el video entero para responder sin mirar apuntes. Se levanta la sesión.",
+      "visual": {
+        "tipo": "sello",
+        "texto": "¿?",
+        "apoyo": "Sentencia de divorcio: ¿qué tipo es y por qué no se ejecuta?"
+      }
+    }
+  ]
+}

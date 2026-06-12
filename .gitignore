@@ -1,0 +1,14 @@
+# Librerías instaladas (se regeneran con: npm install)
+node_modules/
+
+# Videos renderizados (pesan mucho; se regeneran con: npm run producir)
+out/
+
+# Audios de voz generados (se regeneran con el pipeline)
+public/audio/
+
+# Navegador de render descargado (se regenera con: npm run navegador)
+.navegador/
+
+# Archivos temporales
+.DS_Store
