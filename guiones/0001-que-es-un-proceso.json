@@ -20,10 +20,10 @@
           {"texto": "8 meses", "accion": "desaparecer", "t": 0.21, "dur": 0.5},
           {"texto": "1.000 €", "accion": "desaparecer", "t": 0.21, "dur": 0.5},
 
-          {"actor": "camara", "accion": "zoom", "a": [1260, 760], "escala": 1.14, "t": 0.22, "dur": 1.0},
-          {"prop": "coche", "accion": "aparecer", "en": [1080, 820], "escala": 0.52, "t": 0.24},
-          {"prop": "palmera", "accion": "aparecer", "en": [1640, 760], "escala": 0.58, "t": 0.29},
-          {"texto": "Bali", "accion": "rotulo", "estilo": "pluma", "en": [1580, 480], "t": 0.33, "dur": 0.7},
+          {"actor": "camara", "accion": "zoom", "a": [1200, 760], "escala": 1.1, "t": 0.22, "dur": 1.0},
+          {"prop": "coche", "accion": "aparecer", "en": [1000, 820], "escala": 0.52, "t": 0.24},
+          {"prop": "palmera", "accion": "aparecer", "en": [1700, 800], "escala": 0.55, "t": 0.29},
+          {"texto": "Bali", "accion": "rotulo", "estilo": "pluma", "en": [1620, 500], "t": 0.33, "dur": 0.7},
           {"actor": "marcos", "accion": "celebrar", "voltear": false, "t": 0.33, "dur": 2.2},
 
           {"prop": "coche", "accion": "desaparecer", "t": 0.41, "dur": 0.6},

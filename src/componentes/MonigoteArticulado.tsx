@@ -1,9 +1,6 @@
 // ============================================================
-// MONIGOTE ARTICULADO — personaje editorial del canal.
-//
-// Estética: ilustración editorial monocroma. Cuerpo holgado y
-// redondeado con masa negra sólida, cabeza pequeña, cuello largo,
-// zapatos, manos y detalle de solapa/cuello de prenda.
+// MONIGOTE ARTICULADO — el personaje del canal.
+// Monigote sencillo: cabeza, tronco, brazos y piernas en líneas.
 // ============================================================
 import React, {useMemo} from 'react';
 import {COLORES} from '../tema';
@@ -65,51 +62,51 @@ export const posturaDeVerbo = (
       const doblaD = Math.max(0, s);
       return {
         ...PARADO,
-        tronco: 5,
-        caderaI: s * 28,
-        rodillaI: -doblaI * 52,
-        caderaD: -s * 28,
-        rodillaD: -doblaD * 52,
-        hombroI: -s * 22 - 4,
-        codoI: -10,
-        hombroD: s * 22 + 4,
-        codoD: 10,
-        caderaY: -Math.abs(Math.cos(fase)) * 5,
+        tronco: 4,
+        caderaI: s * 26,
+        rodillaI: -doblaI * 48,
+        caderaD: -s * 26,
+        rodillaD: -doblaD * 48,
+        hombroI: -s * 18 - 4,
+        codoI: -8,
+        hombroD: s * 18 + 4,
+        codoD: 8,
+        caderaY: -Math.abs(Math.cos(fase)) * 4,
       };
     }
     case 'mirar_movil':
-      return {...PARADO, cabeza: 28, tronco: 6, hombroD: 42, codoD: 104};
+      return {...PARADO, cabeza: 26, tronco: 5, hombroD: 40, codoD: 100};
     case 'desinflarse':
-      return {...PARADO, cabeza: 40, tronco: 10, caderaY: 8, hombroD: 34, codoD: 96, hombroI: -3, codoI: -3};
+      return {...PARADO, cabeza: 38, tronco: 9, caderaY: 7, hombroD: 32, codoD: 92, hombroI: -2, codoI: -2};
     case 'senalar':
-      return {...PARADO, tronco: 7, cabeza: 5, hombroD: 90, codoD: 2, hombroI: -14};
+      return {...PARADO, tronco: 6, cabeza: 4, hombroD: 86, codoD: 4, hombroI: -12};
     case 'cargar':
-      return {...PARADO, tronco: -10, hombroI: 52, codoI: 48, hombroD: 68, codoD: 30};
+      return {...PARADO, tronco: -8, hombroI: 50, codoI: 46, hombroD: 66, codoD: 28};
     case 'entregar':
-      return {...PARADO, tronco: 12, hombroD: 78, codoD: 12, hombroI: 40, codoI: 28};
+      return {...PARADO, tronco: 10, hombroD: 74, codoD: 14, hombroI: 38, codoI: 26};
     case 'celebrar':
-      return {...PARADO, cabeza: -8, hombroI: -156, codoI: -8, hombroD: 164, codoD: 6};
+      return {...PARADO, cabeza: -6, hombroI: -152, codoI: -10, hombroD: 160, codoD: 8};
     case 'encogerse':
       return {
         ...PARADO,
-        cabeza: 8,
-        tronco: -4,
-        caderaY: 5,
-        hombroI: -42,
-        codoI: -100,
-        hombroD: 46,
-        codoD: 102,
+        cabeza: 6,
+        tronco: -3,
+        caderaY: 4,
+        hombroI: -40,
+        codoI: -96,
+        hombroD: 44,
+        codoD: 98,
       };
     case 'tambalearse': {
       const s = Math.sin(fotograma / 3.1);
       return {
         ...PARADO,
-        tronco: s * 14,
-        cabeza: -s * 8,
-        hombroI: -72 + s * 30,
-        hombroD: 78 - s * 30,
-        codoI: -12,
-        codoD: 12,
+        tronco: s * 13,
+        cabeza: -s * 7,
+        hombroI: -70 + s * 28,
+        hombroD: 76 - s * 28,
+        codoI: -10,
+        codoD: 10,
       };
     }
     case 'caerse': {
@@ -128,14 +125,14 @@ export const posturaDeVerbo = (
       const baja = suaviza(Math.min(1, p * 1.3));
       return {
         ...PARADO,
-        caderaY: 42 * baja,
-        tronco: -5 * baja,
-        caderaI: 84 * baja,
-        rodillaI: -86 * baja,
-        caderaD: 90 * baja,
-        rodillaD: -92 * baja,
-        hombroI: mezcla(PARADO.hombroI, 26, baja),
-        hombroD: mezcla(PARADO.hombroD, 32, baja),
+        caderaY: 38 * baja,
+        tronco: -4 * baja,
+        caderaI: 80 * baja,
+        rodillaI: -82 * baja,
+        caderaD: 86 * baja,
+        rodillaD: -88 * baja,
+        hombroI: mezcla(PARADO.hombroI, 24, baja),
+        hombroD: mezcla(PARADO.hombroD, 30, baja),
       };
     }
     default:
@@ -155,11 +152,11 @@ const aplicarIdle = (
   if (!VERBOS_CON_IDLE.has(verbo) || peso <= 0) return post;
   const f = fotograma + semilla * 37;
   const r = {...post};
-  r.tronco += Math.sin(f / 52) * 1.8 * peso;
-  r.cabeza += Math.sin(f / 43 + 1.2) * 1.6 * peso;
-  r.caderaY += (Math.sin(f / 64) * 0.5 + 0.5) * 2.4 * peso;
-  r.caderaI += Math.sin(f / 64) * 2.6 * peso;
-  r.caderaD -= Math.sin(f / 64) * 2.6 * peso;
+  r.tronco += Math.sin(f / 52) * 1.7 * peso;
+  r.cabeza += Math.sin(f / 43 + 1.2) * 1.5 * peso;
+  r.caderaY += (Math.sin(f / 64) * 0.5 + 0.5) * 2.2 * peso;
+  r.caderaI += Math.sin(f / 64) * 2.4 * peso;
+  r.caderaD -= Math.sin(f / 64) * 2.4 * peso;
   const tap = (f + 40) % 160;
   if (tap < 28 && verbo === 'parado') {
     const golpe = Math.abs(Math.sin((tap / 28) * Math.PI * 3));
@@ -170,23 +167,22 @@ const aplicarIdle = (
     const ciclo = (f + 90) % 230;
     if (ciclo < 34) {
       const sube = Math.sin((ciclo / 34) * Math.PI) * peso;
-      r.hombroD = mezcla(r.hombroD, 38, sube);
-      r.codoD = mezcla(r.codoD, 122, sube);
+      r.hombroD = mezcla(r.hombroD, 36, sube);
+      r.codoD = mezcla(r.codoD, 118, sube);
       r.cabeza += sube * -4;
     }
   }
   return r;
 };
 
-// Proporciones editoriales: figura alta, cuello largo, cabeza pequeña.
-const TRONCO = 114;
-const CUELLO_CABEZA = 50;
-const RADIO_CABEZA = 26;
-const BRAZO = 62;
-const ANTEBRAZO = 56;
-const MUSLO = 78;
-const ESPINILLA = 74;
-const CADERA_SUELO = MUSLO + ESPINILLA; // 152
+const TRONCO = 92;
+const CUELLO_CABEZA = 36;
+const RADIO_CABEZA = 33;
+const BRAZO = 46;
+const ANTEBRAZO = 42;
+const MUSLO = 56;
+const ESPINILLA = 56;
+const CADERA_SUELO = MUSLO + ESPINILLA; // 112
 
 type Punto = [number, number];
 const haz = (desde: Punto, angulo: number, largo: number): Punto => [
@@ -198,7 +194,7 @@ export const esqueleto = (post: Postura) => {
   const cadera: Punto = [0, -CADERA_SUELO + post.caderaY];
   const cuello = haz(cadera, 180 + post.tronco, TRONCO);
   const centroCabeza = haz(cuello, 180 + post.tronco + post.cabeza, CUELLO_CABEZA);
-  const hombro = mezclaPunto(cuello, cadera, 0.07);
+  const hombro = mezclaPunto(cuello, cadera, 0.08);
   const codoI = haz(hombro, post.tronco + post.hombroI, BRAZO);
   const manoI = haz(codoI, post.tronco + post.hombroI + post.codoI, ANTEBRAZO);
   const codoD = haz(hombro, post.tronco + post.hombroD, BRAZO);
@@ -220,56 +216,6 @@ const cuantiza = (post: Postura): Postura => {
 };
 
 const CON_MOVIL_EN_MANO = new Set(['mirar_movil', 'desinflarse']);
-
-// Torso holgado: contorno curvo con Q-bezier para un silhouette
-// orgánico, no un rectángulo rígido. Forma de chaqueta suelta.
-const torsoSVGPath = (e: ReturnType<typeof esqueleto>): string => {
-  const dx = e.hombro[0] - e.cadera[0];
-  const dy = e.hombro[1] - e.cadera[1];
-  const len = Math.hypot(dx, dy) || 1;
-  const nx = -dy / len; // perpendicular al eje del tronco
-  const ny = dx / len;
-
-  // Cuatro esquinas: hombros anchos, caderas algo más estrechas.
-  const wTop = 50;   // ancho medio hombros (lado a lado: 100u)
-  const wMid = 54;   // pecho: ligeramente más ancho por el vuelo
-  const wBot = 32;   // cadera: más estrecho que hombros
-
-  const f = (n: number) => n.toFixed(1);
-  // Esquinas
-  const tlx = e.hombro[0] + nx * wTop; const tly = e.hombro[1] + ny * wTop;
-  const trx = e.hombro[0] - nx * wTop; const try_ = e.hombro[1] - ny * wTop;
-  const blx = e.cadera[0] + nx * wBot; const bly = e.cadera[1] + ny * wBot;
-  const brx = e.cadera[0] - nx * wBot; const bry = e.cadera[1] - ny * wBot;
-  // Control points para las curvas laterales (zona pecho, 35% del tronco)
-  const midX = e.hombro[0] + (e.cadera[0] - e.hombro[0]) * 0.35;
-  const midY = e.hombro[1] + (e.cadera[1] - e.hombro[1]) * 0.35;
-  const mlx = midX + nx * wMid; const mly = midY + ny * wMid;
-  const mrx = midX - nx * wMid; const mry = midY - ny * wMid;
-
-  // Q cx cy x y = bezier cuadrático: el punto de control (cx,cy) hace que
-  // el lado se curve ligeramente hacia afuera, dando aire de ropa holgada.
-  return (
-    `M ${f(tlx)} ${f(tly)} ` +
-    `Q ${f(mlx)} ${f(mly)} ${f(blx)} ${f(bly)} ` +
-    `L ${f(brx)} ${f(bry)} ` +
-    `Q ${f(mrx)} ${f(mry)} ${f(trx)} ${f(try_)} ` +
-    `Z`
-  );
-};
-
-// Zapato: barra corta perpendicular a la pierna en el extremo del pie.
-const zapato = (pie: Punto, rodilla: Punto, s: (n: number) => number, seed: number) => {
-  const dx = pie[0] - rodilla[0];
-  const dy = pie[1] - rodilla[1];
-  const dist = Math.hypot(dx, dy) || 1;
-  // Perpendicular apuntando "hacia delante" del personaje
-  const nx = dy / dist;
-  const ny = -dx / dist;
-  const heel: Punto = [pie[0] - nx * 7, pie[1] - ny * 7];
-  const toe: Punto  = [pie[0] + nx * 22, pie[1] + ny * 22];
-  return lapiz.linearPath([heel, toe] as [number, number][], tinta(s(seed), {strokeWidth: 6.5}));
-};
 
 export const MonigoteArticulado: React.FC<{
   verbo?: string;
@@ -307,12 +253,7 @@ export const MonigoteArticulado: React.FC<{
   post = aplicarIdle(post, verbo, fotograma, semilla, variante, fusion);
   if (cargando) {
     const brazos = posturaDeVerbo('cargar', 1, fotograma, fase);
-    post = {
-      ...post,
-      hombroI: brazos.hombroI, codoI: brazos.codoI,
-      hombroD: brazos.hombroD, codoD: brazos.codoD,
-      tronco: post.tronco + brazos.tronco * 0.5,
-    };
+    post = {...post, hombroI: brazos.hombroI, codoI: brazos.codoI, hombroD: brazos.hombroD, codoD: brazos.codoD, tronco: post.tronco + brazos.tronco * 0.5};
   }
   post = cuantiza(post);
 
@@ -323,82 +264,50 @@ export const MonigoteArticulado: React.FC<{
   const piezas = useMemo(() => {
     const e = esqueleto(post);
     const s = (n: number) => semilla * 13 + n + boil * 1013;
-
-    // Orden SVG: piernas y zapatos detrás → cuerpo → brazos →
-    // manos → cuello/solapa → cabeza → ojos → accesorios.
     const formas = [
-      // Piernas (detrás del cuerpo)
-      lapiz.linearPath([e.cadera, e.rodillaI, e.pieI] as [number, number][], tinta(s(61), {strokeWidth: 5.5})),
-      lapiz.linearPath([e.cadera, e.rodillaD, e.pieD] as [number, number][], tinta(s(67), {strokeWidth: 5.5})),
-      // Zapatos: barra perpendicular al pie
-      zapato(e.pieI, e.rodillaI, s, 63),
-      zapato(e.pieD, e.rodillaD, s, 69),
-      // Cuerpo holgado con path curvo (Q-bezier)
-      lapiz.path(
-        torsoSVGPath(e),
-        relleno(s(38), COLORES.tinta, {fillStyle: 'solid', strokeWidth: 1.4, roughness: 0.9})
-      ),
-      // Brazos (sobre el cuerpo)
-      lapiz.linearPath([e.hombro, e.codoI, e.manoI] as [number, number][], tinta(s(41), {strokeWidth: 4.2})),
-      lapiz.linearPath([e.hombro, e.codoD, e.manoD] as [number, number][], tinta(s(43), {strokeWidth: 4.2})),
-      // Manos: pequeño círculo relleno en cada extremo de brazo
-      lapiz.circle(e.manoI[0], e.manoI[1], 9, tinta(s(45), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.4})),
-      lapiz.circle(e.manoD[0], e.manoD[1], 9, tinta(s(47), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.4})),
-      // Detalle de solapa/cuello: V marfil sobre el torso
-      (() => {
-        const dx = e.hombro[0] - e.cadera[0];
-        const dy = e.hombro[1] - e.cadera[1];
-        const len = Math.hypot(dx, dy) || 1;
-        const nx = -dy / len; const ny = dx / len;
-        const vx = e.hombro[0] + (e.cadera[0] - e.hombro[0]) * 0.16;
-        const vy = e.hombro[1] + (e.cadera[1] - e.hombro[1]) * 0.16;
-        const f = (n: number) => n.toFixed(1);
-        return lapiz.path(
-          `M ${f(e.hombro[0] + nx * 17)} ${f(e.hombro[1] + ny * 17)} L ${f(vx)} ${f(vy)} L ${f(e.hombro[0] - nx * 17)} ${f(e.hombro[1] - ny * 17)}`,
-          tinta(s(44), {stroke: COLORES.fondo, strokeWidth: 2.4, roughness: 0.7})
-        );
-      })(),
-      // Cabeza — encima de todo
-      lapiz.circle(e.centroCabeza[0], e.centroCabeza[1], RADIO_CABEZA * 2, tinta(s(37), {strokeWidth: 2.4})),
+      lapiz.circle(e.centroCabeza[0], e.centroCabeza[1], RADIO_CABEZA * 2, tinta(s(37))),
+      lapiz.line(e.cuello[0], e.cuello[1], e.cadera[0], e.cadera[1], tinta(s(39))),
+      lapiz.linearPath([e.hombro, e.codoI, e.manoI] as [number, number][], tinta(s(41))),
+      lapiz.linearPath([e.hombro, e.codoD, e.manoD] as [number, number][], tinta(s(43))),
+      lapiz.linearPath([e.cadera, e.rodillaI, e.pieI] as [number, number][], tinta(s(61))),
+      lapiz.linearPath([e.cadera, e.rodillaD, e.pieD] as [number, number][], tinta(s(67))),
     ];
 
     const [cx, cy] = e.centroCabeza;
     const giroCabeza = post.tronco + post.cabeza;
-
     if (variante !== 'gafas') {
-      const ojoY = cy - 3 + giroCabeza * 0.35;
+      const ojoY = cy - 4 + giroCabeza * 0.35;
       if (ojosCerrados) {
         formas.push(
-          lapiz.line(5 + cx, ojoY, 11 + cx, ojoY + 1, tinta(s(33), {strokeWidth: 2})),
-          lapiz.line(17 + cx, ojoY, 23 + cx, ojoY + 1, tinta(s(34), {strokeWidth: 2}))
+          lapiz.line(6 + cx, ojoY, 13 + cx, ojoY + 1, tinta(s(33), {strokeWidth: 2.2})),
+          lapiz.line(20 + cx, ojoY, 27 + cx, ojoY + 1, tinta(s(34), {strokeWidth: 2.2}))
         );
       } else {
         formas.push(
-          lapiz.circle(cx + 8, ojoY, 4.5, tinta(s(33), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.4})),
-          lapiz.circle(cx + 20, ojoY, 4.5, tinta(s(34), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.4}))
+          lapiz.circle(cx + 10, ojoY, 5, tinta(s(33), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.6})),
+          lapiz.circle(cx + 24, ojoY, 5, tinta(s(34), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.6}))
         );
       }
     }
 
     if (variante === 'gafas') {
       formas.push(
-        lapiz.circle(cx + 7, cy - 1, 16, tinta(s(71), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.8})),
-        lapiz.circle(cx + 23, cy - 3, 14, tinta(s(73), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.8})),
-        lapiz.line(cx + 7, cy - 7, cx - 22, cy - 11, tinta(s(79), {strokeWidth: 1.8}))
+        lapiz.circle(cx + 8, cy - 2, 17, tinta(s(71), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 2})),
+        lapiz.circle(cx + 26, cy - 4, 15, tinta(s(73), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 2})),
+        lapiz.line(cx + 8, cy - 8, cx - 26, cy - 12, tinta(s(79), {strokeWidth: 2}))
       );
     } else if (variante === 'peluca') {
       formas.push(
         lapiz.circle(cx - 16, cy - RADIO_CABEZA + 2, 20, tinta(s(81), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
         lapiz.circle(cx + 2, cy - RADIO_CABEZA - 4, 20, tinta(s(83), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
         lapiz.circle(cx + 20, cy - RADIO_CABEZA + 2, 20, tinta(s(87), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
-        lapiz.circle(cx - 28, cy - 6, 15, tinta(s(89), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
-        lapiz.circle(cx - 30, cy + 8, 13, tinta(s(91), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2}))
+        lapiz.circle(cx - 30, cy - 8, 16, tinta(s(89), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
+        lapiz.circle(cx - 32, cy + 8, 14, tinta(s(91), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2}))
       );
     } else if (variante === 'gorra') {
       formas.push(
-        lapiz.arc(cx, cy - 8, RADIO_CABEZA * 2 + 10, RADIO_CABEZA * 2 + 6, Math.PI, Math.PI * 2, true,
-          relleno(s(93), COLORES.ambar, {strokeWidth: 2.2})),
-        lapiz.line(cx + 2, cy - 22, cx + 44, cy - 20, tinta(s(97), {strokeWidth: 3}))
+        lapiz.arc(cx, cy - 10, RADIO_CABEZA * 2 + 10, RADIO_CABEZA * 2 + 6, Math.PI, Math.PI * 2, true, relleno(s(93), COLORES.ambar, {strokeWidth: 2.4})),
+        lapiz.line(cx + 2, cy - 24, cx + 46, cy - 22, tinta(s(97), {strokeWidth: 3}))
       );
     }
 
