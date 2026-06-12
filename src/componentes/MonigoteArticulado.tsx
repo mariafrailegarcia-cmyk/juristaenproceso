@@ -1,13 +1,9 @@
 // ============================================================
 // MONIGOTE ARTICULADO — personaje editorial del canal.
 //
-// Estética: ilustración editorial monocroma. Cuerpo alto y
-// estilizado, masa negra sólida en el torso, cabeza pequeña,
-// cuello largo, extremidades largas y elegantes.
-//
-// El sistema de postura y animación sigue igual: ángulos de
-// articulación, interpolación suave entre verbos, idle continuo
-// y hervor de trazo (boil) que da aire de animación a mano.
+// Estética: ilustración editorial monocroma. Cuerpo holgado y
+// redondeado con masa negra sólida, cabeza pequeña, cuello largo,
+// zapatos, manos y detalle de solapa/cuello de prenda.
 // ============================================================
 import React, {useMemo} from 'react';
 import {COLORES} from '../tema';
@@ -156,9 +152,7 @@ const aplicarIdle = (
   variante: VarianteMonigote,
   peso: number
 ): Postura => {
-  if (!VERBOS_CON_IDLE.has(verbo) || peso <= 0) {
-    return post;
-  }
+  if (!VERBOS_CON_IDLE.has(verbo) || peso <= 0) return post;
   const f = fotograma + semilla * 37;
   const r = {...post};
   r.tronco += Math.sin(f / 52) * 1.8 * peso;
@@ -184,9 +178,7 @@ const aplicarIdle = (
   return r;
 };
 
-// Proporciones editoriales: figura alta y estilizada.
-// La altura total (pies→cabeza) sube de ~280 a ~380 unidades locales,
-// con la cabeza más pequeña y el cuello visiblemente más largo.
+// Proporciones editoriales: figura alta, cuello largo, cabeza pequeña.
 const TRONCO = 114;
 const CUELLO_CABEZA = 50;
 const RADIO_CABEZA = 26;
@@ -229,24 +221,54 @@ const cuantiza = (post: Postura): Postura => {
 
 const CON_MOVIL_EN_MANO = new Set(['mirar_movil', 'desinflarse']);
 
-// Calcula el polígono de la masa de torso dado el esqueleto.
-// El torso editorial es un trapecio delgado: más ancho en hombros,
-// más estrecho en caderas, siguiendo la inclinación del tronco.
-const torsoPolygon = (e: ReturnType<typeof esqueleto>): [number, number][] => {
+// Torso holgado: contorno curvo con Q-bezier para un silhouette
+// orgánico, no un rectángulo rígido. Forma de chaqueta suelta.
+const torsoSVGPath = (e: ReturnType<typeof esqueleto>): string => {
   const dx = e.hombro[0] - e.cadera[0];
   const dy = e.hombro[1] - e.cadera[1];
   const len = Math.hypot(dx, dy) || 1;
-  // Vector perpendicular al eje del tronco
-  const px = -dy / len;
-  const py = dx / len;
-  const wHombro = 28;
-  const wCadera = 14;
-  return [
-    [e.hombro[0] + px * wHombro, e.hombro[1] + py * wHombro],
-    [e.hombro[0] - px * wHombro, e.hombro[1] - py * wHombro],
-    [e.cadera[0] - px * wCadera, e.cadera[1] - py * wCadera],
-    [e.cadera[0] + px * wCadera, e.cadera[1] + py * wCadera],
-  ];
+  const nx = -dy / len; // perpendicular al eje del tronco
+  const ny = dx / len;
+
+  // Cuatro esquinas: hombros anchos, caderas algo más estrechas.
+  const wTop = 50;   // ancho medio hombros (lado a lado: 100u)
+  const wMid = 54;   // pecho: ligeramente más ancho por el vuelo
+  const wBot = 32;   // cadera: más estrecho que hombros
+
+  const f = (n: number) => n.toFixed(1);
+  // Esquinas
+  const tlx = e.hombro[0] + nx * wTop; const tly = e.hombro[1] + ny * wTop;
+  const trx = e.hombro[0] - nx * wTop; const try_ = e.hombro[1] - ny * wTop;
+  const blx = e.cadera[0] + nx * wBot; const bly = e.cadera[1] + ny * wBot;
+  const brx = e.cadera[0] - nx * wBot; const bry = e.cadera[1] - ny * wBot;
+  // Control points para las curvas laterales (zona pecho, 35% del tronco)
+  const midX = e.hombro[0] + (e.cadera[0] - e.hombro[0]) * 0.35;
+  const midY = e.hombro[1] + (e.cadera[1] - e.hombro[1]) * 0.35;
+  const mlx = midX + nx * wMid; const mly = midY + ny * wMid;
+  const mrx = midX - nx * wMid; const mry = midY - ny * wMid;
+
+  // Q cx cy x y = bezier cuadrático: el punto de control (cx,cy) hace que
+  // el lado se curve ligeramente hacia afuera, dando aire de ropa holgada.
+  return (
+    `M ${f(tlx)} ${f(tly)} ` +
+    `Q ${f(mlx)} ${f(mly)} ${f(blx)} ${f(bly)} ` +
+    `L ${f(brx)} ${f(bry)} ` +
+    `Q ${f(mrx)} ${f(mry)} ${f(trx)} ${f(try_)} ` +
+    `Z`
+  );
+};
+
+// Zapato: barra corta perpendicular a la pierna en el extremo del pie.
+const zapato = (pie: Punto, rodilla: Punto, s: (n: number) => number, seed: number) => {
+  const dx = pie[0] - rodilla[0];
+  const dy = pie[1] - rodilla[1];
+  const dist = Math.hypot(dx, dy) || 1;
+  // Perpendicular apuntando "hacia delante" del personaje
+  const nx = dy / dist;
+  const ny = -dx / dist;
+  const heel: Punto = [pie[0] - nx * 7, pie[1] - ny * 7];
+  const toe: Punto  = [pie[0] + nx * 22, pie[1] + ny * 22];
+  return lapiz.linearPath([heel, toe] as [number, number][], tinta(s(seed), {strokeWidth: 6.5}));
 };
 
 export const MonigoteArticulado: React.FC<{
@@ -285,7 +307,12 @@ export const MonigoteArticulado: React.FC<{
   post = aplicarIdle(post, verbo, fotograma, semilla, variante, fusion);
   if (cargando) {
     const brazos = posturaDeVerbo('cargar', 1, fotograma, fase);
-    post = {...post, hombroI: brazos.hombroI, codoI: brazos.codoI, hombroD: brazos.hombroD, codoD: brazos.codoD, tronco: post.tronco + brazos.tronco * 0.5};
+    post = {
+      ...post,
+      hombroI: brazos.hombroI, codoI: brazos.codoI,
+      hombroD: brazos.hombroD, codoD: brazos.codoD,
+      tronco: post.tronco + brazos.tronco * 0.5,
+    };
   }
   post = cuantiza(post);
 
@@ -297,18 +324,41 @@ export const MonigoteArticulado: React.FC<{
     const e = esqueleto(post);
     const s = (n: number) => semilla * 13 + n + boil * 1013;
 
-    // Orden SVG: lo primero queda detrás. Piernas → masa cuerpo
-    // → brazos → cuello → cabeza → accesorios.
+    // Orden SVG: piernas y zapatos detrás → cuerpo → brazos →
+    // manos → cuello/solapa → cabeza → ojos → accesorios.
     const formas = [
-      // Piernas — trazos gruesos, elegantes
+      // Piernas (detrás del cuerpo)
       lapiz.linearPath([e.cadera, e.rodillaI, e.pieI] as [number, number][], tinta(s(61), {strokeWidth: 5.5})),
       lapiz.linearPath([e.cadera, e.rodillaD, e.pieD] as [number, number][], tinta(s(67), {strokeWidth: 5.5})),
-      // Masa de torso: polígono negro sólido
-      lapiz.polygon(torsoPolygon(e) as [number, number][], relleno(s(38), COLORES.tinta, {fillStyle: 'solid', strokeWidth: 1.2, roughness: 0.6})),
-      // Brazos — líneas delgadas que salen del torso
-      lapiz.linearPath([e.hombro, e.codoI, e.manoI] as [number, number][], tinta(s(41), {strokeWidth: 4})),
-      lapiz.linearPath([e.hombro, e.codoD, e.manoD] as [number, number][], tinta(s(43), {strokeWidth: 4})),
-      // Cabeza — círculo limpio, pequeño, encima del cuello largo
+      // Zapatos: barra perpendicular al pie
+      zapato(e.pieI, e.rodillaI, s, 63),
+      zapato(e.pieD, e.rodillaD, s, 69),
+      // Cuerpo holgado con path curvo (Q-bezier)
+      lapiz.path(
+        torsoSVGPath(e),
+        relleno(s(38), COLORES.tinta, {fillStyle: 'solid', strokeWidth: 1.4, roughness: 0.9})
+      ),
+      // Brazos (sobre el cuerpo)
+      lapiz.linearPath([e.hombro, e.codoI, e.manoI] as [number, number][], tinta(s(41), {strokeWidth: 4.2})),
+      lapiz.linearPath([e.hombro, e.codoD, e.manoD] as [number, number][], tinta(s(43), {strokeWidth: 4.2})),
+      // Manos: pequeño círculo relleno en cada extremo de brazo
+      lapiz.circle(e.manoI[0], e.manoI[1], 9, tinta(s(45), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.4})),
+      lapiz.circle(e.manoD[0], e.manoD[1], 9, tinta(s(47), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.4})),
+      // Detalle de solapa/cuello: V marfil sobre el torso
+      (() => {
+        const dx = e.hombro[0] - e.cadera[0];
+        const dy = e.hombro[1] - e.cadera[1];
+        const len = Math.hypot(dx, dy) || 1;
+        const nx = -dy / len; const ny = dx / len;
+        const vx = e.hombro[0] + (e.cadera[0] - e.hombro[0]) * 0.16;
+        const vy = e.hombro[1] + (e.cadera[1] - e.hombro[1]) * 0.16;
+        const f = (n: number) => n.toFixed(1);
+        return lapiz.path(
+          `M ${f(e.hombro[0] + nx * 17)} ${f(e.hombro[1] + ny * 17)} L ${f(vx)} ${f(vy)} L ${f(e.hombro[0] - nx * 17)} ${f(e.hombro[1] - ny * 17)}`,
+          tinta(s(44), {stroke: COLORES.fondo, strokeWidth: 2.4, roughness: 0.7})
+        );
+      })(),
+      // Cabeza — encima de todo
       lapiz.circle(e.centroCabeza[0], e.centroCabeza[1], RADIO_CABEZA * 2, tinta(s(37), {strokeWidth: 2.4})),
     ];
 
@@ -331,7 +381,6 @@ export const MonigoteArticulado: React.FC<{
     }
 
     if (variante === 'gafas') {
-      // Gafas de sol: dos lentes sólidas oscuras, montura fina
       formas.push(
         lapiz.circle(cx + 7, cy - 1, 16, tinta(s(71), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.8})),
         lapiz.circle(cx + 23, cy - 3, 14, tinta(s(73), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.8})),
@@ -347,7 +396,8 @@ export const MonigoteArticulado: React.FC<{
       );
     } else if (variante === 'gorra') {
       formas.push(
-        lapiz.arc(cx, cy - 8, RADIO_CABEZA * 2 + 10, RADIO_CABEZA * 2 + 6, Math.PI, Math.PI * 2, true, relleno(s(93), COLORES.ambar, {strokeWidth: 2.2})),
+        lapiz.arc(cx, cy - 8, RADIO_CABEZA * 2 + 10, RADIO_CABEZA * 2 + 6, Math.PI, Math.PI * 2, true,
+          relleno(s(93), COLORES.ambar, {strokeWidth: 2.2})),
         lapiz.line(cx + 2, cy - 22, cx + 44, cy - 20, tinta(s(97), {strokeWidth: 3}))
       );
     }
