@@ -1,17 +1,13 @@
 // ============================================================
-// MONIGOTE ARTICULADO — el personaje del canal, ahora con
-// esqueleto: cabeza, tronco, brazos con codo y piernas con
-// rodilla. Cada "verbo" (caminar, señalar, cargar…) define una
-// postura, y entre verbos se interpola suavemente para que el
-// muñeco se MUEVA en vez de cambiar de foto.
+// MONIGOTE ARTICULADO — personaje editorial del canal.
 //
-// NUNCA está muerto: el trazo "hierve" (se redibuja unas tres
-// veces por segundo, como animación a mano), y cuando no actúa
-// respira, balancea el peso, parpadea, da golpecitos con el pie
-// y, si lleva gafas de sol, se las sube de vez en cuando.
+// Estética: ilustración editorial monocroma. Cuerpo alto y
+// estilizado, masa negra sólida en el torso, cabeza pequeña,
+// cuello largo, extremidades largas y elegantes.
 //
-// Variantes reconocibles: Marcos lleva gafas de sol, el juez
-// peluca y el Estado gorra.
+// El sistema de postura y animación sigue igual: ángulos de
+// articulación, interpolación suave entre verbos, idle continuo
+// y hervor de trazo (boil) que da aire de animación a mano.
 // ============================================================
 import React, {useMemo} from 'react';
 import {COLORES} from '../tema';
@@ -19,12 +15,9 @@ import {Trazo, lapiz, relleno, tinta, usarBoil} from './Rough';
 
 export type VarianteMonigote = 'gafas' | 'peluca' | 'gorra' | undefined;
 
-// Una postura son ángulos de articulación, en grados.
-// Convención: 0° = colgando recto hacia abajo; positivo = hacia
-// el frente del personaje (que mira hacia la derecha del lienzo).
 type Postura = {
-  tronco: number; // inclinación del tronco
-  cabeza: number; // inclinación extra de la cabeza
+  tronco: number;
+  cabeza: number;
   hombroI: number;
   codoI: number;
   hombroD: number;
@@ -33,8 +26,8 @@ type Postura = {
   rodillaI: number;
   caderaD: number;
   rodillaD: number;
-  caderaY: number; // descenso de la cadera (sentarse, agacharse)
-  rotacion: number; // giro del cuerpo entero sobre los pies (caerse)
+  caderaY: number;
+  rotacion: number;
 };
 
 const PARADO: Postura = {
@@ -63,14 +56,11 @@ const mezclaPostura = (a: Postura, b: Postura, p: number): Postura => {
 };
 const suaviza = (p: number) => p * p * (3 - 2 * p);
 
-// ---------- La postura de cada verbo ----------
-// Algunos verbos son fijos; otros (caminar, tambalearse) oscilan
-// con el tiempo, y caerse evoluciona con su propio progreso.
 export const posturaDeVerbo = (
   verbo: string,
-  p: number, // progreso 0→1 dentro del verbo
-  fotograma: number, // para oscilaciones continuas
-  fase: number // fase del ciclo de pasos (solo caminar)
+  p: number,
+  fotograma: number,
+  fase: number
 ): Postura => {
   switch (verbo) {
     case 'caminar': {
@@ -79,53 +69,51 @@ export const posturaDeVerbo = (
       const doblaD = Math.max(0, s);
       return {
         ...PARADO,
-        tronco: 4,
-        caderaI: s * 26,
-        rodillaI: -doblaI * 48,
-        caderaD: -s * 26,
-        rodillaD: -doblaD * 48,
-        hombroI: -s * 18 - 4,
-        codoI: -8,
-        hombroD: s * 18 + 4,
-        codoD: 8,
-        caderaY: -Math.abs(Math.cos(fase)) * 4,
+        tronco: 5,
+        caderaI: s * 28,
+        rodillaI: -doblaI * 52,
+        caderaD: -s * 28,
+        rodillaD: -doblaD * 52,
+        hombroI: -s * 22 - 4,
+        codoI: -10,
+        hombroD: s * 22 + 4,
+        codoD: 10,
+        caderaY: -Math.abs(Math.cos(fase)) * 5,
       };
     }
     case 'mirar_movil':
-      return {...PARADO, cabeza: 26, tronco: 5, hombroD: 40, codoD: 100};
+      return {...PARADO, cabeza: 28, tronco: 6, hombroD: 42, codoD: 104};
     case 'desinflarse':
-      // Sigue mirando el móvil, pero el visto le ha quitado las ganas:
-      // cabeza vencida, hombros caídos, espalda un punto hundida.
-      return {...PARADO, cabeza: 38, tronco: 9, caderaY: 7, hombroD: 32, codoD: 92, hombroI: -2, codoI: -2};
+      return {...PARADO, cabeza: 40, tronco: 10, caderaY: 8, hombroD: 34, codoD: 96, hombroI: -3, codoI: -3};
     case 'senalar':
-      return {...PARADO, tronco: 6, cabeza: 4, hombroD: 86, codoD: 4, hombroI: -12};
+      return {...PARADO, tronco: 7, cabeza: 5, hombroD: 90, codoD: 2, hombroI: -14};
     case 'cargar':
-      return {...PARADO, tronco: -8, hombroI: 50, codoI: 46, hombroD: 66, codoD: 28};
+      return {...PARADO, tronco: -10, hombroI: 52, codoI: 48, hombroD: 68, codoD: 30};
     case 'entregar':
-      return {...PARADO, tronco: 10, hombroD: 74, codoD: 14, hombroI: 38, codoI: 26};
+      return {...PARADO, tronco: 12, hombroD: 78, codoD: 12, hombroI: 40, codoI: 28};
     case 'celebrar':
-      return {...PARADO, cabeza: -6, hombroI: -152, codoI: -10, hombroD: 160, codoD: 8};
+      return {...PARADO, cabeza: -8, hombroI: -156, codoI: -8, hombroD: 164, codoD: 6};
     case 'encogerse':
       return {
         ...PARADO,
-        cabeza: 6,
-        tronco: -3,
-        caderaY: 4,
-        hombroI: -40,
-        codoI: -96,
-        hombroD: 44,
-        codoD: 98,
+        cabeza: 8,
+        tronco: -4,
+        caderaY: 5,
+        hombroI: -42,
+        codoI: -100,
+        hombroD: 46,
+        codoD: 102,
       };
     case 'tambalearse': {
       const s = Math.sin(fotograma / 3.1);
       return {
         ...PARADO,
-        tronco: s * 13,
-        cabeza: -s * 7,
-        hombroI: -70 + s * 28,
-        hombroD: 76 - s * 28,
-        codoI: -10,
-        codoD: 10,
+        tronco: s * 14,
+        cabeza: -s * 8,
+        hombroI: -72 + s * 30,
+        hombroD: 78 - s * 30,
+        codoI: -12,
+        codoD: 12,
       };
     }
     case 'caerse': {
@@ -144,14 +132,14 @@ export const posturaDeVerbo = (
       const baja = suaviza(Math.min(1, p * 1.3));
       return {
         ...PARADO,
-        caderaY: 38 * baja,
-        tronco: -4 * baja,
-        caderaI: 80 * baja,
-        rodillaI: -82 * baja,
-        caderaD: 86 * baja,
-        rodillaD: -88 * baja,
-        hombroI: mezcla(PARADO.hombroI, 24, baja),
-        hombroD: mezcla(PARADO.hombroD, 30, baja),
+        caderaY: 42 * baja,
+        tronco: -5 * baja,
+        caderaI: 84 * baja,
+        rodillaI: -86 * baja,
+        caderaD: 90 * baja,
+        rodillaD: -92 * baja,
+        hombroI: mezcla(PARADO.hombroI, 26, baja),
+        hombroD: mezcla(PARADO.hombroD, 32, baja),
       };
     }
     default:
@@ -159,10 +147,6 @@ export const posturaDeVerbo = (
   }
 };
 
-// ---------- Vida en reposo ----------
-// Pequeños movimientos que nunca paran: balanceo del peso, algún
-// golpecito de pie, y (con gafas) subírselas con el dedo. Cada
-// personaje usa su semilla como desfase: nunca van a la vez.
 const VERBOS_CON_IDLE = new Set(['parado', 'mirar_movil', 'desinflarse', 'senalar', 'encogerse']);
 const aplicarIdle = (
   post: Postura,
@@ -170,65 +154,59 @@ const aplicarIdle = (
   fotograma: number,
   semilla: number,
   variante: VarianteMonigote,
-  peso: number // 0→1: cuánto idle se aplica (entra en fundido)
+  peso: number
 ): Postura => {
   if (!VERBOS_CON_IDLE.has(verbo) || peso <= 0) {
     return post;
   }
   const f = fotograma + semilla * 37;
   const r = {...post};
-  // Respiración y balanceo del peso de un pie a otro.
-  r.tronco += Math.sin(f / 52) * 1.7 * peso;
-  r.cabeza += Math.sin(f / 43 + 1.2) * 1.5 * peso;
-  r.caderaY += (Math.sin(f / 64) * 0.5 + 0.5) * 2.2 * peso;
-  r.caderaI += Math.sin(f / 64) * 2.4 * peso;
-  r.caderaD -= Math.sin(f / 64) * 2.4 * peso;
-  // Golpecitos con el pie, en ráfagas de un segundo cada ~5.
+  r.tronco += Math.sin(f / 52) * 1.8 * peso;
+  r.cabeza += Math.sin(f / 43 + 1.2) * 1.6 * peso;
+  r.caderaY += (Math.sin(f / 64) * 0.5 + 0.5) * 2.4 * peso;
+  r.caderaI += Math.sin(f / 64) * 2.6 * peso;
+  r.caderaD -= Math.sin(f / 64) * 2.6 * peso;
   const tap = (f + 40) % 160;
   if (tap < 28 && verbo === 'parado') {
     const golpe = Math.abs(Math.sin((tap / 28) * Math.PI * 3));
     r.caderaD += golpe * 5 * peso;
     r.rodillaD -= golpe * 7 * peso;
   }
-  // Marcos se sube las gafas de vez en cuando (si tiene la mano libre).
   if (variante === 'gafas' && (verbo === 'parado' || verbo === 'encogerse')) {
     const ciclo = (f + 90) % 230;
     if (ciclo < 34) {
       const sube = Math.sin((ciclo / 34) * Math.PI) * peso;
-      r.hombroD = mezcla(r.hombroD, 36, sube);
-      r.codoD = mezcla(r.codoD, 118, sube);
+      r.hombroD = mezcla(r.hombroD, 38, sube);
+      r.codoD = mezcla(r.codoD, 122, sube);
       r.cabeza += sube * -4;
     }
   }
   return r;
 };
 
-// Medidas del esqueleto (unidades locales; de pie mide ~280 de alto,
-// con los pies en y=0 y la cabeza arriba en negativo).
-const TRONCO = 92;
-const CUELLO_CABEZA = 36;
-const RADIO_CABEZA = 33;
-const BRAZO = 46;
-const ANTEBRAZO = 42;
-const MUSLO = 56;
-const ESPINILLA = 56;
-const CADERA_SUELO = MUSLO + ESPINILLA; // 112
+// Proporciones editoriales: figura alta y estilizada.
+// La altura total (pies→cabeza) sube de ~280 a ~380 unidades locales,
+// con la cabeza más pequeña y el cuello visiblemente más largo.
+const TRONCO = 114;
+const CUELLO_CABEZA = 50;
+const RADIO_CABEZA = 26;
+const BRAZO = 62;
+const ANTEBRAZO = 56;
+const MUSLO = 78;
+const ESPINILLA = 74;
+const CADERA_SUELO = MUSLO + ESPINILLA; // 152
 
 type Punto = [number, number];
-// Avanza desde un punto en una dirección medida desde "hacia abajo".
 const haz = (desde: Punto, angulo: number, largo: number): Punto => [
   desde[0] + Math.sin(rad(angulo)) * largo,
   desde[1] + Math.cos(rad(angulo)) * largo,
 ];
 
-// Calcula las articulaciones de una postura. Exportado para que la
-// coreografía sepa dónde están las manos (cargar objetos, móvil…).
 export const esqueleto = (post: Postura) => {
   const cadera: Punto = [0, -CADERA_SUELO + post.caderaY];
   const cuello = haz(cadera, 180 + post.tronco, TRONCO);
-  // ojo: 180° = hacia arriba; sumar tronco inclina hacia el frente.
   const centroCabeza = haz(cuello, 180 + post.tronco + post.cabeza, CUELLO_CABEZA);
-  const hombro = mezclaPunto(cuello, cadera, 0.08);
+  const hombro = mezclaPunto(cuello, cadera, 0.07);
   const codoI = haz(hombro, post.tronco + post.hombroI, BRAZO);
   const manoI = haz(codoI, post.tronco + post.hombroI + post.codoI, ANTEBRAZO);
   const codoD = haz(hombro, post.tronco + post.hombroD, BRAZO);
@@ -241,8 +219,6 @@ export const esqueleto = (post: Postura) => {
 };
 const mezclaPunto = (a: Punto, b: Punto, p: number): Punto => [mezcla(a[0], b[0], p), mezcla(a[1], b[1], p)];
 
-// Redondeo de la postura: si nada cambia más de ~1°, el dibujo no se
-// regenera por la geometría (el hervor lo pone usarBoil).
 const cuantiza = (post: Postura): Postura => {
   const r = {} as Postura;
   (Object.keys(post) as (keyof Postura)[]).forEach((k) => {
@@ -253,18 +229,38 @@ const cuantiza = (post: Postura): Postura => {
 
 const CON_MOVIL_EN_MANO = new Set(['mirar_movil', 'desinflarse']);
 
+// Calcula el polígono de la masa de torso dado el esqueleto.
+// El torso editorial es un trapecio delgado: más ancho en hombros,
+// más estrecho en caderas, siguiendo la inclinación del tronco.
+const torsoPolygon = (e: ReturnType<typeof esqueleto>): [number, number][] => {
+  const dx = e.hombro[0] - e.cadera[0];
+  const dy = e.hombro[1] - e.cadera[1];
+  const len = Math.hypot(dx, dy) || 1;
+  // Vector perpendicular al eje del tronco
+  const px = -dy / len;
+  const py = dx / len;
+  const wHombro = 28;
+  const wCadera = 14;
+  return [
+    [e.hombro[0] + px * wHombro, e.hombro[1] + py * wHombro],
+    [e.hombro[0] - px * wHombro, e.hombro[1] - py * wHombro],
+    [e.cadera[0] - px * wCadera, e.cadera[1] - py * wCadera],
+    [e.cadera[0] + px * wCadera, e.cadera[1] + py * wCadera],
+  ];
+};
+
 export const MonigoteArticulado: React.FC<{
   verbo?: string;
-  pVerbo?: number; // progreso dentro del verbo
-  verboPrevio?: string; // para fundir una postura con la siguiente
+  pVerbo?: number;
+  verboPrevio?: string;
   fotogramasEnVerbo?: number;
   fotograma?: number;
-  fase?: number; // fase del ciclo de pasos
+  fase?: number;
   variante?: VarianteMonigote;
-  cargando?: boolean; // los brazos sostienen algo, haga lo que haga
-  dibujo?: number; // 0→1: el personaje se dibuja
+  cargando?: boolean;
+  dibujo?: number;
   opacidad?: number;
-  semilla?: number; // distinta por personaje: trazos distintos
+  semilla?: number;
 }> = ({
   verbo = 'parado',
   pVerbo = 1,
@@ -280,8 +276,6 @@ export const MonigoteArticulado: React.FC<{
 }) => {
   const boil = usarBoil();
 
-  // Postura actual, fundida con la anterior durante los primeros
-  // fotogramas del verbo para que no haya saltos de "foto a foto".
   const fusion = suaviza(Math.min(1, fotogramasEnVerbo / 10));
   let post = mezclaPostura(
     posturaDeVerbo(verboPrevio, 1, fotograma, fase),
@@ -295,7 +289,6 @@ export const MonigoteArticulado: React.FC<{
   }
   post = cuantiza(post);
 
-  // Parpadeo: dos o tres fotogramas con los ojos cerrados cada ~3,5 s.
   const cicloParpadeo = (fotograma + semilla * 61) % 104;
   const ojosCerrados = cicloParpadeo < 4;
 
@@ -303,57 +296,62 @@ export const MonigoteArticulado: React.FC<{
   const piezas = useMemo(() => {
     const e = esqueleto(post);
     const s = (n: number) => semilla * 13 + n + boil * 1013;
+
+    // Orden SVG: lo primero queda detrás. Piernas → masa cuerpo
+    // → brazos → cuello → cabeza → accesorios.
     const formas = [
-      lapiz.circle(e.centroCabeza[0], e.centroCabeza[1], RADIO_CABEZA * 2, tinta(s(37))),
-      lapiz.line(e.cuello[0], e.cuello[1], e.cadera[0], e.cadera[1], tinta(s(39))),
-      lapiz.linearPath([e.hombro, e.codoI, e.manoI] as [number, number][], tinta(s(41))),
-      lapiz.linearPath([e.hombro, e.codoD, e.manoD] as [number, number][], tinta(s(43))),
-      lapiz.linearPath([e.cadera, e.rodillaI, e.pieI] as [number, number][], tinta(s(61))),
-      lapiz.linearPath([e.cadera, e.rodillaD, e.pieD] as [number, number][], tinta(s(67))),
+      // Piernas — trazos gruesos, elegantes
+      lapiz.linearPath([e.cadera, e.rodillaI, e.pieI] as [number, number][], tinta(s(61), {strokeWidth: 5.5})),
+      lapiz.linearPath([e.cadera, e.rodillaD, e.pieD] as [number, number][], tinta(s(67), {strokeWidth: 5.5})),
+      // Masa de torso: polígono negro sólido
+      lapiz.polygon(torsoPolygon(e) as [number, number][], relleno(s(38), COLORES.tinta, {fillStyle: 'solid', strokeWidth: 1.2, roughness: 0.6})),
+      // Brazos — líneas delgadas que salen del torso
+      lapiz.linearPath([e.hombro, e.codoI, e.manoI] as [number, number][], tinta(s(41), {strokeWidth: 4})),
+      lapiz.linearPath([e.hombro, e.codoD, e.manoD] as [number, number][], tinta(s(43), {strokeWidth: 4})),
+      // Cabeza — círculo limpio, pequeño, encima del cuello largo
+      lapiz.circle(e.centroCabeza[0], e.centroCabeza[1], RADIO_CABEZA * 2, tinta(s(37), {strokeWidth: 2.4})),
     ];
 
     const [cx, cy] = e.centroCabeza;
     const giroCabeza = post.tronco + post.cabeza;
-    // Ojos (salvo gafas de sol): dos puntitos que parpadean.
+
     if (variante !== 'gafas') {
-      const ojoY = cy - 4 + giroCabeza * 0.35;
+      const ojoY = cy - 3 + giroCabeza * 0.35;
       if (ojosCerrados) {
         formas.push(
-          lapiz.line(6 + cx, ojoY, 13 + cx, ojoY + 1, tinta(s(33), {strokeWidth: 2.2})),
-          lapiz.line(20 + cx, ojoY, 27 + cx, ojoY + 1, tinta(s(34), {strokeWidth: 2.2}))
+          lapiz.line(5 + cx, ojoY, 11 + cx, ojoY + 1, tinta(s(33), {strokeWidth: 2})),
+          lapiz.line(17 + cx, ojoY, 23 + cx, ojoY + 1, tinta(s(34), {strokeWidth: 2}))
         );
       } else {
         formas.push(
-          lapiz.circle(cx + 10, ojoY, 5, tinta(s(33), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.6})),
-          lapiz.circle(cx + 24, ojoY, 5, tinta(s(34), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.6}))
+          lapiz.circle(cx + 8, ojoY, 4.5, tinta(s(33), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.4})),
+          lapiz.circle(cx + 20, ojoY, 4.5, tinta(s(34), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.4}))
         );
       }
     }
 
-    // Accesorios de la variante, dibujados sobre la cabeza.
     if (variante === 'gafas') {
+      // Gafas de sol: dos lentes sólidas oscuras, montura fina
       formas.push(
-        lapiz.circle(cx + 8, cy - 2, 17, tinta(s(71), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 2})),
-        lapiz.circle(cx + 26, cy - 4, 15, tinta(s(73), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 2})),
-        lapiz.line(cx + 8, cy - 8, cx - 26, cy - 12, tinta(s(79), {strokeWidth: 2}))
+        lapiz.circle(cx + 7, cy - 1, 16, tinta(s(71), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.8})),
+        lapiz.circle(cx + 23, cy - 3, 14, tinta(s(73), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.8})),
+        lapiz.line(cx + 7, cy - 7, cx - 22, cy - 11, tinta(s(79), {strokeWidth: 1.8}))
       );
     } else if (variante === 'peluca') {
-      // Peluca de juez: rulos arriba y dos tiras de bucles a los lados.
       formas.push(
         lapiz.circle(cx - 16, cy - RADIO_CABEZA + 2, 20, tinta(s(81), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
         lapiz.circle(cx + 2, cy - RADIO_CABEZA - 4, 20, tinta(s(83), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
         lapiz.circle(cx + 20, cy - RADIO_CABEZA + 2, 20, tinta(s(87), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
-        lapiz.circle(cx - 30, cy - 8, 16, tinta(s(89), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
-        lapiz.circle(cx - 32, cy + 8, 14, tinta(s(91), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2}))
+        lapiz.circle(cx - 28, cy - 6, 15, tinta(s(89), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
+        lapiz.circle(cx - 30, cy + 8, 13, tinta(s(91), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2}))
       );
     } else if (variante === 'gorra') {
       formas.push(
-        lapiz.arc(cx, cy - 10, RADIO_CABEZA * 2 + 10, RADIO_CABEZA * 2 + 6, Math.PI, Math.PI * 2, true, relleno(s(93), COLORES.ambar, {strokeWidth: 2.4})),
-        lapiz.line(cx + 2, cy - 24, cx + 46, cy - 22, tinta(s(97), {strokeWidth: 3}))
+        lapiz.arc(cx, cy - 8, RADIO_CABEZA * 2 + 10, RADIO_CABEZA * 2 + 6, Math.PI, Math.PI * 2, true, relleno(s(93), COLORES.ambar, {strokeWidth: 2.2})),
+        lapiz.line(cx + 2, cy - 22, cx + 44, cy - 20, tinta(s(97), {strokeWidth: 3}))
       );
     }
 
-    // El móvil en la mano cuando el verbo lo pide.
     if (CON_MOVIL_EN_MANO.has(verbo)) {
       formas.push(lapiz.rectangle(e.manoD[0] - 8, e.manoD[1] - 16, 18, 30, tinta(s(101), {strokeWidth: 2})));
     }
@@ -361,7 +359,6 @@ export const MonigoteArticulado: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clave, semilla]);
 
-  // El personaje se dibuja por partes, como el monigote clásico.
   const tramo = 1 / piezas.length;
   return (
     <g

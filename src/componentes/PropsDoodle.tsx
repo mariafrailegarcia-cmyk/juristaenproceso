@@ -23,24 +23,28 @@ type Fabrica = (s: (n: number) => number) => Dibujo;
 
 export const PROPS: Record<string, Fabrica> = {
   billete: (s) => ({
+    // Billete editorial: rectángulo limpio con medallón central.
     formas: [
-      lapiz.rectangle(-80, -42, 160, 84, relleno(s(1), COLORES.ambar, {fillStyle: 'hachure', hachureGap: 11, fillWeight: 1})),
-      lapiz.rectangle(-64, -28, 128, 56, tinta(s(2), {strokeWidth: 2})),
-      lapiz.circle(0, 0, 40, tinta(s(3), {strokeWidth: 2})),
+      lapiz.rectangle(-88, -46, 176, 92, relleno(s(1), COLORES.ambar, {fillStyle: 'hachure', hachureGap: 14, fillWeight: 0.8, strokeWidth: 2.6})),
+      lapiz.rectangle(-72, -32, 144, 64, tinta(s(2), {strokeWidth: 1.6})),
+      lapiz.circle(0, 0, 44, tinta(s(3), {strokeWidth: 2})),
     ],
-    textos: [{x: 0, y: 0, texto: '€', tamano: 30, serif: true}],
+    textos: [{x: 0, y: 0, texto: '€', tamano: 32, serif: true}],
   }),
 
   movil: (s) => ({
-    // Móvil "en grande" con burbuja de chat y doble check de visto.
+    // Móvil limpio: pantalla con dos burbujas de mensaje (enviado y recibido).
     formas: [
-      lapiz.rectangle(-48, -85, 96, 170, tinta(s(1), {strokeWidth: 3})),
-      lapiz.line(-14, 66, 14, 66, tinta(s(2), {strokeWidth: 2})),
-      lapiz.rectangle(-36, -52, 72, 30, tinta(s(3), {strokeWidth: 2})),
-      lapiz.ellipse(110, -30, 110, 62, tinta(s(4), {strokeWidth: 2.4})),
-      lapiz.path('M 70 -12 L 50 14 L 92 -4', tinta(s(5), {strokeWidth: 2.2})),
+      lapiz.rectangle(-52, -90, 104, 180, tinta(s(1), {strokeWidth: 3.2})),
+      lapiz.line(-18, 72, 18, 72, tinta(s(2), {strokeWidth: 2.2})),
+      // Burbuja enviada (derecha)
+      lapiz.rectangle(-6, -58, 46, 26, tinta(s(3), {strokeWidth: 2})),
+      // Burbuja recibida (izquierda)
+      lapiz.rectangle(-42, -18, 46, 26, tinta(s(4), {strokeWidth: 2})),
+      // Burbuja con "visto" ámbar
+      lapiz.rectangle(-6, 20, 46, 26, tinta(s(5), {strokeWidth: 2})),
     ],
-    textos: [{x: 110, y: -30, texto: '✓✓', tamano: 34, color: COLORES.ambar}],
+    textos: [{x: 18, y: 33, texto: '✓✓', tamano: 22, color: COLORES.ambar}],
   }),
 
   palmera: (s) => ({
@@ -69,11 +73,14 @@ export const PROPS: Record<string, Fabrica> = {
   }),
 
   coche: (s) => ({
+    // Coche editorial: silueta limpia, elegante, ruedas sólidas.
     formas: [
-      lapiz.path('M -160 18 L -160 -12 C -110 -22 -96 -58 -40 -62 C 30 -66 60 -34 96 -24 L 158 -14 L 160 18 Z', tinta(s(1), {strokeWidth: 3.2})),
-      lapiz.circle(-92, 22, 52, relleno(s(2), COLORES.ambar, {hachureGap: 8, strokeWidth: 3})),
-      lapiz.circle(92, 22, 52, relleno(s(3), COLORES.ambar, {hachureGap: 8, strokeWidth: 3})),
-      lapiz.path('M -36 -54 L -34 -26 L 50 -22', tinta(s(4), {strokeWidth: 2})),
+      lapiz.path('M -148 24 L -148 -8 C -100 -18 -88 -54 -36 -60 C 28 -66 58 -32 92 -22 L 148 -12 L 148 24 Z', relleno(s(1), COLORES.tinta, {fillStyle: 'solid', strokeWidth: 2.8, roughness: 0.7})),
+      lapiz.circle(-86, 28, 50, relleno(s(2), COLORES.fondo, {fillStyle: 'solid', strokeWidth: 3})),
+      lapiz.circle(86, 28, 50, relleno(s(3), COLORES.fondo, {fillStyle: 'solid', strokeWidth: 3})),
+      lapiz.circle(-86, 28, 26, relleno(s(6), COLORES.tinta, {fillStyle: 'solid', strokeWidth: 1.6})),
+      lapiz.circle(86, 28, 26, relleno(s(7), COLORES.tinta, {fillStyle: 'solid', strokeWidth: 1.6})),
+      lapiz.path('M -30 -50 L -28 -24 L 48 -20', tinta(s(4), {strokeWidth: 2})),
     ],
   }),
 
