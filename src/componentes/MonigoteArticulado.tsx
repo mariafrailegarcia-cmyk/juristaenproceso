@@ -5,17 +5,17 @@
 // postura, y entre verbos se interpola suavemente para que el
 // muñeco se MUEVA en vez de cambiar de foto.
 //
-// La estética sigue siendo rough.js: cuando la postura cambia,
-// el trazo se vuelve a generar y "hierve" ligeramente, como en
-// la animación doodle clásica; cuando está quieto, el trazo es
-// estable (misma semilla, misma geometría).
+// NUNCA está muerto: el trazo "hierve" (se redibuja unas tres
+// veces por segundo, como animación a mano), y cuando no actúa
+// respira, balancea el peso, parpadea, da golpecitos con el pie
+// y, si lleva gafas de sol, se las sube de vez en cuando.
 //
 // Variantes reconocibles: Marcos lleva gafas de sol, el juez
 // peluca y el Estado gorra.
 // ============================================================
 import React, {useMemo} from 'react';
 import {COLORES} from '../tema';
-import {Trazo, lapiz, relleno, tinta} from './Rough';
+import {Trazo, lapiz, relleno, tinta, usarBoil} from './Rough';
 
 export type VarianteMonigote = 'gafas' | 'peluca' | 'gorra' | undefined;
 
@@ -93,6 +93,10 @@ export const posturaDeVerbo = (
     }
     case 'mirar_movil':
       return {...PARADO, cabeza: 26, tronco: 5, hombroD: 40, codoD: 100};
+    case 'desinflarse':
+      // Sigue mirando el móvil, pero el visto le ha quitado las ganas:
+      // cabeza vencida, hombros caídos, espalda un punto hundida.
+      return {...PARADO, cabeza: 38, tronco: 9, caderaY: 7, hombroD: 32, codoD: 92, hombroI: -2, codoI: -2};
     case 'senalar':
       return {...PARADO, tronco: 6, cabeza: 4, hombroD: 86, codoD: 4, hombroI: -12};
     case 'cargar':
@@ -155,6 +159,50 @@ export const posturaDeVerbo = (
   }
 };
 
+// ---------- Vida en reposo ----------
+// Pequeños movimientos que nunca paran: balanceo del peso, algún
+// golpecito de pie, y (con gafas) subírselas con el dedo. Cada
+// personaje usa su semilla como desfase: nunca van a la vez.
+const VERBOS_CON_IDLE = new Set(['parado', 'mirar_movil', 'desinflarse', 'senalar', 'encogerse']);
+const aplicarIdle = (
+  post: Postura,
+  verbo: string,
+  fotograma: number,
+  semilla: number,
+  variante: VarianteMonigote,
+  peso: number // 0→1: cuánto idle se aplica (entra en fundido)
+): Postura => {
+  if (!VERBOS_CON_IDLE.has(verbo) || peso <= 0) {
+    return post;
+  }
+  const f = fotograma + semilla * 37;
+  const r = {...post};
+  // Respiración y balanceo del peso de un pie a otro.
+  r.tronco += Math.sin(f / 52) * 1.7 * peso;
+  r.cabeza += Math.sin(f / 43 + 1.2) * 1.5 * peso;
+  r.caderaY += (Math.sin(f / 64) * 0.5 + 0.5) * 2.2 * peso;
+  r.caderaI += Math.sin(f / 64) * 2.4 * peso;
+  r.caderaD -= Math.sin(f / 64) * 2.4 * peso;
+  // Golpecitos con el pie, en ráfagas de un segundo cada ~5.
+  const tap = (f + 40) % 160;
+  if (tap < 28 && verbo === 'parado') {
+    const golpe = Math.abs(Math.sin((tap / 28) * Math.PI * 3));
+    r.caderaD += golpe * 5 * peso;
+    r.rodillaD -= golpe * 7 * peso;
+  }
+  // Marcos se sube las gafas de vez en cuando (si tiene la mano libre).
+  if (variante === 'gafas' && (verbo === 'parado' || verbo === 'encogerse')) {
+    const ciclo = (f + 90) % 230;
+    if (ciclo < 34) {
+      const sube = Math.sin((ciclo / 34) * Math.PI) * peso;
+      r.hombroD = mezcla(r.hombroD, 36, sube);
+      r.codoD = mezcla(r.codoD, 118, sube);
+      r.cabeza += sube * -4;
+    }
+  }
+  return r;
+};
+
 // Medidas del esqueleto (unidades locales; de pie mide ~280 de alto,
 // con los pies en y=0 y la cabeza arriba en negativo).
 const TRONCO = 92;
@@ -194,8 +242,7 @@ export const esqueleto = (post: Postura) => {
 const mezclaPunto = (a: Punto, b: Punto, p: number): Punto => [mezcla(a[0], b[0], p), mezcla(a[1], b[1], p)];
 
 // Redondeo de la postura: si nada cambia más de ~1°, el dibujo no se
-// regenera y el trazo queda quieto. En movimiento, cada cambio de
-// ángulo regenera el rough y el trazo "hierve" — efecto buscado.
+// regenera por la geometría (el hervor lo pone usarBoil).
 const cuantiza = (post: Postura): Postura => {
   const r = {} as Postura;
   (Object.keys(post) as (keyof Postura)[]).forEach((k) => {
@@ -203,6 +250,8 @@ const cuantiza = (post: Postura): Postura => {
   });
   return r;
 };
+
+const CON_MOVIL_EN_MANO = new Set(['mirar_movil', 'desinflarse']);
 
 export const MonigoteArticulado: React.FC<{
   verbo?: string;
@@ -229,24 +278,31 @@ export const MonigoteArticulado: React.FC<{
   opacidad = 1,
   semilla = 0,
 }) => {
+  const boil = usarBoil();
+
   // Postura actual, fundida con la anterior durante los primeros
   // fotogramas del verbo para que no haya saltos de "foto a foto".
-  const fusion = Math.min(1, fotogramasEnVerbo / 10);
+  const fusion = suaviza(Math.min(1, fotogramasEnVerbo / 10));
   let post = mezclaPostura(
     posturaDeVerbo(verboPrevio, 1, fotograma, fase),
     posturaDeVerbo(verbo, pVerbo, fotograma, fase),
-    suaviza(fusion)
+    fusion
   );
+  post = aplicarIdle(post, verbo, fotograma, semilla, variante, fusion);
   if (cargando) {
     const brazos = posturaDeVerbo('cargar', 1, fotograma, fase);
     post = {...post, hombroI: brazos.hombroI, codoI: brazos.codoI, hombroD: brazos.hombroD, codoD: brazos.codoD, tronco: post.tronco + brazos.tronco * 0.5};
   }
   post = cuantiza(post);
 
-  const clave = JSON.stringify(post) + verbo + (variante ?? '');
+  // Parpadeo: dos o tres fotogramas con los ojos cerrados cada ~3,5 s.
+  const cicloParpadeo = (fotograma + semilla * 61) % 104;
+  const ojosCerrados = cicloParpadeo < 4;
+
+  const clave = JSON.stringify(post) + verbo + (variante ?? '') + boil + (ojosCerrados ? 'X' : '');
   const piezas = useMemo(() => {
     const e = esqueleto(post);
-    const s = (n: number) => semilla * 13 + n;
+    const s = (n: number) => semilla * 13 + n + boil * 1013;
     const formas = [
       lapiz.circle(e.centroCabeza[0], e.centroCabeza[1], RADIO_CABEZA * 2, tinta(s(37))),
       lapiz.line(e.cuello[0], e.cuello[1], e.cadera[0], e.cadera[1], tinta(s(39))),
@@ -256,14 +312,30 @@ export const MonigoteArticulado: React.FC<{
       lapiz.linearPath([e.cadera, e.rodillaD, e.pieD] as [number, number][], tinta(s(67))),
     ];
 
-    // Accesorios de la variante, dibujados sobre la cabeza.
     const [cx, cy] = e.centroCabeza;
-    const lado = 1; // el personaje "mira" hacia +x; voltear lo hace el grupo
+    const giroCabeza = post.tronco + post.cabeza;
+    // Ojos (salvo gafas de sol): dos puntitos que parpadean.
+    if (variante !== 'gafas') {
+      const ojoY = cy - 4 + giroCabeza * 0.35;
+      if (ojosCerrados) {
+        formas.push(
+          lapiz.line(6 + cx, ojoY, 13 + cx, ojoY + 1, tinta(s(33), {strokeWidth: 2.2})),
+          lapiz.line(20 + cx, ojoY, 27 + cx, ojoY + 1, tinta(s(34), {strokeWidth: 2.2}))
+        );
+      } else {
+        formas.push(
+          lapiz.circle(cx + 10, ojoY, 5, tinta(s(33), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.6})),
+          lapiz.circle(cx + 24, ojoY, 5, tinta(s(34), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 1.6}))
+        );
+      }
+    }
+
+    // Accesorios de la variante, dibujados sobre la cabeza.
     if (variante === 'gafas') {
       formas.push(
-        lapiz.circle(cx + 8 * lado, cy - 2, 17, tinta(s(71), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 2})),
-        lapiz.circle(cx + 26 * lado, cy - 4, 15, tinta(s(73), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 2})),
-        lapiz.line(cx + 8 * lado, cy - 8, cx - 26 * lado, cy - 12, tinta(s(79), {strokeWidth: 2}))
+        lapiz.circle(cx + 8, cy - 2, 17, tinta(s(71), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 2})),
+        lapiz.circle(cx + 26, cy - 4, 15, tinta(s(73), {fill: COLORES.tinta, fillStyle: 'solid', strokeWidth: 2})),
+        lapiz.line(cx + 8, cy - 8, cx - 26, cy - 12, tinta(s(79), {strokeWidth: 2}))
       );
     } else if (variante === 'peluca') {
       // Peluca de juez: rulos arriba y dos tiras de bucles a los lados.
@@ -277,12 +349,12 @@ export const MonigoteArticulado: React.FC<{
     } else if (variante === 'gorra') {
       formas.push(
         lapiz.arc(cx, cy - 10, RADIO_CABEZA * 2 + 10, RADIO_CABEZA * 2 + 6, Math.PI, Math.PI * 2, true, relleno(s(93), COLORES.ambar, {strokeWidth: 2.4})),
-        lapiz.line(cx + 2, cy - 24, cx + 46 * lado, cy - 22, tinta(s(97), {strokeWidth: 3}))
+        lapiz.line(cx + 2, cy - 24, cx + 46, cy - 22, tinta(s(97), {strokeWidth: 3}))
       );
     }
 
     // El móvil en la mano cuando el verbo lo pide.
-    if (verbo === 'mirar_movil') {
+    if (CON_MOVIL_EN_MANO.has(verbo)) {
       formas.push(lapiz.rectangle(e.manoD[0] - 8, e.manoD[1] - 16, 18, 30, tinta(s(101), {strokeWidth: 2})));
     }
     return formas;

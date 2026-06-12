@@ -9,9 +9,10 @@
 // guiones lo usan por nombre: {"prop": "candado", ...}.
 // ============================================================
 import React, {useMemo} from 'react';
+import {useCurrentFrame} from 'remotion';
 import type {Drawable} from 'roughjs/bin/core';
 import {COLORES, FUENTES} from '../tema';
-import {Trazo, lapiz, relleno, tinta} from './Rough';
+import {Trazo, lapiz, relleno, tinta, usarBoil} from './Rough';
 
 // Texto pequeño DENTRO de un dibujo (el "€" del billete, el "✓✓"
 // del móvil): cifras y símbolos, nunca frases.
@@ -192,19 +193,38 @@ export const tipoDeProp = (id: string, explicito?: string): string => {
   return PROPS[limpio] ? limpio : id;
 };
 
+// Respiración de cada prop: nada se queda como una pegatina.
+// La palmera se mece desde la base, el billete ondea, y el resto
+// late apenas un 1%. El desfase por semilla evita que respiren
+// todos a la vez.
+const respiracion = (tipo: string, f: number): string => {
+  switch (tipo) {
+    case 'palmera':
+      return `translate(0 150) rotate(${Math.sin(f / 42) * 2.2}) translate(0 -150)`;
+    case 'billete':
+      return `translate(0 ${Math.sin(f / 26) * 4}) rotate(${Math.sin(f / 21) * 3.2})`;
+    case 'movil':
+      return `translate(0 ${Math.sin(f / 30) * 5})`;
+    default:
+      return `scale(${1 + Math.sin(f / 34) * 0.012})`;
+  }
+};
+
 export const PropDoodle: React.FC<{
   tipo: string;
   semilla?: number;
   dibujo?: number; // 0→1 se dibuja; al borrarse vuelve hacia 0
   opacidad?: number;
 }> = ({tipo, semilla = 0, dibujo = 1, opacidad = 1}) => {
+  const fotograma = useCurrentFrame();
+  const boil = usarBoil();
   const fabrica = PROPS[tipo];
   const pieza = useMemo(() => {
     if (!fabrica) {
       return null;
     }
-    return fabrica((n) => semilla * 31 + n * 7 + 11);
-  }, [fabrica, semilla]);
+    return fabrica((n) => semilla * 31 + n * 7 + 11 + boil * 997);
+  }, [fabrica, semilla, boil]);
 
   if (!pieza) {
     // Prop desconocido: mejor un hueco que un render roto.
@@ -212,7 +232,7 @@ export const PropDoodle: React.FC<{
   }
   const tramo = 1 / pieza.formas.length;
   return (
-    <g style={{opacity: opacidad}}>
+    <g style={{opacity: opacidad}} transform={respiracion(tipo, fotograma + semilla * 29)}>
       {pieza.formas.map((forma, i) => {
         const propio = Math.min(1, Math.max(0, (dibujo - i * tramo) / tramo));
         return <Trazo key={i} forma={forma} progreso={propio} />;

@@ -78,6 +78,17 @@ export const Trazo: React.FC<{
 };
 
 // ------------------------------------------------------------
+// usarBoil: el "hervor" de la animación doodle clásica. Devuelve
+// 0, 1 o 2 cambiando unas ~2,7 veces por segundo; sumado a la
+// semilla de un trazo, hace que el dibujo se redibuje sutilmente
+// como si la mano lo repasara. Quieto pero vivo.
+// ------------------------------------------------------------
+export const usarBoil = (velocidad = 11): number => {
+  const fotograma = useCurrentFrame();
+  return Math.floor(fotograma / velocidad) % 3;
+};
+
+// ------------------------------------------------------------
 // usarProgreso: convierte "del fotograma X al Y" en un valor 0→1.
 // Es la pieza que sincroniza TODO: cada dibujo y cada texto
 // reciben su progreso a partir del fotograma actual del video.
