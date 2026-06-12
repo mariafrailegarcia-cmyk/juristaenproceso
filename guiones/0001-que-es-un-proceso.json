@@ -5,9 +5,26 @@
     {
       "voz": "Le prestaste mil euros a tu amigo Marcos. Hace ocho meses. Marcos tiene trabajo, tiene coche nuevo y tiene la desfachatez de subir stories desde Bali. Lo que no tiene, por lo visto, es intención de devolverte el dinero. Le has escrito: te ha dejado en visto. Le has vuelto a escribir: te ha respondido \"jajaja ya te hago bizum\". No hay bizum. Hoy vamos a ver qué puede hacer el Derecho por ti. Spoiler: bastante más que mandar audios pasivo-agresivos.",
       "visual": {
-        "tipo": "monigote",
-        "texto": "«jajaja ya te hago bizum»",
-        "pose": "duda"
+        "tipo": "coreografia",
+        "acciones": [
+          {"actor": "tu", "accion": "aparecer", "en": [430, 900], "t": 0},
+          {"prop": "billete", "accion": "aparecer", "en": [660, 600], "t": 0.03},
+          {"texto": "1.000 €", "accion": "rotulo", "en": [660, 480], "t": 0.045},
+          {"actor": "marcos", "accion": "aparecer", "en": [1430, 900], "voltear": true, "t": 0.1},
+          {"prop": "palmera", "accion": "aparecer", "en": [1680, 760], "t": 0.13, "dur": 1.6},
+          {"texto": "1.000 €", "accion": "desaparecer", "t": 0.18},
+          {"prop": "billete", "accion": "flotar", "a": [1270, 620], "t": 0.19, "dur": 2.8},
+          {"prop": "billete", "accion": "desaparecer", "t": 0.31, "dur": 1.4},
+          {"actor": "tu", "accion": "mirar_movil", "t": 0.38},
+          {"prop": "movil", "accion": "aparecer", "en": [750, 480], "t": 0.42},
+          {"texto": "«jajaja ya te hago bizum»", "accion": "bocadillo", "en": [1150, 360], "objetivo": "marcos", "t": 0.55},
+          {"texto": "«jajaja ya te hago bizum»", "accion": "desaparecer", "t": 0.7},
+          {"prop": "movil", "accion": "desaparecer", "t": 0.71},
+          {"actor": "marcos", "accion": "encogerse", "t": 0.72},
+          {"actor": "tu", "accion": "senalar", "objetivo": "marcos", "t": 0.79},
+          {"texto": "EL DERECHO", "accion": "rotulo", "en": [960, 300], "t": 0.84},
+          {"actor": "tu", "accion": "celebrar", "t": 0.92}
+        ]
       }
     },
     {

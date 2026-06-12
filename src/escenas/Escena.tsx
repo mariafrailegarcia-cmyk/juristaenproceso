@@ -11,6 +11,7 @@ import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
 import {COLORES, FUENTES} from '../tema';
 import type {Escena as DatosEscena, Visual} from '../tipos';
 import {Balanza} from '../componentes/Balanza';
+import {VisualCoreografia} from './Coreografia';
 import {ListaPuntos} from '../componentes/ListaPuntos';
 import {Monigote} from '../componentes/Monigote';
 import {Pizarra} from '../componentes/Pizarra';
@@ -255,5 +256,7 @@ export const Escena: React.FC<{escena: DatosEscena}> = ({escena}) => {
       return <VisualMonigote visual={visual} duracion={duracionFrames} />;
     case 'sello':
       return <VisualSello visual={visual} duracion={duracionFrames} />;
+    case 'coreografia':
+      return <VisualCoreografia acciones={visual.acciones} duracion={duracionFrames} />;
   }
 };
