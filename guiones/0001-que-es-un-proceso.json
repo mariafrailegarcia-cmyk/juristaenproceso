@@ -7,31 +7,43 @@
       "visual": {
         "tipo": "coreografia",
         "acciones": [
-          {"actor": "camara", "accion": "zoom", "a": [560, 720], "escala": 1.32, "t": 0, "dur": 0.1},
+          {"actor": "camara", "accion": "zoom", "a": [620, 720], "escala": 1.28, "t": 0, "dur": 0.4},
           {"actor": "tu", "accion": "aparecer", "en": [430, 900], "t": 0},
-          {"prop": "billete", "accion": "aparecer", "en": [660, 600], "t": 0.03},
-          {"texto": "1.000 €", "accion": "rotulo", "estilo": "caer", "en": [660, 470], "t": 0.045},
-          {"actor": "camara", "accion": "zoom", "a": [960, 600], "escala": 1, "t": 0.085, "dur": 2.4},
-          {"actor": "marcos", "accion": "aparecer", "en": [1430, 900], "voltear": true, "t": 0.1},
-          {"prop": "palmera", "accion": "aparecer", "en": [1680, 760], "t": 0.13, "dur": 1.6},
-          {"prop": "billete", "accion": "flotar", "a": [1270, 620], "t": 0.19, "dur": 2.8},
-          {"texto": "1.000 €", "accion": "tachar", "t": 0.315},
-          {"prop": "billete", "accion": "desaparecer", "t": 0.33, "dur": 1.4},
-          {"texto": "1.000 €", "accion": "desaparecer", "t": 0.36},
-          {"actor": "tu", "accion": "mirar_movil", "t": 0.39},
-          {"actor": "camara", "accion": "zoom", "a": [780, 560], "escala": 1.14, "t": 0.41, "dur": 1.4},
-          {"prop": "movil", "accion": "aparecer", "en": [750, 480], "t": 0.43},
-          {"actor": "tu", "accion": "desinflarse", "t": 0.475},
-          {"actor": "camara", "accion": "punch", "a": [1150, 400], "escala": 1.2, "t": 0.55},
-          {"texto": "«jajaja ya te hago bizum»", "accion": "bocadillo", "estilo": "espera", "en": [1150, 360], "objetivo": "marcos", "t": 0.555},
-          {"texto": "«jajaja ya te hago bizum»", "accion": "desaparecer", "t": 0.69},
-          {"prop": "movil", "accion": "desaparecer", "t": 0.7},
-          {"actor": "marcos", "accion": "encogerse", "t": 0.71},
-          {"actor": "camara", "accion": "zoom", "a": [960, 580], "escala": 1, "t": 0.72, "dur": 1.6},
-          {"actor": "tu", "accion": "senalar", "objetivo": "marcos", "t": 0.79},
-          {"texto": "EL DERECHO", "accion": "rotulo", "estilo": "estampar", "en": [960, 300], "t": 0.845},
-          {"actor": "camara", "accion": "punch", "a": [620, 640], "escala": 1.16, "t": 0.915},
-          {"actor": "tu", "accion": "celebrar", "t": 0.92}
+          {"prop": "billete", "accion": "aparecer", "en": [610, 610], "t": 0.02},
+          {"texto": "1.000 €", "accion": "rotulo", "estilo": "pluma", "en": [620, 465], "t": 0.04, "dur": 0.8},
+          {"actor": "marcos", "accion": "aparecer", "en": [1420, 900], "voltear": true, "t": 0.1},
+          {"prop": "billete", "accion": "flotar", "a": [1225, 630], "t": 0.06, "dur": 2.7},
+          {"actor": "camara", "accion": "zoom", "a": [980, 650], "escala": 1, "t": 0.11, "dur": 1.6},
+
+          {"texto": "8 meses", "accion": "rotulo", "estilo": "caer", "en": [960, 250], "t": 0.13, "dur": 1.0},
+          {"texto": "8 meses", "accion": "desaparecer", "t": 0.2, "dur": 0.5},
+
+          {"prop": "coche", "accion": "aparecer", "en": [1540, 815], "escala": 0.55, "t": 0.22},
+          {"prop": "palmera", "accion": "aparecer", "en": [1670, 770], "escala": 0.75, "t": 0.27},
+          {"texto": "Bali", "accion": "rotulo", "estilo": "pluma", "en": [1620, 510], "t": 0.31, "dur": 0.7},
+          {"actor": "marcos", "accion": "celebrar", "t": 0.32, "dur": 2.0},
+
+          {"texto": "1.000 €", "accion": "tachar", "t": 0.4},
+          {"prop": "billete", "accion": "desaparecer", "t": 0.41, "dur": 0.8},
+          {"actor": "marcos", "accion": "encogerse", "t": 0.43, "dur": 2.0},
+
+          {"actor": "camara", "accion": "zoom", "a": [960, 520], "escala": 1.18, "t": 0.51, "dur": 1.0},
+          {"prop": "movil", "accion": "aparecer", "en": [820, 500], "escala": 2.0, "t": 0.52},
+          {"actor": "tu", "accion": "mirar_movil", "t": 0.53},
+          {"texto": "visto", "accion": "rotulo", "estilo": "pluma", "en": [1060, 420], "t": 0.56, "dur": 0.6},
+          {"texto": "«jajaja ya te hago bizum»", "accion": "bocadillo", "estilo": "espera", "en": [1180, 335], "objetivo": "marcos", "t": 0.62, "dur": 1.2},
+
+          {"actor": "camara", "accion": "punch", "a": [820, 500], "escala": 1.32, "t": 0.74, "dur": 0.7},
+          {"texto": "No hay bizum", "accion": "rotulo", "estilo": "caer", "en": [960, 245], "t": 0.75, "dur": 1.0},
+          {"texto": "No hay bizum", "accion": "desaparecer", "t": 0.82, "dur": 0.5},
+
+          {"prop": "movil", "accion": "desaparecer", "t": 0.84, "dur": 0.7},
+          {"texto": "visto", "accion": "desaparecer", "t": 0.84, "dur": 0.4},
+          {"texto": "«jajaja ya te hago bizum»", "accion": "desaparecer", "t": 0.84, "dur": 0.4},
+          {"actor": "camara", "accion": "zoom", "a": [780, 650], "escala": 1.05, "t": 0.85, "dur": 1.2},
+          {"actor": "tu", "accion": "senalar", "objetivo": "marcos", "t": 0.87},
+          {"texto": "EXPEDIENTE Nº 0001", "accion": "sello", "en": [960, 315], "t": 0.93, "dur": 0.5},
+          {"actor": "tu", "accion": "celebrar", "t": 0.95}
         ]
       }
     },
