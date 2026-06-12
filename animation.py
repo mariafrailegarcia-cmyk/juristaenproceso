@@ -1,352 +1,324 @@
 """
-Monigote segun el dibujo de referencia:
-  - Lineas finas, estilo boceto
-  - Cabeza circular con UN ojo y sonrisa curva
-  - Saco grande y redondo a la ESPALDA, nudo con cola
-  - Cuerpo inclinado hacia delante cargando el peso
-  - Paracaidas al saltar al abismo
+Animacion final basada en el storyboard de referencia:
+  1. Entra andando con el saco a la espalda
+  2. Corre arrastrando el saco por el suelo (alambre verde)
+  3. Llega al abismo, el saco cuelga por el borde
+  4. Salta — el saco se infla como paracaidas
 """
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from matplotlib.patches import Circle, Ellipse, Polygon, Rectangle, FancyArrowPatch
+from matplotlib.patches import Circle, Ellipse, Polygon, Rectangle
 from matplotlib.animation import FuncAnimation, FFMpegWriter
 from matplotlib.lines import Line2D
 
-FPS = 24
-DURATION = 30
-N = FPS * DURATION
+FPS    = 24
+DUR    = 30
+N      = FPS * DUR
 
-W, H = 16.0, 9.0
-GY = 3.2
-CLIFF_X = 33.0
-WORLD_W = CLIFF_X + W + 5
+W, H   = 16.0, 9.0
+GY     = 3.5          # nivel del suelo
+CLIFF  = 32.0         # x del abismo en coords de mundo
+WORLD  = CLIFF + W + 5
 
-PH_ENTER = 2  * FPS
-PH_RUN   = 20 * FPS
-PH_SLOW  = 23 * FPS
-PH_OPEN  = 27 * FPS
-PH_END   = N
+# Fases en frames
+F_WALK   = 3  * FPS   # 72   andando
+F_RUN    = 18 * FPS   # 432  corriendo
+F_SLOW   = 22 * FPS   # 528  frenando
+F_CLIFF  = 26 * FPS   # 624  borde del abismo
+F_JUMP   = 27 * FPS   # 648  salta
+F_END    = N           # 720  caida con paracaidas
 
-C_BG    = '#ffffff'
-C_BLACK = '#1a1a1a'
-C_WHITE = '#ffffff'
-C_LGRAY = '#ebebeb'
-C_MGRAY = '#bbbbbb'
-C_DGRAY = '#666666'
+C_BLK  = '#1a1a1a'
+C_WHT  = '#ffffff'
+C_GRY  = '#cccccc'
+C_DGRY = '#888888'
+C_GRN  = '#2d9e2d'    # alambre verde
+LW     = 2.6
+LW_TH  = 1.6
 
-# Lineas finas como en el dibujo
-LW = 2.2
-LW_THIN = 1.5
+def lerp(a, b, t): return a + (b-a)*float(np.clip(t, 0, 1))
+def eout(t):       t=float(np.clip(t,0,1)); return 1-(1-t)**2
+def ein(t):        t=float(np.clip(t,0,1)); return t**2
 
-def lerp(a, b, t):  return a + (b-a)*float(np.clip(t,0,1))
-def ease_out(t):    t=float(np.clip(t,0,1)); return 1-(1-t)**2
-def ease_in(t):     t=float(np.clip(t,0,1)); return t**2
-
-HEAD_R = 0.30
-BODY_H = 1.05
-ARM_L  = 0.48
-LEG_L  = 0.68
-LEAN   = 0.22   # inclinacion hacia delante (radianes)
-
-def figure_geom(hip_x, hip_y, frame, phase):
-    """
-    Geometria del monigote inclinado, como en la referencia.
-    Torso inclinado hacia delante (LEAN radianes).
-    """
-    cycle = 11
-    if phase == 'run':
-        t      = np.sin(frame / cycle * 2 * np.pi)
-        la, ra = t * 0.70, -t * 0.70
-        laa    = -t * 0.52   # brazo izquierdo (el que va atras sujetando el saco)
-        raa    =  t * 0.52   # brazo derecho (oscila libre)
-        bob    = abs(np.sin(frame / cycle * np.pi)) * 0.07
-        swing  = t * 0.10
-    elif phase == 'slow':
-        la, ra, laa, raa, bob, swing = 0.25, -0.25, -0.20, 0.20, 0.0, 0.0
-    elif phase == 'stop':
-        la = ra = laa = raa = bob = swing = 0.0
-    elif phase == 'lift':
-        la, ra, laa, raa, bob, swing = 0.10, -0.10, 0.40, 0.40, 0.0, 0.0
-    elif phase == 'head_in':
-        la, ra, laa, raa, bob, swing = 0.12, -0.12, 0.70, 0.70, 0.0, 0.0
-    else:  # fall
-        la, ra, laa, raa, bob, swing = 0.75, -0.75, 0.88, 0.88, 0.0, 0.0
-
-    # Torso inclinado: la cadera es el punto base
-    lean_x = np.sin(LEAN) * BODY_H
-    lean_y = np.cos(LEAN) * BODY_H
-    torso_x = hip_x + lean_x
-    torso_y = hip_y + lean_y + bob
-    head_cx = torso_x
-    head_cy = torso_y + HEAD_R
-
-    mid_x = hip_x + lean_x * 0.55
-    mid_y = hip_y + lean_y * 0.55 + bob
-
-    # Piernas desde la cadera
-    lleg_end = (hip_x + np.sin(la)*LEG_L, hip_y - np.cos(la)*LEG_L)
-    rleg_end = (hip_x + np.sin(ra)*LEG_L, hip_y - np.cos(ra)*LEG_L)
-
-    # Brazo izquierdo: va hacia atras/abajo (sujetando el saco)
-    larm_end = (mid_x - np.cos(laa)*ARM_L*0.9,
-                mid_y - np.sin(laa)*ARM_L*0.55)
-    # Brazo derecho: oscila libre hacia delante
-    rarm_end = (mid_x + np.cos(raa)*ARM_L*0.85,
-                mid_y - np.sin(raa)*ARM_L*0.45)
-
-    return {
-        'head'    : (head_cx, head_cy),
-        'torso'   : [(hip_x, hip_y), (torso_x, torso_y)],
-        'lleg'    : [(hip_x, hip_y), lleg_end],
-        'rleg'    : [(hip_x, hip_y), rleg_end],
-        'larm'    : [(mid_x, mid_y), larm_end],
-        'rarm'    : [(mid_x, mid_y), rarm_end],
-        'mid'     : (mid_x, mid_y),
-        'hip'     : (hip_x, hip_y),
-        'swing'   : swing,
-    }
-
-def dome_pts(cx, cy, r, n=52):
-    theta = np.linspace(0, np.pi, n)
-    xs = np.concatenate([cx + r*np.cos(theta), [cx]])
-    ys = np.concatenate([cy + r*np.sin(theta), [cy]])
-    return np.column_stack([xs, ys])
+# dimensiones del monigote
+HR  = 0.32   # radio cabeza
+BH  = 1.10   # altura torso
+AL  = 0.52   # largo brazo
+LL  = 0.68   # largo pierna
+# saco
+SRX = 0.68   # semi-eje x
+SRY = 0.78   # semi-eje y (un poco mas alto que ancho, gota)
 
 # ─── Canvas ───────────────────────────────────────────────────────────────────
 fig = plt.figure(figsize=(16, 9), dpi=100)
 ax  = fig.add_axes([0, 0, 1, 1])
-ax.set_ylim(0, H)
-ax.set_xlim(0, W)
-ax.set_aspect('equal')
-ax.axis('off')
-fig.patch.set_facecolor(C_BG)
+ax.set_xlim(0, W); ax.set_ylim(0, H)
+ax.set_aspect('equal'); ax.axis('off')
+fig.patch.set_facecolor(C_WHT)
 
-# ─── Fondo ────────────────────────────────────────────────────────────────────
-ax.add_patch(Rectangle((0, 0), WORLD_W, GY, color=C_LGRAY, linewidth=0, zorder=1))
-ax.add_patch(Rectangle((0, GY-0.08), WORLD_W, 0.10, color=C_BLACK, linewidth=0, zorder=2))
+# ─── Fondo fijo ───────────────────────────────────────────────────────────────
+# Suelo
+ax.add_patch(Rectangle((0,0), WORLD, GY, color='#f0f0f0', linewidth=0, zorder=1))
+ax.add_patch(Rectangle((0,GY-0.07), WORLD, 0.09, color=C_BLK, linewidth=0, zorder=2))
+# Abismo: precipicio
+ax.add_patch(Rectangle((CLIFF,0), WORLD-CLIFF, GY, color=C_BLK, linewidth=0, zorder=3))
+ax.plot([CLIFF,CLIFF],[0,GY], color=C_BLK, lw=3, zorder=4)
+# Marcas irregulares del borde del precipicio
+for dx, dy in [(0.05,0),(0.12,-0.15),(0.20,0),(0.08,-0.10),(0.25,0)]:
+    ax.plot([CLIFF+dx, CLIFF+dx],[GY-0.02,GY-dy-0.08],
+            color=C_BLK, lw=2, zorder=4)
 
-# Grietas en el suelo
-for gx in np.arange(1.5, WORLD_W, 3.5):
-    pts = [(gx, GY-0.05), (gx+0.45, GY-0.05),
-           (gx+0.25, GY-0.20), (gx+0.70, GY-0.20)]
-    ax.plot([p[0] for p in pts[:2]], [p[1] for p in pts[:2]],
-            color=C_MGRAY, lw=LW_THIN, zorder=2)
-    ax.plot([p[0] for p in pts[2:]], [p[1] for p in pts[2:]],
-            color=C_MGRAY, lw=LW_THIN, zorder=2)
+# ─── Parches dinamicos ────────────────────────────────────────────────────────
+# CABEZA
+head_p = Circle((0,0), HR, facecolor=C_WHT, edgecolor=C_BLK, lw=LW, zorder=14)
+eye_l  = Circle((0,0), 0.07,  facecolor=C_WHT, edgecolor=C_BLK, lw=1.5, zorder=15)
+eye_r  = Circle((0,0), 0.07,  facecolor=C_WHT, edgecolor=C_BLK, lw=1.5, zorder=15)
+pupil_l= Circle((0,0), 0.035, facecolor=C_BLK, linewidth=0, zorder=16)
+pupil_r= Circle((0,0), 0.035, facecolor=C_BLK, linewidth=0, zorder=16)
+smile_l,= ax.plot([],[], color=C_BLK, lw=LW_TH+0.3, solid_capstyle='round', zorder=15)
+for p in [head_p,eye_l,eye_r,pupil_l,pupil_r]: ax.add_patch(p)
 
-# Cactos (lineas finas)
-def add_cactus(x, h=1.3):
-    ax.add_patch(Rectangle((x-0.09, GY), 0.18, h, facecolor=C_LGRAY,
-                            edgecolor=C_DGRAY, linewidth=LW_THIN, zorder=3))
-    ax.add_patch(Rectangle((x-0.40, GY+h*0.42), 0.31, 0.13, facecolor=C_LGRAY,
-                            edgecolor=C_DGRAY, linewidth=LW_THIN, zorder=3))
-    ax.add_patch(Rectangle((x-0.42, GY+h*0.30), 0.13, h*0.25, facecolor=C_LGRAY,
-                            edgecolor=C_DGRAY, linewidth=LW_THIN, zorder=3))
-    ax.add_patch(Rectangle((x+0.09, GY+h*0.58), 0.28, 0.13, facecolor=C_LGRAY,
-                            edgecolor=C_DGRAY, linewidth=LW_THIN, zorder=3))
-    ax.add_patch(Rectangle((x+0.25, GY+h*0.46), 0.13, h*0.25, facecolor=C_LGRAY,
-                            edgecolor=C_DGRAY, linewidth=LW_THIN, zorder=3))
+# CUERPO / EXTREMIDADES
+body_l, = ax.plot([],[],color=C_BLK,lw=LW,solid_capstyle='round',zorder=13)
+lleg_l, = ax.plot([],[],color=C_BLK,lw=LW,solid_capstyle='round',zorder=13)
+rleg_l, = ax.plot([],[],color=C_BLK,lw=LW,solid_capstyle='round',zorder=13)
+larm_l, = ax.plot([],[],color=C_BLK,lw=LW,solid_capstyle='round',zorder=13)
+rarm_l, = ax.plot([],[],color=C_BLK,lw=LW,solid_capstyle='round',zorder=13)
 
-for xc in [2.8, 6.5, 10.2, 14.8, 19.3, 23.7, 28.2]:
-    add_cactus(xc, h=1.05 + (int(xc) % 4)*0.14)
-
-# Abismo
-ax.add_patch(Rectangle((CLIFF_X, 0), WORLD_W-CLIFF_X, GY,
-                        color=C_BLACK, linewidth=0, zorder=4))
-# Borde del precipicio (linea gruesa)
-ax.plot([CLIFF_X, CLIFF_X], [0, GY], color=C_BLACK, lw=3, zorder=5)
-
-# ─── Monigote — parches dinamicos ─────────────────────────────────────────────
-# Cabeza: circulo con borde, relleno blanco (como en el dibujo)
-head_p = Circle((0,0), HEAD_R, facecolor=C_WHITE, edgecolor=C_BLACK,
-                linewidth=LW, zorder=14)
-# UN ojo (punto) en el lado derecho de la cara
-eye_p  = Circle((0,0), 0.055, facecolor=C_BLACK, linewidth=0, zorder=15)
-# Sonrisa
-smile_l, = ax.plot([], [], color=C_BLACK, lw=LW_THIN+0.3, zorder=15,
-                   solid_capstyle='round')
-
-ax.add_patch(head_p)
-ax.add_patch(eye_p)
-
-body_l,  = ax.plot([], [], color=C_BLACK, lw=LW, zorder=13, solid_capstyle='round')
-lleg_l,  = ax.plot([], [], color=C_BLACK, lw=LW, zorder=13, solid_capstyle='round')
-rleg_l,  = ax.plot([], [], color=C_BLACK, lw=LW, zorder=13, solid_capstyle='round')
-larm_l,  = ax.plot([], [], color=C_BLACK, lw=LW, zorder=13, solid_capstyle='round')
-rarm_l,  = ax.plot([], [], color=C_BLACK, lw=LW, zorder=13, solid_capstyle='round')
-
-# ─── Saco grande y redondo a la espalda ───────────────────────────────────────
-# El saco es casi una esfera — Ellipse grande
-SACK_A = 0.75   # semi-eje horizontal
-SACK_B = 0.72   # semi-eje vertical
-
-sack_p = Ellipse((0,0), SACK_A*2, SACK_B*2,
-                 facecolor=C_WHITE, edgecolor=C_BLACK,
-                 linewidth=LW, zorder=10)
+# SACO
+sack_p = Ellipse((0,0), SRX*2, SRY*2, facecolor=C_WHT, edgecolor=C_BLK,
+                 lw=LW, zorder=10)
 ax.add_patch(sack_p)
 
-# Nudo/lazo: lineas convergentes + cola
-# Usamos 4 line2D para el nudo y 1 para la cola
-knot_lines = [ax.plot([], [], color=C_BLACK, lw=LW_THIN, zorder=12,
-                       solid_capstyle='round')[0] for _ in range(4)]
-knot_tail,  = ax.plot([], [], color=C_BLACK, lw=LW_THIN, zorder=12,
-                       solid_capstyle='round')
+# Alambre verde (WIRE) — linea ondulada verde en la parte superior del saco
+wire_l, = ax.plot([],[],color=C_GRN,lw=2.8,solid_capstyle='round',zorder=12)
+wire_knot = Circle((0,0),0.09,facecolor=C_GRN,linewidth=0,zorder=13)
+ax.add_patch(wire_knot)
 
-# ─── Paracaidas ───────────────────────────────────────────────────────────────
-DOME_PTS = 53
-chute_dome = Polygon(dome_pts(-100, -100, 1.0, DOME_PTS),
-                     facecolor=C_WHITE, edgecolor=C_BLACK,
-                     linewidth=LW, zorder=10, visible=False)
-ax.add_patch(chute_dome)
+# Linea del brazo al saco (cuerda de sujecion)
+grip_l, = ax.plot([],[],color=C_BLK,lw=LW,solid_capstyle='round',zorder=11)
 
-N_PANELS = 6
-panel_ls = [ax.plot([], [], color=C_MGRAY, lw=LW_THIN, zorder=11)[0]
-            for _ in range(N_PANELS+1)]
-string_ls = [ax.plot([], [], color=C_DGRAY, lw=LW_THIN+0.2, zorder=11,
-                      solid_capstyle='round')[0] for _ in range(4)]
+# PARACAIDAS
+DOME_N = 55
+chute_p = Polygon(np.zeros((DOME_N,2)), facecolor=C_WHT, edgecolor=C_BLK,
+                  lw=LW, zorder=10, visible=False)
+ax.add_patch(chute_p)
+NPAN = 7
+pan_ls  = [ax.plot([],[],color=C_DGRY,lw=1.3,zorder=11)[0] for _ in range(NPAN+1)]
+str_ls  = [ax.plot([],[],color=C_BLK, lw=LW_TH,solid_capstyle='round',zorder=11)[0]
+           for _ in range(4)]
 
-# ─── Update ───────────────────────────────────────────────────────────────────
+def dome_pts(cx, cy, r, n=DOME_N):
+    t  = np.linspace(0, np.pi, n-1)
+    xs = np.append(cx + r*np.cos(t), cx)
+    ys = np.append(cy + r*np.sin(t), cy)
+    return np.column_stack([xs, ys])
+
+def wire_pts(cx, cy, w=0.30, amp=0.06, n=18):
+    """Alambre ondulado verde."""
+    xs = np.linspace(cx-w, cx+w, n)
+    ys = cy + amp*np.sin(np.linspace(0, 4*np.pi, n))
+    return xs, ys
+
+# ─── Logica de animacion ──────────────────────────────────────────────────────
 def update(frame):
-    # Posicion mundo del monigote
-    if frame < PH_ENTER:
-        wx, wy, phase, fall_p = -3.5, GY, 'run', 0.0
-    elif frame < PH_RUN:
-        p   = (frame-PH_ENTER)/(PH_RUN-PH_ENTER)
-        wx  = lerp(-3.5, CLIFF_X-1.15, ease_out(p*0.97))
-        wy, phase, fall_p = GY, 'run', 0.0
-    elif frame < PH_SLOW:
-        p   = (frame-PH_RUN)/(PH_SLOW-PH_RUN)
-        wx  = lerp(CLIFF_X-1.15, CLIFF_X-0.65, ease_out(p))
-        wy, fall_p = GY, 0.0
-        phase = 'slow' if p < 0.6 else 'stop'
-    elif frame < PH_OPEN:
-        p   = (frame-PH_SLOW)/(PH_OPEN-PH_SLOW)
-        wx, wy, fall_p = CLIFF_X-0.65, GY, 0.0
-        phase = 'lift' if p < 0.45 else 'head_in'
+    # posicion mundo
+    if frame < F_WALK:
+        p = frame / F_WALK
+        wx = lerp(-2.5, 1.5, eout(p))
+        wy = GY; phase = 'walk'; fp = 0.0
+    elif frame < F_RUN:
+        p = (frame-F_WALK)/(F_RUN-F_WALK)
+        wx = lerp(1.5, CLIFF-1.5, eout(p*0.96))
+        wy = GY; phase = 'run'; fp = 0.0
+    elif frame < F_SLOW:
+        p = (frame-F_RUN)/(F_SLOW-F_RUN)
+        wx = lerp(CLIFF-1.5, CLIFF-0.7, eout(p))
+        wy = GY; phase = 'run' if p<0.5 else 'slow'; fp = 0.0
+    elif frame < F_CLIFF:
+        p = (frame-F_SLOW)/(F_CLIFF-F_SLOW)
+        wx = CLIFF-0.7; wy = GY; phase = 'cliff'; fp = 0.0
+    elif frame < F_JUMP:
+        p = (frame-F_CLIFF)/(F_JUMP-F_CLIFF)
+        wx = lerp(CLIFF-0.7, CLIFF+0.3, eout(p))
+        wy = GY; phase = 'jump'; fp = 0.0
     else:
-        p   = (frame-PH_OPEN)/(PH_END-PH_OPEN)
-        wx  = lerp(CLIFF_X-0.65, CLIFF_X+0.7, ease_in(p*1.35))
-        wy  = GY - ease_in(p)*(GY+3.8)*1.35
-        phase, fall_p = 'fall', p
+        fp = (frame-F_JUMP)/(F_END-F_JUMP)
+        wx = lerp(CLIFF+0.3, CLIFF+1.2, ein(fp*1.2))
+        wy = GY - ein(fp)*(GY+4)*1.4
+        phase = 'fall'
 
-    # Camara
-    ax.set_xlim(max(0, wx-5.5), max(0, wx-5.5)+W)
+    # camara
+    cam = max(0.0, wx-5.0)
+    ax.set_xlim(cam, cam+W)
 
-    g = figure_geom(wx, wy, frame, phase)
-    hx, hy = g['head']
-
-    # ── Cabeza ────────────────────────────────────────────────────────────────
-    if phase == 'head_in':
-        head_p.set_visible(False)
-        eye_p.set_visible(False)
-        smile_l.set_data([], [])
+    # geometria del torso segun fase
+    if phase == 'walk':
+        lean = 0.30    # muy inclinado (carga pesada)
+    elif phase in ('run','slow'):
+        lean = 0.18
+    elif phase == 'cliff':
+        lean = 0.35
+    elif phase == 'jump':
+        lean = 0.50
     else:
-        head_p.set_visible(True)
-        head_p.center = (hx, hy)
-        # Ojo en el lado derecho de la cara (mirando a la derecha)
-        eye_p.set_visible(True)
-        eye_p.center  = (hx + 0.14, hy + 0.06)
-        # Sonrisa
-        sx = np.linspace(hx - 0.10, hx + 0.12, 10)
-        sy = hy - 0.09 + 0.05*np.sin(np.linspace(0, np.pi, 10))
-        smile_l.set_data(sx, sy)
+        lean = 0.20 + fp*0.30
 
-    # ── Cuerpo ────────────────────────────────────────────────────────────────
-    body_l.set_data([p[0] for p in g['torso']], [p[1] for p in g['torso']])
-    lleg_l.set_data([p[0] for p in g['lleg']], [p[1] for p in g['lleg']])
-    rleg_l.set_data([p[0] for p in g['rleg']], [p[1] for p in g['rleg']])
-    larm_l.set_data([p[0] for p in g['larm']], [p[1] for p in g['larm']])
-    rarm_l.set_data([p[0] for p in g['rarm']], [p[1] for p in g['rarm']])
+    # extremos del torso
+    tx = wx + np.sin(lean)*BH
+    ty = wy + np.cos(lean)*BH
+    hx = tx + np.sin(lean)*HR
+    hy = ty + np.cos(lean)*HR
+    mx = wx + np.sin(lean)*BH*0.60
+    my = wy + np.cos(lean)*BH*0.60
 
-    # ── Saco / Paracaidas ─────────────────────────────────────────────────────
-    if phase in ('run', 'slow', 'stop'):
-        sack_p.set_visible(True)
-        chute_dome.set_visible(False)
+    # ciclo de carrera
+    cyc = 10
+    if phase in ('run','slow'):
+        t_l  = np.sin(frame/cyc*2*np.pi)
+        la   = t_l*0.72;  ra  = -t_l*0.72
+        laa  = -t_l*0.55; raa =  t_l*0.55
+        bob  = abs(np.sin(frame/cyc*np.pi))*0.07
+    elif phase == 'walk':
+        t_l  = np.sin(frame/(cyc*1.6)*2*np.pi)*0.6
+        la   = t_l*0.45;  ra  = -t_l*0.45
+        laa  = -t_l*0.30; raa =  t_l*0.30
+        bob  = abs(np.sin(frame/(cyc*1.6)*np.pi))*0.04
+    elif phase == 'cliff':
+        la = ra = laa = raa = bob = 0.0
+    elif phase == 'jump':
+        la=0.5; ra=-0.6; laa=0.7; raa=0.7; bob=0.0
+    else:  # fall
+        la=0.8; ra=-0.8; laa=0.95; raa=0.95; bob=0.0
 
-        # Saco a la ESPALDA: centro a la izquierda del torso del monigote
-        # (izquierda porque el monigote va hacia la derecha)
-        sw = g['swing']
-        sx = wx - SACK_A * 0.92 - sw * 0.18
-        sy = wy + BODY_H * 0.52 + abs(sw) * 0.05
+    hy += bob; hx += np.sin(lean)*bob*0.3
 
-        sack_p.center = (sx, sy)
-        sack_p.width  = SACK_A * 2
-        sack_p.height = SACK_B * 2
+    # ── cabeza ────────────────────────────────────────────────────────────────
+    if phase == 'cliff':
+        # cabeza mirando hacia abajo
+        head_p.center = (hx, hy); head_p.set_visible(True)
+        eye_l.center  = (hx+0.08, hy-0.05)
+        eye_r.center  = (hx+0.18, hy-0.08)
+        pupil_l.center= (hx+0.10, hy-0.06)
+        pupil_r.center= (hx+0.20, hy-0.09)
+        sx = np.linspace(hx+0.04, hx+0.22, 10)
+        sy = hy-0.15 + 0.04*np.sin(np.linspace(0,np.pi,10))
+    else:
+        head_p.center = (hx, hy); head_p.set_visible(True)
+        eye_l.center  = (hx+0.06, hy+0.08)
+        eye_r.center  = (hx+0.18, hy+0.08)
+        pupil_l.center= (hx+0.08, hy+0.08)
+        pupil_r.center= (hx+0.20, hy+0.08)
+        sx = np.linspace(hx+0.02, hx+0.22, 10)
+        sy = hy-0.08 + 0.06*np.sin(np.linspace(0,np.pi,10))
 
-        # Nudo: punto de contacto en el lado DERECHO del saco (donde toca al monigote)
-        kx = sx + SACK_A * 0.78
-        ky = sy + 0.08
+    smile_l.set_data(sx, sy)
 
-        # 4 lineas convergentes desde el borde del saco hacia el nudo
-        offsets = [(-0.05, 0.38), (0.08, 0.30), (0.05, -0.28), (-0.08, -0.22)]
-        for i, (dx, dy) in enumerate(offsets):
-            knot_lines[i].set_data([sx + SACK_A*0.55 + dx, kx],
-                                   [ky + dy, ky])
+    # ── cuerpo ────────────────────────────────────────────────────────────────
+    body_l.set_data([wx,tx],[wy,ty])
+    lleg_l.set_data([wx, wx+np.sin(la)*LL], [wy, wy-np.cos(la)*LL])
+    rleg_l.set_data([wx, wx+np.sin(ra)*LL], [wy, wy-np.cos(ra)*LL])
 
-        # Cola del nudo: curva hacia abajo
-        tail_x = np.linspace(kx, kx+0.08, 8)
-        tail_y = ky - np.linspace(0, 0.35, 8) - 0.04*np.sin(np.linspace(0,np.pi*2,8))
-        knot_tail.set_data(tail_x, tail_y)
+    # ── saco ──────────────────────────────────────────────────────────────────
+    if phase in ('run','slow','walk'):
+        if phase == 'walk':
+            # Saco a la espalda, alto
+            sx_ = wx - SRX*0.85
+            sy_ = wy + BH*0.55
+            sack_p.center=(sx_,sy_); sack_p.width=SRX*2; sack_p.height=SRY*2
+            sack_p.set_visible(True); chute_p.set_visible(False)
+            # alambre en la parte superior del saco
+            wx_, wy_ = wire_pts(sx_, sy_+SRY*0.82)
+            wire_l.set_data(wx_, wy_); wire_knot.center=(sx_, sy_+SRY*0.88)
+            # brazo izquierdo: va hacia atras/abajo hacia el saco
+            larm_l.set_data([mx, sx_+SRX*0.5],[my, sy_+SRY*0.7])
+            rarm_l.set_data([mx, mx+np.cos(raa)*AL],[my, my-np.sin(raa)*AL*0.4])
+            grip_l.set_data([],[]); [pl.set_data([],[]) for pl in pan_ls]
+            [sl.set_data([],[]) for sl in str_ls]
+        else:
+            # Saco arrastrado por el suelo
+            t_l2 = np.sin(frame/cyc*2*np.pi)
+            swing = t_l2*0.20
+            sx_ = wx - 1.0 + swing*0.25
+            sy_ = GY + SRY*0.85     # descansando en el suelo
+            sack_p.center=(sx_,sy_); sack_p.width=SRX*2; sack_p.height=SRY*2
+            sack_p.set_visible(True); chute_p.set_visible(False)
+            # alambre verde en la parte superior del saco
+            wx_, wy_ = wire_pts(sx_, sy_+SRY*0.82)
+            wire_l.set_data(wx_, wy_); wire_knot.center=(sx_, sy_+SRY*0.90)
+            # brazo izquierdo: va hacia atras agarrando el alambre
+            grab_x = sx_ + SRX*0.75; grab_y = sy_ + SRY*0.75
+            larm_l.set_data([mx, grab_x],[my, grab_y])
+            # linea de grip
+            grip_l.set_data([grab_x, grab_x+0.05],[grab_y, grab_y])
+            # brazo derecho: va hacia delante
+            rarm_l.set_data([mx, mx+np.cos(raa)*AL],[my, my-np.sin(raa)*AL*0.35])
+            [pl.set_data([],[]) for pl in pan_ls]; [sl.set_data([],[]) for sl in str_ls]
 
-        for pl in panel_ls:   pl.set_data([], [])
-        for sl in string_ls:  sl.set_data([], [])
+    elif phase == 'cliff':
+        # Saco CUELGA por el borde del abismo
+        cliff_sx = CLIFF-cam        # posicion en pantalla del borde
+        sack_cx  = CLIFF + SRX*0.3 # saco cuelga justo detras del borde
+        sack_cy  = GY - SRY*0.9    # por debajo del suelo
+        sack_p.center=(sack_cx, sack_cy)
+        sack_p.width=SRX*2; sack_p.height=SRY*2
+        sack_p.set_visible(True); chute_p.set_visible(False)
+        # alambre verde arriba del saco (cerca del borde)
+        wx_, wy_ = wire_pts(sack_cx, sack_cy+SRY*0.85, w=0.25)
+        wire_l.set_data(wx_, wy_); wire_knot.center=(sack_cx, sack_cy+SRY*0.92)
+        # brazos: uno hacia el saco (sujetando alambre), otro apoyado en el suelo
+        larm_l.set_data([mx, sack_cx-0.1],[my, sack_cy+SRY*0.85])
+        rarm_l.set_data([mx, mx+np.cos(0.3)*AL],[my, my-np.sin(0.3)*AL])
+        grip_l.set_data([],[])
+        [pl.set_data([],[]) for pl in pan_ls]; [sl.set_data([],[]) for sl in str_ls]
 
-    elif phase in ('lift', 'head_in'):
-        # Saco se levanta sobre la cabeza
-        p_prog = (frame - PH_SLOW) / (PH_OPEN - PH_SLOW)
-        lift   = ease_out(p_prog)
-
-        sx = lerp(wx - SACK_A*0.92, wx, lift)
-        sy = lerp(wy + BODY_H*0.52, hy + 0.38, lift)
-
-        sack_p.set_visible(True)
-        sack_p.center = (sx, sy)
-        sack_p.width  = SACK_A*2
-        sack_p.height = SACK_B*2
-        chute_dome.set_visible(False)
-
-        for kl in knot_lines: kl.set_data([], [])
-        knot_tail.set_data([], [])
-        for pl in panel_ls:   pl.set_data([], [])
-        for sl in string_ls:  sl.set_data([], [])
+    elif phase == 'jump':
+        # El saco sube sobre la cabeza mientras salta
+        p_j = (frame-F_CLIFF)/(F_JUMP-F_CLIFF)
+        sack_cx = lerp(CLIFF+SRX*0.3, wx, eout(p_j))
+        sack_cy = lerp(GY-SRY*0.9, hy+SRY*0.8, eout(p_j))
+        sack_p.center=(sack_cx,sack_cy); sack_p.set_visible(True)
+        chute_p.set_visible(False)
+        wx_, wy_ = wire_pts(sack_cx, sack_cy+SRY*0.85)
+        wire_l.set_data(wx_,wy_); wire_knot.center=(sack_cx, sack_cy+SRY*0.92)
+        larm_l.set_data([mx,sack_cx],[my,sack_cy+SRY*0.6])
+        rarm_l.set_data([mx,mx+np.cos(raa)*AL],[my,my-np.sin(raa)*AL*0.5])
+        grip_l.set_data([],[])
+        [pl.set_data([],[]) for pl in pan_ls]; [sl.set_data([],[]) for sl in str_ls]
 
     else:  # fall — paracaidas
-        sack_p.set_visible(False)
-        for kl in knot_lines: kl.set_data([], [])
-        knot_tail.set_data([], [])
+        sack_p.set_visible(False); wire_l.set_data([],[])
+        wire_knot.center=(-200,0); grip_l.set_data([],[])
 
-        inflate = ease_out(min(fall_p*2.8, 1.0))
-        r = lerp(0.38, 2.1, inflate)
-
-        mid_x, mid_y = g['mid']
+        inflate = eout(min(fp*2.5, 1.0))
+        r = lerp(0.35, 2.2, inflate)
         dcx = wx
-        dcy = wy + BODY_H + HEAD_R*2.5 + r*0.38
-
-        chute_dome.set_xy(dome_pts(dcx, dcy, r, DOME_PTS))
-        chute_dome.set_visible(True)
+        dcy = wy + BH + HR*2.5 + r*0.4 + 0.3
+        chute_p.set_xy(dome_pts(dcx,dcy,r))
+        chute_p.set_visible(True)
 
         # Costuras del paracaidas
-        for i, pl in enumerate(panel_ls):
-            ang = np.pi * i / N_PANELS
-            pl.set_data([dcx, dcx + r*np.cos(ang)],
-                        [dcy, dcy + r*np.sin(ang)])
+        for i,pl in enumerate(pan_ls):
+            ang = np.pi*i/NPAN
+            pl.set_data([dcx, dcx+r*np.cos(ang)],[dcy, dcy+r*np.sin(ang)])
 
-        # Cuerdas
-        for i, ang in enumerate([np.pi*0.12, np.pi*0.36, np.pi*0.64, np.pi*0.88]):
-            string_ls[i].set_data(
-                [dcx + r*np.cos(ang), wx],
-                [dcy + r*np.sin(ang), mid_y])
+        # Cuerdas al monigote
+        for i,ang in enumerate([np.pi*0.10,np.pi*0.33,np.pi*0.67,np.pi*0.90]):
+            str_ls[i].set_data([dcx+r*np.cos(ang),wx],[dcy+r*np.sin(ang),my])
+
+        # brazos abiertos cayendo
+        larm_l.set_data([mx,mx-np.cos(raa)*AL*1.1],[my,my-np.sin(raa)*AL*0.3])
+        rarm_l.set_data([mx,mx+np.cos(raa)*AL*1.1],[my,my-np.sin(raa)*AL*0.3])
 
     return []
 
-# ─── Render ───────────────────────────────────────────────────────────────────
-print("Renderizando 720 frames…")
+print("Renderizando…")
 anim = FuncAnimation(fig, update, frames=N, blit=False, interval=1000/FPS)
 writer = FFMpegWriter(fps=FPS, codec='libx264',
-                      extra_args=['-pix_fmt', 'yuv420p', '-crf', '18'])
-out = '/home/user/juristaenproceso/monigote_bw.mp4'
+                      extra_args=['-pix_fmt','yuv420p','-crf','18'])
+out = '/home/user/juristaenproceso/monigote_final.mp4'
 anim.save(out, writer=writer, dpi=100)
 print(f"✓ {out}")
