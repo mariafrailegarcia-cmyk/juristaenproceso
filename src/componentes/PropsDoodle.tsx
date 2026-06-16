@@ -225,6 +225,55 @@ export const PROPS: Record<string, Fabrica> = {
       lapiz.arc(0, 0, 84, 84, Math.PI * 0.15, Math.PI * 1.7, false, tinta(s(1), {strokeWidth: 7})),
     ],
   }),
+
+  // Urna electoral: caja con ranura y una papeleta asomando.
+  urna: (s) => ({
+    formas: [
+      lapiz.rectangle(-46, -28, 92, 88, tinta(s(1), {strokeWidth: 3})),
+      lapiz.line(-22, -28, 22, -28, tinta(s(2), {strokeWidth: 5})),
+      lapiz.rectangle(-16, -58, 32, 34, relleno(s(3), COLORES.ambar, {hachureGap: 7, fillWeight: 0.8, strokeWidth: 2.2})),
+    ],
+  }),
+
+  // Bombilla: idea/proceso creativo.
+  bombilla: (s) => ({
+    formas: [
+      lapiz.circle(0, -14, 64, relleno(s(1), COLORES.ambar, {hachureGap: 8, fillWeight: 0.7, strokeWidth: 2.6})),
+      lapiz.rectangle(-16, 18, 32, 22, tinta(s(2), {strokeWidth: 2.6})),
+      lapiz.line(-12, 44, 12, 44, tinta(s(3), {strokeWidth: 2.4})),
+      lapiz.path('M -12 -20 L 0 -2 L 12 -20', tinta(s(4), {strokeWidth: 2})),
+    ],
+  }),
+
+  // Chorizo: el gag de "alimentos procesados".
+  chorizo: (s) => ({
+    formas: [
+      lapiz.path('M -70 30 C -90 -10 -50 -54 0 -54 C 50 -54 90 -10 70 30 C 56 56 -56 56 -70 30 Z', relleno(s(1), COLORES.teja, {hachureGap: 9, fillWeight: 0.8, strokeWidth: 3})),
+      lapiz.line(-78, 26, -64, 40, tinta(s(2), {strokeWidth: 3})),
+      lapiz.line(78, 26, 64, 40, tinta(s(3), {strokeWidth: 3})),
+    ],
+  }),
+
+  // Juzgado: edificio clásico con frontón y columnas.
+  juzgado: (s) => ({
+    formas: [
+      lapiz.polygon([[-120, -54], [0, -118], [120, -54]] as [number, number][], tinta(s(1), {strokeWidth: 3.2})),
+      lapiz.line(-128, -54, 128, -54, tinta(s(2), {strokeWidth: 3.4})),
+      lapiz.line(-104, -40, -104, 96, tinta(s(3), {strokeWidth: 3})),
+      lapiz.line(-52, -40, -52, 96, tinta(s(4), {strokeWidth: 3})),
+      lapiz.line(0, -40, 0, 96, tinta(s(5), {strokeWidth: 3})),
+      lapiz.line(52, -40, 52, 96, tinta(s(6), {strokeWidth: 3})),
+      lapiz.line(104, -40, 104, 96, tinta(s(7), {strokeWidth: 3})),
+      lapiz.line(-128, 96, 128, 96, tinta(s(8), {strokeWidth: 3.4})),
+    ],
+  }),
+
+  // Subrayado ámbar dibujado a mano (acento de concepto).
+  subrayado: (s) => ({
+    formas: [
+      lapiz.path('M -170 0 C -90 8 90 8 170 -2', tinta(s(1), {stroke: COLORES.ambar, strokeWidth: 7})),
+    ],
+  }),
 };
 
 // El id de un prop puede llevar sufijo para repetir el mismo dibujo

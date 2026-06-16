@@ -61,9 +61,48 @@
     {
       "voz": "Se abre la sesión. Expediente número cero, cero, cero, uno: ¿qué es, de verdad, un proceso? Y subrayo lo de \"de verdad\", porque esta palabra se usa para todo: procesos electorales, procesos creativos, alimentos procesados. Hoy la vamos a usar con precisión de cirujano. Porque si quieres recuperar tus mil euros, el proceso es, literalmente, tu único camino legal.",
       "visual": {
-        "tipo": "titulo",
-        "texto": "¿Qué es (de verdad) un proceso?",
-        "subtitulo": "tu único camino legal para recuperar esos 1.000 €"
+        "tipo": "coreografia",
+        "acciones": [
+          {"prop": "martillo", "accion": "aparecer", "en": [960, 170], "escala": 1.2, "t": 0},
+          {"prop": "martillo", "accion": "cerrarse_sobre", "a": [960, 400], "t": 0.012, "dur": 0.45},
+          {"prop": "martillo", "accion": "desaparecer", "t": 0.06, "dur": 0.4},
+
+          {"texto": "¿Qué es (de verdad) un proceso?", "accion": "rotulo", "estilo": "titulo", "en": [960, 430], "t": 0.07, "dur": 3.4},
+          {"texto": "¿Qué es (de verdad) un proceso?", "accion": "desaparecer", "t": 0.24, "dur": 0.5},
+
+          {"prop": "urna", "accion": "aparecer", "en": [560, 460], "escala": 1.0, "t": 0.27},
+          {"texto": "electoral", "accion": "rotulo", "estilo": "pluma", "en": [560, 600], "t": 0.3, "dur": 0.6},
+          {"texto": "electoral", "accion": "tachar", "t": 0.37},
+
+          {"prop": "bombilla", "accion": "aparecer", "en": [960, 460], "escala": 1.0, "t": 0.35},
+          {"texto": "creativo", "accion": "rotulo", "estilo": "pluma", "en": [960, 600], "t": 0.38, "dur": 0.6},
+          {"texto": "creativo", "accion": "tachar", "t": 0.45},
+
+          {"prop": "chorizo", "accion": "aparecer", "en": [1360, 460], "escala": 1.0, "t": 0.43},
+          {"texto": "procesado", "accion": "rotulo", "estilo": "pluma", "en": [1360, 600], "t": 0.46, "dur": 0.6},
+          {"texto": "procesado", "accion": "tachar", "t": 0.53},
+
+          {"actor": "camara", "accion": "zoom", "a": [960, 520], "escala": 1.0, "t": 0.28, "dur": 1.2},
+
+          {"prop": "urna", "accion": "desaparecer", "t": 0.56, "dur": 0.5},
+          {"prop": "bombilla", "accion": "desaparecer", "t": 0.56, "dur": 0.5},
+          {"prop": "chorizo", "accion": "desaparecer", "t": 0.56, "dur": 0.5},
+          {"texto": "electoral", "accion": "desaparecer", "t": 0.56, "dur": 0.4},
+          {"texto": "creativo", "accion": "desaparecer", "t": 0.56, "dur": 0.4},
+          {"texto": "procesado", "accion": "desaparecer", "t": 0.56, "dur": 0.4},
+
+          {"texto": "proceso", "accion": "rotulo", "estilo": "titulo", "en": [960, 440], "t": 0.6, "dur": 1.0},
+          {"prop": "subrayado", "accion": "aparecer", "en": [960, 510], "escala": 1.1, "t": 0.7},
+          {"actor": "camara", "accion": "punch", "a": [960, 460], "escala": 1.12, "t": 0.62, "dur": 0.5},
+
+          {"texto": "proceso", "accion": "desaparecer", "t": 0.74, "dur": 0.5},
+          {"prop": "subrayado", "accion": "desaparecer", "t": 0.74, "dur": 0.5},
+
+          {"prop": "juzgado", "accion": "aparecer", "en": [1480, 560], "escala": 1.1, "t": 0.74},
+          {"prop": "billete", "accion": "aparecer", "en": [460, 600], "escala": 0.8, "t": 0.76},
+          {"prop": "billete", "accion": "flotar", "a": [1300, 580], "t": 0.79, "dur": 3.6},
+          {"actor": "camara", "accion": "zoom", "a": [1040, 580], "escala": 1.0, "t": 0.76, "dur": 1.8}
+        ]
       }
     },
     {

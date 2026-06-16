@@ -11,7 +11,7 @@ Graba cada escena en un audio aparte y guárdalo como:
 
 ────────────────────────────────────────
 
-▶ escena-02  (visual: titulo)
+▶ escena-02  (visual: coreografia)
 
   Se abre la sesión. Expediente número cero, cero, cero, uno: ¿qué es, de verdad, un proceso? Y subrayo lo de "de verdad", porque esta palabra se usa para todo: procesos electorales, procesos creativos, alimentos procesados. Hoy la vamos a usar con precisión de cirujano. Porque si quieres recuperar tus mil euros, el proceso es, literalmente, tu único camino legal.
 

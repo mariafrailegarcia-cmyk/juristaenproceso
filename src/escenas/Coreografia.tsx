@@ -784,6 +784,17 @@ const TextoCinetico: React.FC<{ent: Entidad; estado: Estado; fotograma: number}>
     transform = `translate(-50%, -50%) rotate(-2.5deg) scale(${mezcla(2.3, 1, golpe)})`;
     fuente = {...fuente, fontSize: 54, fontWeight: 700, letterSpacing: '0.12em'};
     contenido = <span style={{...fuente, opacity: fotograma >= f0 ? 1 : 0}}>{texto}</span>;
+  } else if (estilo === 'titulo') {
+    // Título grande en serif, se escribe solo. Para cabeceras de escena.
+    fuente = {...fuente, fontFamily: FUENTES.serif, fontWeight: 700, fontSize: 82, letterSpacing: undefined};
+    contenido = (
+      <TextoEscrito
+        texto={texto}
+        inicio={f0 + 2}
+        letrasPorFotograma={Math.max(0.8, texto.length / Math.max(1, df * 0.7))}
+        estilo={fuente}
+      />
+    );
   } else if (estilo === 'pluma') {
     // A pluma: despacio, en serif, con su rasgueo de fondo.
     fuente = {...fuente, fontFamily: FUENTES.serif, fontStyle: 'italic', fontWeight: 600, fontSize: 50};
