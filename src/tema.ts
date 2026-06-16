@@ -17,7 +17,7 @@ import '@fontsource/inter/600.css';
 export const COLORES = {
   tinta: '#2b2a26',
   tintaSuave: 'rgba(43, 42, 38, 0.55)',
-  fondo: '#f5f2ea',
+  fondo: '#ffffff',
   ambar: '#d9a441',
   teja: '#c96f5a',
   azulLavado: '#6f8fa3',

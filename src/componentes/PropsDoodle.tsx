@@ -41,10 +41,10 @@ export const PROPS: Record<string, Fabrica> = {
       lapiz.rectangle(-6, -58, 46, 26, tinta(s(3), {strokeWidth: 2})),
       // Burbuja recibida (izquierda)
       lapiz.rectangle(-42, -18, 46, 26, tinta(s(4), {strokeWidth: 2})),
-      // Burbuja con "visto" ámbar
+      // Burbuja con doble check azul (visto)
       lapiz.rectangle(-6, 20, 46, 26, tinta(s(5), {strokeWidth: 2})),
     ],
-    textos: [{x: 18, y: 33, texto: '✓✓', tamano: 22, color: COLORES.ambar}],
+    textos: [{x: 18, y: 33, texto: '✓✓', tamano: 22, color: COLORES.azulLavado}],
   }),
 
   palmera: (s) => ({
@@ -73,9 +73,9 @@ export const PROPS: Record<string, Fabrica> = {
   }),
 
   coche: (s) => ({
-    // Coche editorial: silueta limpia, elegante, ruedas sólidas.
+    // Coche azul lavado (acuarela), con lacito de "nuevo".
     formas: [
-      lapiz.path('M -148 24 L -148 -8 C -100 -18 -88 -54 -36 -60 C 28 -66 58 -32 92 -22 L 148 -12 L 148 24 Z', relleno(s(1), COLORES.tinta, {fillStyle: 'solid', strokeWidth: 2.8, roughness: 0.7})),
+      lapiz.path('M -148 24 L -148 -8 C -100 -18 -88 -54 -36 -60 C 28 -66 58 -32 92 -22 L 148 -12 L 148 24 Z', relleno(s(1), COLORES.azulLavado, {fillStyle: 'hachure', hachureGap: 8, fillWeight: 1, strokeWidth: 2.8, roughness: 0.7})),
       lapiz.circle(-86, 28, 50, relleno(s(2), COLORES.fondo, {fillStyle: 'solid', strokeWidth: 3})),
       lapiz.circle(86, 28, 50, relleno(s(3), COLORES.fondo, {fillStyle: 'solid', strokeWidth: 3})),
       lapiz.circle(-86, 28, 26, relleno(s(6), COLORES.tinta, {fillStyle: 'solid', strokeWidth: 1.6})),
@@ -188,6 +188,43 @@ export const PROPS: Record<string, Fabrica> = {
   visto: (s) => ({
     formas: [lapiz.path('M -34 2 L -8 28 L 44 -30', tinta(s(1), {stroke: COLORES.ambar, strokeWidth: 8}))],
   }),
+
+  // Calendario: bloque con cabecera y hoja del mes con rejilla simple.
+  calendario: (s) => ({
+    formas: [
+      lapiz.rectangle(-70, -84, 140, 168, tinta(s(1), {strokeWidth: 3})),
+      lapiz.rectangle(-70, -84, 140, 36, relleno(s(2), COLORES.ambar, {hachureGap: 9, fillWeight: 0.9, strokeWidth: 2.4})),
+      lapiz.line(-44, -96, -44, -72, tinta(s(3), {strokeWidth: 3})),
+      lapiz.line(44, -96, 44, -72, tinta(s(4), {strokeWidth: 3})),
+      lapiz.line(-70, -8, 70, -8, tinta(s(5), {strokeWidth: 1.6})),
+      lapiz.line(-70, 38, 70, 38, tinta(s(6), {strokeWidth: 1.6})),
+      lapiz.line(-23, -48, -23, 84, tinta(s(7), {strokeWidth: 1.6})),
+      lapiz.line(24, -48, 24, 84, tinta(s(8), {strokeWidth: 1.6})),
+    ],
+  }),
+
+  // Sol: disco ámbar con rayos. Para poner detrás de la palmera.
+  sol: (s) => ({
+    formas: [
+      lapiz.circle(0, 0, 96, relleno(s(1), COLORES.ambar, {hachureGap: 7, fillWeight: 1, strokeWidth: 3})),
+      lapiz.line(0, -64, 0, -96, tinta(s(2), {stroke: COLORES.ambar, strokeWidth: 3})),
+      lapiz.line(0, 64, 0, 96, tinta(s(3), {stroke: COLORES.ambar, strokeWidth: 3})),
+      lapiz.line(-64, 0, -96, 0, tinta(s(4), {stroke: COLORES.ambar, strokeWidth: 3})),
+      lapiz.line(64, 0, 96, 0, tinta(s(5), {stroke: COLORES.ambar, strokeWidth: 3})),
+      lapiz.line(-46, -46, -70, -70, tinta(s(6), {stroke: COLORES.ambar, strokeWidth: 3})),
+      lapiz.line(46, -46, 70, -70, tinta(s(7), {stroke: COLORES.ambar, strokeWidth: 3})),
+      lapiz.line(-46, 46, -70, 70, tinta(s(8), {stroke: COLORES.ambar, strokeWidth: 3})),
+      lapiz.line(46, 46, 70, 70, tinta(s(9), {stroke: COLORES.ambar, strokeWidth: 3})),
+    ],
+  }),
+
+  // Spinner: arco abierto que gira sin parar (la rotación la pone
+  // respiracion()). El gag del "cargando… y cargando" del bizum.
+  spinner: (s) => ({
+    formas: [
+      lapiz.arc(0, 0, 84, 84, Math.PI * 0.15, Math.PI * 1.7, false, tinta(s(1), {strokeWidth: 7})),
+    ],
+  }),
 };
 
 // El id de un prop puede llevar sufijo para repetir el mismo dibujo
@@ -212,6 +249,11 @@ const respiracion = (tipo: string, f: number): string => {
       return `translate(0 ${Math.sin(f / 26) * 4}) rotate(${Math.sin(f / 21) * 3.2})`;
     case 'movil':
       return `translate(0 ${Math.sin(f / 30) * 5})`;
+    case 'spinner':
+      // Gira sin parar: el chiste del "cargando" que no llega nunca.
+      return `rotate(${(f * 7) % 360})`;
+    case 'sol':
+      return `scale(${1 + Math.sin(f / 40) * 0.03})`;
     default:
       return `scale(${1 + Math.sin(f / 34) * 0.012})`;
   }

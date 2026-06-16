@@ -297,12 +297,14 @@ export const MonigoteArticulado: React.FC<{
         lapiz.line(cx + 8, cy - 8, cx - 26, cy - 12, tinta(s(79), {strokeWidth: 2}))
       );
     } else if (variante === 'peluca') {
+      // Peluca de juez, en azul tinta lavada (acuarela desvaída).
+      const rulo = (sd: number) => relleno(sd, COLORES.azulLavado, {fillStyle: 'hachure', hachureGap: 5, fillWeight: 0.9, strokeWidth: 2});
       formas.push(
-        lapiz.circle(cx - 16, cy - RADIO_CABEZA + 2, 20, tinta(s(81), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
-        lapiz.circle(cx + 2, cy - RADIO_CABEZA - 4, 20, tinta(s(83), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
-        lapiz.circle(cx + 20, cy - RADIO_CABEZA + 2, 20, tinta(s(87), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
-        lapiz.circle(cx - 30, cy - 8, 16, tinta(s(89), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2})),
-        lapiz.circle(cx - 32, cy + 8, 14, tinta(s(91), {fill: COLORES.fondo, fillStyle: 'solid', strokeWidth: 2}))
+        lapiz.circle(cx - 16, cy - RADIO_CABEZA + 2, 20, rulo(s(81))),
+        lapiz.circle(cx + 2, cy - RADIO_CABEZA - 4, 20, rulo(s(83))),
+        lapiz.circle(cx + 20, cy - RADIO_CABEZA + 2, 20, rulo(s(87))),
+        lapiz.circle(cx - 30, cy - 8, 16, rulo(s(89))),
+        lapiz.circle(cx - 32, cy + 8, 14, rulo(s(91)))
       );
     } else if (variante === 'gorra') {
       formas.push(
