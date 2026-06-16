@@ -295,6 +295,25 @@ export const PROPS: Record<string, Fabrica> = {
       lapiz.rectangle(-44, -26, 88, 22, relleno(s(2), COLORES.teja, {hachureGap: 7, fillWeight: 0.8, strokeWidth: 2.4})),
     ],
   }),
+
+  // Folio: hoja de papel con renglones (formulario, demanda, escrito…).
+  folio: (s) => ({
+    formas: [
+      lapiz.rectangle(-60, -80, 120, 160, tinta(s(1), {strokeWidth: 2.8})),
+      lapiz.line(-42, -38, 42, -38, tinta(s(2), {strokeWidth: 1.6})),
+      lapiz.line(-42, -10, 42, -10, tinta(s(3), {strokeWidth: 1.6})),
+      lapiz.line(-42, 18, 42, 18, tinta(s(4), {strokeWidth: 1.6})),
+      lapiz.line(-42, 46, 42, 46, tinta(s(5), {strokeWidth: 1.6})),
+    ],
+  }),
+
+  // Óvalo ámbar: elipse sin relleno que "engloba" un grupo de iconos
+  // para señalar la realidad superior (proceso) que los contiene.
+  ovalo: (s) => ({
+    formas: [
+      lapiz.ellipse(0, 0, 980, 260, tinta(s(1), {stroke: COLORES.ambar, strokeWidth: 6, roughness: 1.0})),
+    ],
+  }),
 };
 
 // El id de un prop puede llevar sufijo para repetir el mismo dibujo

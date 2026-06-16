@@ -162,9 +162,101 @@
     {
       "voz": "Tres palabras que todo el mundo confunde: proceso, procedimiento y juicio. Piensa en sacarte el carnet de conducir. El procedimiento es la secuencia de trámites en orden: matricularte, el teórico, las prácticas, el examen. La realidad exterior, el papeleo encadenado. El proceso es la realidad superior que lo engloba todo: \"sacarse el carnet\". Y el juicio es el momento de decidir: el examinador dictaminando si apruebas. En Derecho funciona igual. El procedimiento es el orden o sucesión de actuaciones: demanda, audiencia previa, juicio, sentencia. El proceso es esa realidad superior de la cual el procedimiento es solo un aspecto: proceso civil, proceso penal. Y el juicio, en sentido estricto, es la operación de juzgar, de decir el derecho; aunque también llamamos \"juicio oral\" al acto concreto donde se practican las pruebas ante el tribunal. El idioma no nos lo pone fácil. Para eso está este canal.",
       "visual": {
-        "tipo": "definicion",
-        "termino": "Proceso · procedimiento · juicio",
-        "definicion": "El procedimiento es la secuencia exterior de trámites; el proceso, la realidad superior que lo engloba; el juicio, la operación de decidir el derecho."
+        "tipo": "coreografia",
+        "acciones": [
+          {"actor": "camara", "accion": "zoom", "a": [960, 500], "escala": 1.0, "t": 0, "dur": 0.4},
+
+          {"texto": "proceso", "accion": "rotulo", "estilo": "caer", "en": [580, 320], "t": 0.01, "dur": 1.2},
+          {"texto": "procedimiento", "accion": "rotulo", "estilo": "caer", "en": [1220, 440], "t": 0.03, "dur": 1.4},
+          {"texto": "juicio", "accion": "rotulo", "estilo": "caer", "en": [860, 640], "t": 0.05, "dur": 1.0},
+
+          {"texto": "proceso", "accion": "desaparecer", "t": 0.07, "dur": 0.4},
+          {"texto": "procedimiento", "accion": "desaparecer", "t": 0.07, "dur": 0.4},
+          {"texto": "juicio", "accion": "desaparecer", "t": 0.07, "dur": 0.4},
+          {"actor": "camara", "accion": "punch", "a": [960, 460], "escala": 1.18, "t": 0.075, "dur": 0.5},
+          {"prop": "carnet", "accion": "aparecer", "en": [960, 460], "escala": 2.2, "t": 0.08},
+          {"texto": "carnet de conducir", "accion": "rotulo", "estilo": "pluma", "en": [960, 680], "t": 0.09, "dur": 0.8},
+
+          {"prop": "carnet", "accion": "desaparecer", "t": 0.115, "dur": 0.4},
+          {"texto": "carnet de conducir", "accion": "desaparecer", "t": 0.115, "dur": 0.4},
+          {"actor": "camara", "accion": "zoom", "a": [700, 540], "escala": 0.9, "t": 0.115, "dur": 1.0},
+          {"prop": "folio", "accion": "aparecer", "en": [280, 490], "escala": 0.95, "t": 0.13},
+          {"texto": "matrícula", "accion": "rotulo", "estilo": "pluma", "en": [280, 620], "t": 0.14, "dur": 0.6},
+          {"prop": "carpeta", "accion": "aparecer", "en": [560, 490], "escala": 0.88, "t": 0.16},
+          {"texto": "teórico", "accion": "rotulo", "estilo": "pluma", "en": [560, 620], "t": 0.17, "dur": 0.6},
+          {"prop": "coche", "accion": "aparecer", "en": [840, 510], "escala": 0.44, "t": 0.195},
+          {"texto": "prácticas", "accion": "rotulo", "estilo": "pluma", "en": [840, 620], "t": 0.205, "dur": 0.6},
+          {"prop": "folio2", "accion": "aparecer", "en": [1120, 490], "escala": 0.95, "t": 0.225},
+          {"texto": "examen", "accion": "rotulo", "estilo": "pluma", "en": [1120, 620], "t": 0.235, "dur": 0.6},
+          {"texto": "procedimiento", "accion": "rotulo", "estilo": "concepto", "en": [700, 770], "t": 0.255, "dur": 2.0},
+          {"texto": "la secuencia exterior de trámites", "accion": "rotulo", "estilo": "pluma", "en": [700, 840], "t": 0.27, "dur": 0.9},
+
+          {"prop": "ovalo", "accion": "aparecer", "en": [700, 540], "escala": 1.0, "t": 0.28},
+          {"texto": "proceso", "accion": "rotulo", "estilo": "concepto", "en": [700, 240], "t": 0.29, "dur": 2.0},
+          {"texto": "'sacarse el carnet'", "accion": "rotulo", "estilo": "pluma", "en": [700, 320], "t": 0.31, "dur": 0.8},
+
+          {"actor": "juez", "accion": "aparecer", "en": [1580, 900], "t": 0.365},
+          {"actor": "juez", "accion": "caminar", "a": [1360, 900], "t": 0.375, "dur": 1.2},
+          {"texto": "APTO", "accion": "sello", "en": [1120, 430], "t": 0.42, "dur": 0.4},
+          {"texto": "juicio", "accion": "rotulo", "estilo": "concepto", "en": [1360, 260], "t": 0.435, "dur": 1.6},
+          {"texto": "la decisión", "accion": "rotulo", "estilo": "pluma", "en": [1360, 340], "t": 0.455, "dur": 0.7},
+
+          {"prop": "folio", "accion": "desaparecer", "t": 0.475, "dur": 0.4},
+          {"prop": "carpeta", "accion": "desaparecer", "t": 0.475, "dur": 0.4},
+          {"prop": "coche", "accion": "desaparecer", "t": 0.475, "dur": 0.4},
+          {"prop": "folio2", "accion": "desaparecer", "t": 0.475, "dur": 0.4},
+          {"prop": "ovalo", "accion": "desaparecer", "t": 0.475, "dur": 0.4},
+          {"actor": "juez", "accion": "desaparecer", "t": 0.475, "dur": 0.4},
+          {"texto": "matrícula", "accion": "desaparecer", "t": 0.475, "dur": 0.3},
+          {"texto": "teórico", "accion": "desaparecer", "t": 0.475, "dur": 0.3},
+          {"texto": "prácticas", "accion": "desaparecer", "t": 0.475, "dur": 0.3},
+          {"texto": "examen", "accion": "desaparecer", "t": 0.475, "dur": 0.3},
+          {"texto": "procedimiento", "accion": "desaparecer", "t": 0.475, "dur": 0.3},
+          {"texto": "la secuencia exterior de trámites", "accion": "desaparecer", "t": 0.475, "dur": 0.3},
+          {"texto": "proceso", "accion": "desaparecer", "t": 0.475, "dur": 0.3},
+          {"texto": "'sacarse el carnet'", "accion": "desaparecer", "t": 0.475, "dur": 0.3},
+          {"texto": "juicio", "accion": "desaparecer", "t": 0.475, "dur": 0.3},
+          {"texto": "la decisión", "accion": "desaparecer", "t": 0.475, "dur": 0.3},
+          {"texto": "APTO", "accion": "desaparecer", "t": 0.475, "dur": 0.3},
+
+          {"actor": "camara", "accion": "zoom", "a": [680, 530], "escala": 0.92, "t": 0.475, "dur": 1.0},
+          {"texto": "demanda", "accion": "rotulo", "estilo": "pluma", "en": [240, 490], "t": 0.495, "dur": 0.7},
+          {"texto": "audiencia previa", "accion": "rotulo", "estilo": "pluma", "en": [560, 490], "t": 0.53, "dur": 0.8},
+          {"texto": "procedimiento", "accion": "rotulo", "estilo": "concepto", "en": [680, 690], "t": 0.545, "dur": 2.4},
+          {"texto": "juicio oral", "accion": "rotulo", "estilo": "pluma", "en": [840, 490], "t": 0.565, "dur": 0.7},
+          {"texto": "sentencia", "accion": "rotulo", "estilo": "pluma", "en": [1100, 490], "t": 0.595, "dur": 0.7},
+
+          {"prop": "ovalo", "accion": "aparecer", "en": [680, 520], "escala": 1.0, "t": 0.61},
+          {"texto": "proceso", "accion": "rotulo", "estilo": "concepto", "en": [680, 240], "t": 0.62, "dur": 2.2},
+          {"texto": "proceso civil · proceso penal", "accion": "rotulo", "estilo": "pluma", "en": [680, 320], "t": 0.635, "dur": 1.0},
+
+          {"prop": "ovalo", "accion": "desaparecer", "t": 0.715, "dur": 0.4},
+          {"texto": "demanda", "accion": "desaparecer", "t": 0.715, "dur": 0.3},
+          {"texto": "audiencia previa", "accion": "desaparecer", "t": 0.715, "dur": 0.3},
+          {"texto": "juicio oral", "accion": "desaparecer", "t": 0.715, "dur": 0.3},
+          {"texto": "sentencia", "accion": "desaparecer", "t": 0.715, "dur": 0.3},
+          {"texto": "procedimiento", "accion": "desaparecer", "t": 0.715, "dur": 0.3},
+          {"texto": "proceso", "accion": "desaparecer", "t": 0.715, "dur": 0.3},
+          {"texto": "proceso civil · proceso penal", "accion": "desaparecer", "t": 0.715, "dur": 0.3},
+
+          {"actor": "camara", "accion": "zoom", "a": [960, 540], "escala": 1.0, "t": 0.715, "dur": 1.0},
+          {"actor": "juez", "accion": "aparecer", "en": [1200, 900], "t": 0.73},
+          {"texto": "juicio", "accion": "rotulo", "estilo": "concepto", "en": [780, 360], "t": 0.74, "dur": 2.5},
+          {"texto": "la operación de juzgar", "accion": "rotulo", "estilo": "pluma", "en": [780, 440], "t": 0.75, "dur": 1.0},
+          {"actor": "camara", "accion": "punch", "a": [900, 400], "escala": 1.14, "t": 0.76, "dur": 0.5},
+
+          {"texto": "«juicio oral»", "accion": "rotulo", "estilo": "pluma", "en": [600, 580], "t": 0.825, "dur": 0.8},
+          {"texto": "el acto donde se practican las pruebas", "accion": "rotulo", "estilo": "pluma", "en": [600, 640], "t": 0.845, "dur": 0.9},
+
+          {"actor": "juez", "accion": "desaparecer", "t": 0.905, "dur": 0.5},
+          {"texto": "juicio", "accion": "desaparecer", "t": 0.905, "dur": 0.4},
+          {"texto": "la operación de juzgar", "accion": "desaparecer", "t": 0.905, "dur": 0.4},
+          {"texto": "«juicio oral»", "accion": "desaparecer", "t": 0.905, "dur": 0.4},
+          {"texto": "el acto donde se practican las pruebas", "accion": "desaparecer", "t": 0.905, "dur": 0.4},
+          {"actor": "camara", "accion": "zoom", "a": [960, 540], "escala": 1.0, "t": 0.905, "dur": 0.8},
+          {"texto": "El idioma no nos lo pone fácil.", "accion": "rotulo", "estilo": "pluma", "en": [960, 450], "t": 0.93, "dur": 1.2},
+          {"texto": "Para eso está este canal.", "accion": "rotulo", "estilo": "titulo", "en": [960, 570], "t": 0.96, "dur": 1.0}
+        ]
       }
     },
     {
