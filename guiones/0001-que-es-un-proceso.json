@@ -108,12 +108,62 @@
     {
       "voz": "Primera tentación: presentarte en casa de Marcos y llevarte su tele. Mala idea. Eso es tomarse la justicia por la propia mano, y lleva siglos prohibido, básicamente porque acababa fatal. En un Estado de Derecho, juzgar es monopolio de los jueces. Y aquí aparece el trípode sobre el que se sostiene toda esta asignatura, como un taburete de tres patas. Pata uno: la jurisdicción, la potestad de los jueces de juzgar y hacer ejecutar lo juzgado; lo dice el artículo 117.3 de la Constitución. Pata dos: la acción, tu derecho a acudir al juez y pedirle tutela para tus derechos e intereses. Y pata tres: el proceso, el instrumento que conecta las otras dos. Porque tú no puedes juzgar a Marcos, y el juez no puede pasearse por la calle repartiendo sentencias por iniciativa propia. El proceso es el puente: a través de él tú pides, y a través de él el juez ejerce su potestad. Quita cualquiera de las tres patas, y el taburete se va al suelo.",
       "visual": {
-        "tipo": "lista",
-        "titulo": "El trípode",
-        "puntos": [
-          "Jurisdicción: juzgar y hacer ejecutar lo juzgado (art. 117.3 CE)",
-          "Acción: tu derecho a pedir tutela al juez",
-          "Proceso: el puente que conecta las otras dos"
+        "tipo": "coreografia",
+        "acciones": [
+          {"actor": "camara", "accion": "zoom", "a": [700, 760], "escala": 1.05, "t": 0, "dur": 0.6},
+          {"prop": "casita", "accion": "aparecer", "en": [1480, 700], "escala": 1.3, "t": 0.0},
+          {"prop": "tele", "accion": "aparecer", "en": [1430, 780], "escala": 0.78, "t": 0.03},
+          {"actor": "tu", "accion": "aparecer", "en": [260, 900], "t": 0.01},
+          {"actor": "tu", "accion": "caminar", "a": [1250, 900], "t": 0.04, "dur": 3.6},
+          {"actor": "camara", "accion": "seguir", "objetivo": "tu", "t": 0.04, "dur": 3.4},
+          {"actor": "tu", "accion": "cargar", "objetivo": "tele", "t": 0.115, "dur": 0.8},
+          {"actor": "camara", "accion": "punch", "a": [1300, 760], "escala": 1.16, "t": 0.135, "dur": 0.5},
+
+          {"prop": "cruz", "accion": "aparecer", "en": [1010, 600], "escala": 2.4, "t": 0.15},
+          {"actor": "tu", "accion": "soltar", "t": 0.165},
+          {"prop": "tele", "accion": "desaparecer", "t": 0.175, "dur": 0.5},
+          {"prop": "cruz", "accion": "desaparecer", "t": 0.205, "dur": 0.5},
+          {"prop": "casita", "accion": "desaparecer", "t": 0.205, "dur": 0.5},
+          {"actor": "tu", "accion": "desaparecer", "t": 0.2, "dur": 0.5},
+          {"actor": "camara", "accion": "zoom", "a": [900, 760], "escala": 1.0, "t": 0.2, "dur": 1.0},
+
+          {"actor": "juez", "accion": "aparecer", "en": [180, 900], "t": 0.22},
+          {"actor": "juez", "accion": "caminar", "a": [960, 900], "t": 0.235, "dur": 1.6},
+          {"actor": "camara", "accion": "seguir", "objetivo": "juez", "t": 0.235, "dur": 1.6},
+
+          {"prop": "asiento", "accion": "aparecer", "en": [960, 700], "escala": 1.0, "t": 0.29},
+          {"prop": "pata1", "accion": "aparecer", "en": [888, 800], "tipo": "pata", "t": 0.31},
+          {"prop": "pata2", "accion": "aparecer", "en": [960, 808], "tipo": "pata", "t": 0.33},
+          {"prop": "pata3", "accion": "aparecer", "en": [1032, 800], "tipo": "pata", "t": 0.35},
+
+          {"actor": "camara", "accion": "zoom", "a": [820, 540], "escala": 1.04, "t": 0.37, "dur": 1.2},
+          {"texto": "jurisdicción", "accion": "rotulo", "estilo": "concepto", "en": [520, 320], "t": 0.38, "dur": 2.2},
+          {"texto": "art. 117.3 CE", "accion": "rotulo", "estilo": "pluma", "en": [520, 420], "t": 0.46, "dur": 1.0},
+
+          {"texto": "acción", "accion": "rotulo", "estilo": "concepto", "en": [960, 240], "t": 0.5, "dur": 2.0},
+
+          {"texto": "proceso", "accion": "rotulo", "estilo": "concepto", "en": [1400, 320], "t": 0.6, "dur": 2.0},
+          {"actor": "juez", "accion": "sentarse", "t": 0.63, "dur": 1.2},
+          {"actor": "camara", "accion": "zoom", "a": [960, 560], "escala": 1.0, "t": 0.6, "dur": 1.2},
+
+          {"actor": "tu", "accion": "aparecer", "en": [330, 860], "variante": "peluca", "t": 0.69},
+          {"prop": "cruz", "accion": "aparecer", "en": [330, 690], "escala": 1.4, "t": 0.745},
+          {"prop": "cruz", "accion": "desaparecer", "t": 0.79, "dur": 0.4},
+          {"actor": "tu", "accion": "desaparecer", "t": 0.8, "dur": 0.4},
+
+          {"texto": "jurisdicción", "accion": "desaparecer", "t": 0.815, "dur": 0.4},
+          {"texto": "art. 117.3 CE", "accion": "desaparecer", "t": 0.815, "dur": 0.4},
+          {"texto": "acción", "accion": "desaparecer", "t": 0.815, "dur": 0.4},
+          {"prop": "puente", "accion": "aparecer", "en": [620, 650], "escala": 1.0, "t": 0.82},
+          {"actor": "camara", "accion": "zoom", "a": [860, 640], "escala": 1.0, "t": 0.82, "dur": 1.2},
+
+          {"prop": "puente", "accion": "desaparecer", "t": 0.9, "dur": 0.4},
+          {"texto": "proceso", "accion": "desaparecer", "t": 0.9, "dur": 0.4},
+          {"prop": "goma", "accion": "aparecer", "en": [1032, 770], "t": 0.915},
+          {"prop": "pata3", "accion": "borrarse", "t": 0.94, "dur": 0.5},
+          {"actor": "juez", "accion": "tambalearse", "t": 0.95, "dur": 0.6},
+          {"prop": "goma", "accion": "desaparecer", "t": 0.96, "dur": 0.3},
+          {"prop": "pata3", "accion": "aparecer", "en": [1032, 800], "tipo": "pata", "t": 0.975}
         ]
       }
     },

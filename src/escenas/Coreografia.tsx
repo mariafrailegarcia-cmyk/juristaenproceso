@@ -264,6 +264,7 @@ const resolverEstado = (
         e.dibujo = Math.max(e.dibujo, suaviza(p));
         e.pop = muelle(Math.min(1, p * 1.15));
         e.opacidad = 1;
+        e.visible = true; // re-aparecer tras borrarse/desaparecer
         break;
       case 'desaparecer':
         e.opacidad = 1 - suaviza(p);
@@ -795,6 +796,11 @@ const TextoCinetico: React.FC<{ent: Entidad; estado: Estado; fotograma: number}>
         estilo={fuente}
       />
     );
+  } else if (estilo === 'concepto') {
+    // Término de examen: serif, sobrio, en su sitio (el subrayado ámbar
+    // lo dibuja la capa SVG en ExtrasDeTexto). Se escribe con calma.
+    fuente = {...fuente, fontFamily: FUENTES.serif, fontWeight: 600, fontSize: 54, letterSpacing: undefined};
+    contenido = <TextoEscrito texto={texto} inicio={f0 + 2} letrasPorFotograma={Math.max(0.6, texto.length / Math.max(1, df * 0.55))} estilo={fuente} />;
   } else if (estilo === 'pluma') {
     // A pluma: despacio, en serif, con su rasgueo de fondo.
     fuente = {...fuente, fontFamily: FUENTES.serif, fontStyle: 'italic', fontWeight: 600, fontSize: 50};
@@ -861,6 +867,24 @@ const ExtrasDeTexto: React.FC<{
         progreso: e.dibujo,
         opacidad: e.opacidad,
       });
+    }
+
+    // Subrayado ámbar de los términos de examen: se dibuja un punto
+    // después de que la palabra esté escrita, y se queda mientras dure.
+    if (principal.estilo === 'concepto') {
+      const ancho = texto.length * 27 + 20;
+      const inicioSub = principal.f0 + Math.round(principal.df * 0.6);
+      const pSub = clamp01((fotograma - inicioSub) / 12);
+      if (pSub > 0) {
+        piezas.push({
+          forma: lapiz.path(
+            `M ${e.x - ancho / 2} ${e.y + 38} C ${e.x - ancho / 4} ${e.y + 44} ${e.x + ancho / 4} ${e.y + 44} ${e.x + ancho / 2} ${e.y + 34}`,
+            tinta(s(9), {stroke: COLORES.ambar, strokeWidth: 5})
+          ),
+          progreso: pSub,
+          opacidad: e.opacidad,
+        });
+      }
     }
 
     // El tachón: un trazo decidido cruza la palabra.

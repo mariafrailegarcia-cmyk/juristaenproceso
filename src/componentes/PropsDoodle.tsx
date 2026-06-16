@@ -179,9 +179,10 @@ export const PROPS: Record<string, Fabrica> = {
   }),
 
   cruz: (s) => ({
+    // Tachón en rojo teja (regla de la casa: teja solo para tachar/sellar).
     formas: [
-      lapiz.line(-52, -52, 52, 52, tinta(s(1), {strokeWidth: 7})),
-      lapiz.line(52, -52, -52, 52, tinta(s(2), {strokeWidth: 7})),
+      lapiz.line(-52, -52, 52, 52, tinta(s(1), {stroke: COLORES.teja, strokeWidth: 7})),
+      lapiz.line(52, -52, -52, 52, tinta(s(2), {stroke: COLORES.teja, strokeWidth: 7})),
     ],
   }),
 
@@ -272,6 +273,26 @@ export const PROPS: Record<string, Fabrica> = {
   subrayado: (s) => ({
     formas: [
       lapiz.path('M -170 0 C -90 8 90 8 170 -2', tinta(s(1), {stroke: COLORES.ambar, strokeWidth: 7})),
+    ],
+  }),
+
+  // Puente ámbar: el "proceso" que conecta acción y jurisdicción.
+  puente: (s) => ({
+    formas: [
+      lapiz.path('M -210 40 C -120 -90 120 -90 210 40', tinta(s(1), {stroke: COLORES.ambar, strokeWidth: 6})),
+      lapiz.line(-210, 40, 210, 40, tinta(s(2), {stroke: COLORES.ambar, strokeWidth: 3})),
+      lapiz.line(-120, 14, -120, 40, tinta(s(3), {stroke: COLORES.ambar, strokeWidth: 2.4})),
+      lapiz.line(-50, -8, -50, 40, tinta(s(4), {stroke: COLORES.ambar, strokeWidth: 2.4})),
+      lapiz.line(50, -8, 50, 40, tinta(s(5), {stroke: COLORES.ambar, strokeWidth: 2.4})),
+      lapiz.line(120, 14, 120, 40, tinta(s(6), {stroke: COLORES.ambar, strokeWidth: 2.4})),
+    ],
+  }),
+
+  // Goma de borrar: para el gag de quitar una pata del taburete.
+  goma: (s) => ({
+    formas: [
+      lapiz.rectangle(-44, -26, 88, 52, tinta(s(1), {strokeWidth: 3})),
+      lapiz.rectangle(-44, -26, 88, 22, relleno(s(2), COLORES.teja, {hachureGap: 7, fillWeight: 0.8, strokeWidth: 2.4})),
     ],
   }),
 };

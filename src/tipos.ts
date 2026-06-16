@@ -48,7 +48,7 @@ export type Accion = {
   // Carácter de un texto: cómo entra en escena. 'caer' (con peso y
   // polvillo), 'estampar' (sello con sacudida), 'pluma' (se escribe
   // despacio), 'espera' (bocadillo que rebota y se queda esperando).
-  estilo?: 'caer' | 'estampar' | 'pluma' | 'espera' | 'titulo';
+  estilo?: 'caer' | 'estampar' | 'pluma' | 'espera' | 'titulo' | 'concepto';
 };
 
 // Cada escena elige UN tipo de visual. Para añadir un tipo nuevo al canal
