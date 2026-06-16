@@ -314,6 +314,19 @@ export const PROPS: Record<string, Fabrica> = {
       lapiz.ellipse(0, 0, 980, 260, tinta(s(1), {stroke: COLORES.ambar, strokeWidth: 6, roughness: 1.0})),
     ],
   }),
+
+  // Megáfono: el juez "declara" el derecho. Cono ámbar que abre a la
+  // derecha, con empuñadura y dos ondas de sonido saliendo de la boca.
+  megafono: (s) => ({
+    formas: [
+      lapiz.path('M -70 -16 L -70 16 L 50 52 L 50 -52 Z', relleno(s(1), COLORES.ambar, {fillStyle: 'hachure', hachureGap: 8, fillWeight: 0.8, strokeWidth: 3})),
+      lapiz.ellipse(50, 0, 38, 104, tinta(s(2), {strokeWidth: 3})),
+      lapiz.line(-52, 16, -40, 48, tinta(s(3), {strokeWidth: 3})),
+      lapiz.line(-40, 48, -14, 44, tinta(s(4), {strokeWidth: 3})),
+      lapiz.arc(86, 0, 44, 80, -Math.PI * 0.42, Math.PI * 0.42, false, tinta(s(5), {strokeWidth: 2.4})),
+      lapiz.arc(112, 0, 56, 108, -Math.PI * 0.42, Math.PI * 0.42, false, tinta(s(6), {strokeWidth: 2.2})),
+    ],
+  }),
 };
 
 // El id de un prop puede llevar sufijo para repetir el mismo dibujo
