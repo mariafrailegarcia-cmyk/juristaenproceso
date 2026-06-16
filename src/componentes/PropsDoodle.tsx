@@ -327,6 +327,20 @@ export const PROPS: Record<string, Fabrica> = {
       lapiz.arc(112, 0, 56, 108, -Math.PI * 0.42, Math.PI * 0.42, false, tinta(s(6), {strokeWidth: 2.2})),
     ],
   }),
+
+  // Caracol con concha ámbar: el gag de "los procesos tardan".
+  caracol: (s) => ({
+    formas: [
+      lapiz.path('M -78 30 C -82 4 -48 6 -24 8 L 42 12 C 74 14 74 30 74 30 Z', tinta(s(1), {strokeWidth: 3})),
+      lapiz.circle(12, -8, 66, relleno(s(2), COLORES.ambar, {fillStyle: 'hachure', hachureGap: 9, fillWeight: 0.7, strokeWidth: 3})),
+      lapiz.arc(12, -8, 42, 42, 0, Math.PI * 1.7, false, tinta(s(3), {strokeWidth: 2.2})),
+      lapiz.arc(12, -8, 20, 20, 0, Math.PI * 1.7, false, tinta(s(4), {strokeWidth: 2})),
+      lapiz.line(-72, 8, -84, -16, tinta(s(5), {strokeWidth: 2})),
+      lapiz.line(-62, 8, -68, -18, tinta(s(6), {strokeWidth: 2})),
+      lapiz.circle(-84, -18, 7, tinta(s(7), {strokeWidth: 2})),
+      lapiz.circle(-68, -20, 7, tinta(s(8), {strokeWidth: 2})),
+    ],
+  }),
 };
 
 // El id de un prop puede llevar sufijo para repetir el mismo dibujo

@@ -308,64 +308,336 @@
     {
       "voz": "Una: la sentencia mero declarativa. Confirma. Se limita a declarar que un derecho o una situación existe o no existe; por ejemplo, que esa finca es tuya. Y con declararlo basta: no necesita ninguna actividad posterior. Dos: la sentencia constitutiva. Transforma. Crea, modifica o extingue un estado o situación jurídica: piensa en una sentencia de separación matrimonial. La sentencia, por sí misma, cambia la situación; no hay nada que ejecutar después. Y tres: la sentencia de condena. Ordena. Además de declarar, manda a una de las partes hacer, omitir o soportar algo: \"Marcos, paga los mil euros\". Y aquí llega la letra pequeña que nadie te cuenta en las películas: que el juez lo ordene no significa que Marcos pague.",
       "visual": {
-        "tipo": "lista",
-        "titulo": "Tres sentencias",
-        "puntos": [
-          "Mero declarativa: confirma — el derecho existe (o no)",
-          "Constitutiva: transforma — crea, modifica o extingue",
-          "De condena: ordena — «Marcos, paga los 1.000 €»"
+        "tipo": "coreografia",
+        "acciones": [
+          {"actor": "camara", "accion": "zoom", "a": [700, 520], "escala": 1.05, "t": 0, "dur": 0.5},
+          {"texto": "1 · mero declarativa", "accion": "rotulo", "estilo": "titulo", "en": [720, 230], "t": 0.01, "dur": 1.4},
+          {"texto": "confirma", "accion": "rotulo", "estilo": "concepto", "en": [720, 360], "t": 0.05, "dur": 2.0},
+          {"prop": "casita", "accion": "aparecer", "en": [720, 660], "escala": 1.5, "t": 0.1},
+          {"prop": "visto", "accion": "aparecer", "en": [840, 600], "escala": 1.8, "t": 0.18},
+          {"actor": "camara", "accion": "punch", "a": [760, 600], "escala": 1.12, "t": 0.2, "dur": 0.5},
+          {"texto": "esa finca es tuya", "accion": "rotulo", "estilo": "pluma", "en": [720, 870], "t": 0.14, "dur": 1.0},
+          {"texto": "basta con declararlo", "accion": "rotulo", "estilo": "pluma", "en": [720, 940], "t": 0.24, "dur": 0.9},
+
+          {"texto": "1 · mero declarativa", "accion": "desaparecer", "t": 0.29, "dur": 0.4},
+          {"texto": "confirma", "accion": "desaparecer", "t": 0.29, "dur": 0.4},
+          {"prop": "casita", "accion": "desaparecer", "t": 0.29, "dur": 0.4},
+          {"prop": "visto", "accion": "desaparecer", "t": 0.29, "dur": 0.4},
+          {"texto": "esa finca es tuya", "accion": "desaparecer", "t": 0.29, "dur": 0.3},
+          {"texto": "basta con declararlo", "accion": "desaparecer", "t": 0.29, "dur": 0.3},
+
+          {"actor": "camara", "accion": "zoom", "a": [960, 520], "escala": 1.0, "t": 0.3, "dur": 0.6},
+          {"texto": "2 · constitutiva", "accion": "rotulo", "estilo": "titulo", "en": [960, 230], "t": 0.31, "dur": 1.4},
+          {"texto": "transforma", "accion": "rotulo", "estilo": "concepto", "en": [960, 360], "t": 0.35, "dur": 2.0},
+          {"prop": "anillo", "accion": "aparecer", "en": [900, 640], "escala": 1.2, "t": 0.42},
+          {"prop": "anillo2", "accion": "aparecer", "en": [1020, 640], "escala": 1.2, "tipo": "anillo", "t": 0.44},
+          {"texto": "separación matrimonial", "accion": "rotulo", "estilo": "pluma", "en": [960, 840], "t": 0.47, "dur": 1.0},
+          {"prop": "anillo", "accion": "moverse", "a": [720, 660], "t": 0.55, "dur": 1.0},
+          {"prop": "anillo2", "accion": "moverse", "a": [1200, 660], "t": 0.55, "dur": 1.0},
+          {"actor": "camara", "accion": "punch", "a": [960, 640], "escala": 1.1, "t": 0.57, "dur": 0.5},
+          {"texto": "la sentencia cambia la situación", "accion": "rotulo", "estilo": "pluma", "en": [960, 920], "t": 0.6, "dur": 1.0},
+
+          {"texto": "2 · constitutiva", "accion": "desaparecer", "t": 0.64, "dur": 0.4},
+          {"texto": "transforma", "accion": "desaparecer", "t": 0.64, "dur": 0.4},
+          {"prop": "anillo", "accion": "desaparecer", "t": 0.64, "dur": 0.4},
+          {"prop": "anillo2", "accion": "desaparecer", "t": 0.64, "dur": 0.4},
+          {"texto": "separación matrimonial", "accion": "desaparecer", "t": 0.64, "dur": 0.3},
+          {"texto": "la sentencia cambia la situación", "accion": "desaparecer", "t": 0.64, "dur": 0.3},
+
+          {"actor": "camara", "accion": "zoom", "a": [960, 640], "escala": 1.0, "t": 0.66, "dur": 0.8},
+          {"texto": "3 · de condena", "accion": "rotulo", "estilo": "titulo", "en": [960, 210], "t": 0.66, "dur": 1.4},
+          {"texto": "ordena", "accion": "rotulo", "estilo": "concepto", "en": [960, 330], "t": 0.7, "dur": 2.0},
+          {"actor": "juez", "accion": "aparecer", "en": [560, 900], "t": 0.74},
+          {"actor": "marcos", "accion": "aparecer", "en": [1360, 900], "voltear": true, "t": 0.76},
+          {"actor": "juez", "accion": "senalar", "objetivo": "marcos", "t": 0.8},
+          {"texto": "«Marcos, paga los 1.000 €»", "accion": "bocadillo", "en": [880, 540], "objetivo": "juez", "t": 0.82, "dur": 1.6},
+          {"actor": "camara", "accion": "zoom", "a": [960, 660], "escala": 1.0, "t": 0.78, "dur": 1.2},
+
+          {"texto": "«Marcos, paga los 1.000 €»", "accion": "desaparecer", "t": 0.9, "dur": 0.4},
+          {"actor": "marcos", "accion": "encogerse", "voltear": true, "t": 0.91, "dur": 2.0},
+          {"texto": "que lo ordene no significa que pague", "accion": "rotulo", "estilo": "pluma", "en": [960, 380], "t": 0.93, "dur": 1.4},
+          {"actor": "camara", "accion": "punch", "a": [1300, 760], "escala": 1.1, "t": 0.92, "dur": 0.5}
         ]
       }
     },
     {
       "voz": "Si Marcos, sentencia en mano, sigue sin pagar, pasamos al proceso de ejecución. Aquí el Estado deja de declarar y empieza a actuar: localiza bienes y derechos de Marcos, los embarga y, si hace falta, los subasta para convertirlos en dinero y dártelo. Es la compulsión estatal: el juez y el letrado de la Administración de Justicia sustituyen al deudor y hacen lo que él debería haber hecho por las buenas. El Estado es, digamos, el único matón con licencia; y precisamente por eso tú no puedes serlo. Detalle elegante: la ejecución se despacha \"inaudita parte debitoris\", sin oír antes al deudor. ¿Latinajo injusto? No: ya existe un título, la sentencia, que dice quién tiene razón, y Marcos podrá oponerse inmediatamente después. Y un apunte más: no solo se ejecutan sentencias; también títulos extrajudiciales a los que la ley reconoce fuerza ejecutiva, como ciertas pólizas de crédito, letras de cambio o cheques.",
       "visual": {
-        "tipo": "sello",
-        "texto": "EJECUCIÓN",
-        "apoyo": "Si la sentencia no se cumple, el Estado embarga y subasta: inaudita parte debitoris"
+        "tipo": "coreografia",
+        "acciones": [
+          {"actor": "camara", "accion": "zoom", "a": [960, 480], "escala": 1.0, "t": 0, "dur": 0.5},
+          {"texto": "Proceso de ejecución", "accion": "rotulo", "estilo": "titulo", "en": [960, 300], "t": 0.01, "dur": 1.6},
+          {"actor": "marcos", "accion": "aparecer", "en": [1360, 900], "voltear": true, "t": 0.04},
+          {"prop": "tele", "accion": "aparecer", "en": [1480, 820], "escala": 0.8, "t": 0.06},
+          {"texto": "sigue sin pagar", "accion": "rotulo", "estilo": "pluma", "en": [1360, 560], "t": 0.08, "dur": 0.9},
+
+          {"texto": "Proceso de ejecución", "accion": "desaparecer", "t": 0.13, "dur": 0.4},
+          {"texto": "sigue sin pagar", "accion": "desaparecer", "t": 0.13, "dur": 0.3},
+          {"actor": "estado", "accion": "aparecer", "en": [200, 900], "t": 0.14},
+          {"actor": "estado", "accion": "caminar", "a": [1300, 900], "t": 0.17, "dur": 2.8},
+          {"actor": "camara", "accion": "seguir", "objetivo": "estado", "t": 0.17, "dur": 2.6},
+          {"texto": "el Estado embarga", "accion": "rotulo", "estilo": "concepto", "en": [760, 300], "t": 0.2, "dur": 2.0},
+          {"actor": "estado", "accion": "cargar", "objetivo": "tele", "t": 0.32, "dur": 0.8},
+          {"prop": "tele", "accion": "desaparecer", "t": 0.42, "dur": 0.4},
+          {"actor": "marcos", "accion": "encogerse", "voltear": true, "t": 0.35, "dur": 1.2},
+
+          {"actor": "estado", "accion": "desaparecer", "t": 0.42, "dur": 0.4},
+          {"actor": "marcos", "accion": "desaparecer", "t": 0.42, "dur": 0.4},
+          {"texto": "el Estado embarga", "accion": "desaparecer", "t": 0.42, "dur": 0.3},
+          {"actor": "camara", "accion": "zoom", "a": [960, 500], "escala": 1.0, "t": 0.43, "dur": 0.8},
+          {"prop": "subasta", "accion": "aparecer", "en": [960, 560], "escala": 1.1, "t": 0.44},
+          {"texto": "subasta", "accion": "rotulo", "estilo": "pluma", "en": [960, 760], "t": 0.46, "dur": 0.7},
+          {"prop": "moneda", "accion": "aparecer", "en": [760, 280], "escala": 0.8, "t": 0.49},
+          {"prop": "moneda2", "accion": "aparecer", "en": [960, 240], "escala": 0.8, "tipo": "moneda", "t": 0.51},
+          {"prop": "moneda3", "accion": "aparecer", "en": [1160, 280], "escala": 0.8, "tipo": "moneda", "t": 0.53},
+          {"prop": "moneda", "accion": "moverse", "a": [760, 660], "t": 0.5, "dur": 0.7},
+          {"prop": "moneda2", "accion": "moverse", "a": [960, 680], "t": 0.52, "dur": 0.7},
+          {"prop": "moneda3", "accion": "moverse", "a": [1160, 660], "t": 0.54, "dur": 0.7},
+
+          {"prop": "subasta", "accion": "desaparecer", "t": 0.55, "dur": 0.4},
+          {"prop": "moneda", "accion": "desaparecer", "t": 0.55, "dur": 0.4},
+          {"prop": "moneda2", "accion": "desaparecer", "t": 0.55, "dur": 0.4},
+          {"prop": "moneda3", "accion": "desaparecer", "t": 0.55, "dur": 0.4},
+          {"texto": "subasta", "accion": "desaparecer", "t": 0.55, "dur": 0.3},
+          {"actor": "camara", "accion": "zoom", "a": [960, 540], "escala": 1.0, "t": 0.56, "dur": 0.7},
+          {"actor": "estado", "accion": "aparecer", "en": [960, 900], "t": 0.57},
+          {"texto": "compulsión estatal", "accion": "rotulo", "estilo": "concepto", "en": [960, 320], "t": 0.58, "dur": 2.0},
+          {"texto": "el único matón con licencia", "accion": "rotulo", "estilo": "pluma", "en": [960, 560], "t": 0.62, "dur": 1.0},
+          {"actor": "camara", "accion": "punch", "a": [960, 560], "escala": 1.1, "t": 0.64, "dur": 0.5},
+
+          {"texto": "compulsión estatal", "accion": "desaparecer", "t": 0.66, "dur": 0.4},
+          {"texto": "el único matón con licencia", "accion": "desaparecer", "t": 0.66, "dur": 0.3},
+          {"actor": "estado", "accion": "desaparecer", "t": 0.66, "dur": 0.4},
+          {"actor": "camara", "accion": "zoom", "a": [960, 460], "escala": 1.0, "t": 0.67, "dur": 0.6},
+          {"texto": "inaudita parte debitoris", "accion": "sello", "en": [960, 420], "t": 0.7, "dur": 0.5},
+          {"texto": "sin oír antes al deudor", "accion": "rotulo", "estilo": "pluma", "en": [960, 580], "t": 0.74, "dur": 1.0},
+
+          {"texto": "inaudita parte debitoris", "accion": "desaparecer", "t": 0.79, "dur": 0.4},
+          {"texto": "sin oír antes al deudor", "accion": "desaparecer", "t": 0.79, "dur": 0.3},
+          {"actor": "camara", "accion": "zoom", "a": [960, 600], "escala": 1.0, "t": 0.8, "dur": 1.0},
+          {"prop": "folio", "accion": "aparecer", "en": [640, 620], "escala": 1.0, "t": 0.8},
+          {"texto": "ya hay un título: la sentencia", "accion": "rotulo", "estilo": "pluma", "en": [640, 440], "t": 0.82, "dur": 1.0},
+          {"actor": "marcos", "accion": "aparecer", "en": [1280, 900], "voltear": true, "t": 0.84},
+          {"actor": "marcos", "accion": "senalar", "objetivo": "folio", "t": 0.87},
+          {"texto": "podrá oponerse después", "accion": "rotulo", "estilo": "pluma", "en": [1280, 560], "t": 0.88, "dur": 1.0},
+
+          {"prop": "folio", "accion": "desaparecer", "t": 0.92, "dur": 0.4},
+          {"actor": "marcos", "accion": "desaparecer", "t": 0.92, "dur": 0.4},
+          {"texto": "ya hay un título: la sentencia", "accion": "desaparecer", "t": 0.92, "dur": 0.3},
+          {"texto": "podrá oponerse después", "accion": "desaparecer", "t": 0.92, "dur": 0.3},
+          {"actor": "camara", "accion": "zoom", "a": [960, 520], "escala": 1.0, "t": 0.92, "dur": 0.8},
+          {"texto": "también títulos extrajudiciales", "accion": "rotulo", "estilo": "titulo", "en": [960, 360], "t": 0.93, "dur": 1.2},
+          {"texto": "letras de cambio · cheques · pólizas", "accion": "rotulo", "estilo": "pluma", "en": [960, 520], "t": 0.96, "dur": 1.0}
+        ]
       }
     },
     {
       "voz": "Última pieza. Los procesos tardan. ¿Y si Marcos, mientras dura el pleito, vende el coche, vacía la cuenta y se declara espiritualmente desapegado de lo material? Tu sentencia llegaría tarde: sería papel mojado, inejecutable. Para eso existen las medidas cautelares: actuaciones que aseguran, durante el proceso de declaración, que la sentencia que llegue sirva de algo. Pides el embargo preventivo de sus bienes —un candado sobre esos mil euros— y esos bienes quedan afectados a la ejecución, por mucho que Marcos se los transmita a terceros. Se pueden pedir al iniciar el proceso, o incluso un poco antes. Y las hay para casi todo: se ha llegado a pedir como cautelar que no se televise la final de un campeonato de baloncesto. El Derecho será lento, pero ingenuo no es.",
       "visual": {
-        "tipo": "balanza",
-        "etiquetas": ["el pleito tarda", "la cautelar asegura"],
-        "texto": "Medidas cautelares: que la sentencia no llegue tarde"
+        "tipo": "coreografia",
+        "acciones": [
+          {"actor": "camara", "accion": "zoom", "a": [600, 720], "escala": 1.05, "t": 0, "dur": 0.5},
+          {"texto": "los procesos tardan", "accion": "rotulo", "estilo": "titulo", "en": [780, 280], "t": 0.01, "dur": 1.3},
+          {"prop": "caracol", "accion": "aparecer", "en": [300, 820], "escala": 1.4, "t": 0.03},
+          {"prop": "caracol", "accion": "moverse", "a": [840, 820], "t": 0.06, "dur": 2.8},
+          {"actor": "camara", "accion": "seguir", "objetivo": "caracol", "t": 0.06, "dur": 2.2},
+
+          {"texto": "los procesos tardan", "accion": "desaparecer", "t": 0.15, "dur": 0.4},
+          {"prop": "caracol", "accion": "desaparecer", "t": 0.2, "dur": 0.4},
+          {"actor": "camara", "accion": "zoom", "a": [1060, 640], "escala": 1.0, "t": 0.18, "dur": 1.0},
+          {"actor": "marcos", "accion": "aparecer", "en": [1080, 900], "t": 0.2},
+          {"prop": "coche", "accion": "aparecer", "en": [760, 830], "escala": 0.5, "t": 0.22},
+          {"prop": "billete", "accion": "aparecer", "en": [1360, 620], "escala": 0.8, "t": 0.24},
+          {"texto": "vende el coche, vacía la cuenta", "accion": "rotulo", "estilo": "pluma", "en": [1060, 470], "t": 0.13, "dur": 1.0},
+          {"prop": "coche", "accion": "desaparecer", "t": 0.28, "dur": 0.5},
+          {"prop": "billete", "accion": "desaparecer", "t": 0.3, "dur": 0.5},
+          {"actor": "marcos", "accion": "celebrar", "t": 0.3, "dur": 1.2},
+          {"texto": "desapegado de lo material", "accion": "rotulo", "estilo": "pluma", "en": [1060, 540], "t": 0.2, "dur": 1.0},
+
+          {"actor": "marcos", "accion": "desaparecer", "t": 0.33, "dur": 0.4},
+          {"texto": "vende el coche, vacía la cuenta", "accion": "desaparecer", "t": 0.33, "dur": 0.3},
+          {"texto": "desapegado de lo material", "accion": "desaparecer", "t": 0.33, "dur": 0.3},
+          {"actor": "camara", "accion": "zoom", "a": [960, 520], "escala": 1.0, "t": 0.34, "dur": 0.8},
+          {"prop": "folio", "accion": "aparecer", "en": [960, 600], "escala": 1.1, "t": 0.25},
+          {"prop": "cruz", "accion": "aparecer", "en": [960, 560], "escala": 2.0, "t": 0.27},
+          {"texto": "papel mojado", "accion": "rotulo", "estilo": "pluma", "en": [960, 820], "t": 0.29, "dur": 0.9},
+
+          {"prop": "folio", "accion": "desaparecer", "t": 0.34, "dur": 0.4},
+          {"prop": "cruz", "accion": "desaparecer", "t": 0.34, "dur": 0.4},
+          {"texto": "papel mojado", "accion": "desaparecer", "t": 0.34, "dur": 0.3},
+          {"texto": "medidas cautelares", "accion": "rotulo", "estilo": "concepto", "en": [960, 320], "t": 0.36, "dur": 2.4},
+          {"texto": "que la sentencia sirva de algo", "accion": "rotulo", "estilo": "pluma", "en": [960, 460], "t": 0.42, "dur": 1.2},
+          {"actor": "camara", "accion": "punch", "a": [960, 360], "escala": 1.1, "t": 0.44, "dur": 0.5},
+
+          {"texto": "que la sentencia sirva de algo", "accion": "desaparecer", "t": 0.51, "dur": 0.4},
+          {"actor": "camara", "accion": "zoom", "a": [960, 600], "escala": 1.0, "t": 0.52, "dur": 0.8},
+          {"prop": "billete", "accion": "aparecer", "en": [960, 680], "escala": 1.0, "t": 0.52},
+          {"prop": "candado", "accion": "aparecer", "en": [960, 600], "escala": 1.4, "t": 0.56},
+          {"texto": "embargo preventivo", "accion": "rotulo", "estilo": "pluma", "en": [960, 880], "t": 0.58, "dur": 1.0},
+          {"actor": "camara", "accion": "punch", "a": [960, 620], "escala": 1.12, "t": 0.6, "dur": 0.5},
+
+          {"texto": "medidas cautelares", "accion": "desaparecer", "t": 0.64, "dur": 0.4},
+          {"texto": "embargo preventivo", "accion": "desaparecer", "t": 0.66, "dur": 0.4},
+          {"texto": "afectados aunque los transmita", "accion": "rotulo", "estilo": "pluma", "en": [960, 360], "t": 0.66, "dur": 1.2},
+
+          {"texto": "afectados aunque los transmita", "accion": "desaparecer", "t": 0.76, "dur": 0.4},
+          {"prop": "billete", "accion": "desaparecer", "t": 0.76, "dur": 0.4},
+          {"prop": "candado", "accion": "desaparecer", "t": 0.76, "dur": 0.4},
+          {"prop": "calendario", "accion": "aparecer", "en": [960, 540], "escala": 1.1, "t": 0.78},
+          {"texto": "al empezar, o incluso antes", "accion": "rotulo", "estilo": "pluma", "en": [960, 760], "t": 0.8, "dur": 1.0},
+
+          {"prop": "calendario", "accion": "desaparecer", "t": 0.84, "dur": 0.4},
+          {"texto": "al empezar, o incluso antes", "accion": "desaparecer", "t": 0.84, "dur": 0.3},
+          {"actor": "camara", "accion": "zoom", "a": [960, 540], "escala": 1.0, "t": 0.85, "dur": 0.8},
+          {"prop": "tele", "accion": "aparecer", "en": [960, 560], "escala": 1.0, "t": 0.85},
+          {"prop": "cruz", "accion": "aparecer", "en": [960, 540], "escala": 2.4, "t": 0.88},
+          {"texto": "no televisar la final", "accion": "rotulo", "estilo": "pluma", "en": [960, 800], "t": 0.86, "dur": 1.0},
+          {"actor": "camara", "accion": "punch", "a": [960, 560], "escala": 1.1, "t": 0.9, "dur": 0.5},
+
+          {"prop": "tele", "accion": "desaparecer", "t": 0.94, "dur": 0.4},
+          {"prop": "cruz", "accion": "desaparecer", "t": 0.94, "dur": 0.4},
+          {"texto": "no televisar la final", "accion": "desaparecer", "t": 0.94, "dur": 0.3},
+          {"texto": "lento, pero no ingenuo", "accion": "rotulo", "estilo": "titulo", "en": [960, 480], "t": 0.95, "dur": 1.2}
+        ]
       }
     },
     {
       "voz": "Recapitulemos el expediente. El proceso es el instrumento que conecta tu derecho a pedir tutela con la potestad del juez. No es el procedimiento, que es la secuencia exterior de trámites; ni el juicio, que es la decisión. El proceso declarativo dice el derecho, y puede hacerlo con tres sentencias: las que confirman, las que transforman y las que ordenan. Si la orden no se cumple, la ejecución la convierte en realidad: por las buenas o por las embargadas. Y las medidas cautelares vigilan que, mientras tanto, nadie haga desaparecer el premio.",
       "visual": {
-        "tipo": "lista",
-        "titulo": "Recapitulemos",
-        "puntos": [
-          "Proceso: conecta tu acción con la jurisdicción",
-          "Declarativo: confirma, transforma u ordena",
-          "Ejecución: la orden se hace realidad",
-          "Cautelares: nadie esconde el premio"
+        "tipo": "coreografia",
+        "acciones": [
+          {"actor": "camara", "accion": "zoom", "a": [960, 460], "escala": 1.0, "t": 0, "dur": 0.5},
+          {"texto": "Recapitulemos", "accion": "rotulo", "estilo": "titulo", "en": [960, 360], "t": 0.01, "dur": 1.2},
+          {"texto": "Recapitulemos", "accion": "desaparecer", "t": 0.07, "dur": 0.4},
+
+          {"actor": "camara", "accion": "zoom", "a": [960, 560], "escala": 1.0, "t": 0.08, "dur": 0.8},
+          {"prop": "puente", "accion": "aparecer", "en": [960, 600], "escala": 1.1, "t": 0.1},
+          {"texto": "acción", "accion": "rotulo", "estilo": "pluma", "en": [620, 640], "t": 0.12, "dur": 0.7},
+          {"texto": "jurisdicción", "accion": "rotulo", "estilo": "pluma", "en": [1300, 640], "t": 0.15, "dur": 0.8},
+          {"texto": "proceso", "accion": "rotulo", "estilo": "concepto", "en": [960, 360], "t": 0.17, "dur": 1.8},
+          {"actor": "camara", "accion": "punch", "a": [960, 500], "escala": 1.08, "t": 0.2, "dur": 0.5},
+
+          {"texto": "acción", "accion": "desaparecer", "t": 0.24, "dur": 0.4},
+          {"texto": "jurisdicción", "accion": "desaparecer", "t": 0.24, "dur": 0.4},
+          {"texto": "proceso", "accion": "desaparecer", "t": 0.24, "dur": 0.4},
+          {"prop": "puente", "accion": "desaparecer", "t": 0.24, "dur": 0.4},
+          {"texto": "no es procedimiento ni juicio", "accion": "rotulo", "estilo": "pluma", "en": [960, 500], "t": 0.26, "dur": 1.2},
+
+          {"texto": "no es procedimiento ni juicio", "accion": "desaparecer", "t": 0.33, "dur": 0.4},
+          {"texto": "declarativo", "accion": "rotulo", "estilo": "concepto", "en": [960, 280], "t": 0.35, "dur": 2.0},
+          {"texto": "confirma", "accion": "rotulo", "estilo": "caer", "en": [560, 560], "t": 0.4, "dur": 0.9},
+          {"texto": "transforma", "accion": "rotulo", "estilo": "caer", "en": [960, 560], "t": 0.45, "dur": 0.9},
+          {"texto": "ordena", "accion": "rotulo", "estilo": "caer", "en": [1360, 560], "t": 0.5, "dur": 0.9},
+
+          {"texto": "declarativo", "accion": "desaparecer", "t": 0.55, "dur": 0.4},
+          {"texto": "confirma", "accion": "desaparecer", "t": 0.55, "dur": 0.3},
+          {"texto": "transforma", "accion": "desaparecer", "t": 0.55, "dur": 0.3},
+          {"texto": "ordena", "accion": "desaparecer", "t": 0.55, "dur": 0.3},
+          {"actor": "camara", "accion": "zoom", "a": [960, 520], "escala": 1.0, "t": 0.56, "dur": 0.8},
+          {"prop": "subasta", "accion": "aparecer", "en": [820, 560], "escala": 0.9, "t": 0.57},
+          {"prop": "moneda", "accion": "aparecer", "en": [1140, 560], "escala": 1.0, "t": 0.6},
+          {"texto": "ejecución", "accion": "rotulo", "estilo": "concepto", "en": [960, 300], "t": 0.62, "dur": 1.8},
+          {"texto": "la orden se hace realidad", "accion": "rotulo", "estilo": "pluma", "en": [960, 760], "t": 0.66, "dur": 1.0},
+
+          {"prop": "subasta", "accion": "desaparecer", "t": 0.73, "dur": 0.4},
+          {"prop": "moneda", "accion": "desaparecer", "t": 0.73, "dur": 0.4},
+          {"texto": "ejecución", "accion": "desaparecer", "t": 0.73, "dur": 0.4},
+          {"texto": "la orden se hace realidad", "accion": "desaparecer", "t": 0.73, "dur": 0.3},
+          {"prop": "billete", "accion": "aparecer", "en": [960, 660], "escala": 0.9, "t": 0.75},
+          {"prop": "candado", "accion": "aparecer", "en": [960, 580], "escala": 1.3, "t": 0.78},
+          {"texto": "cautelares", "accion": "rotulo", "estilo": "concepto", "en": [960, 300], "t": 0.8, "dur": 1.8},
+          {"texto": "nadie esconde el premio", "accion": "rotulo", "estilo": "pluma", "en": [960, 860], "t": 0.84, "dur": 1.0},
+          {"actor": "camara", "accion": "punch", "a": [960, 580], "escala": 1.1, "t": 0.86, "dur": 0.5},
+
+          {"prop": "candado", "accion": "desaparecer", "t": 0.92, "dur": 0.4},
+          {"prop": "billete", "accion": "desaparecer", "t": 0.92, "dur": 0.4},
+          {"texto": "cautelares", "accion": "desaparecer", "t": 0.92, "dur": 0.4},
+          {"texto": "nadie esconde el premio", "accion": "desaparecer", "t": 0.92, "dur": 0.3},
+          {"actor": "camara", "accion": "zoom", "a": [960, 520], "escala": 0.95, "t": 0.92, "dur": 1.2},
+          {"texto": "expediente cerrado", "accion": "rotulo", "estilo": "titulo", "en": [960, 480], "t": 0.94, "dur": 1.2}
         ]
       }
     },
     {
       "voz": "Este expediente abre una miniserie sobre el proceso. En los próximos: los cuatro órdenes jurisdiccionales —civil, penal, contencioso-administrativo y laboral—, o por qué no es lo mismo que te despidan a que te detengan. Los principios del proceso. Las garantías constitucionales, presunción de inocencia incluida. Los actos procesales y su nulidad. Y la justicia gratuita y los métodos alternativos al pleito. Seis carpetas. Todas se admiten a trámite.",
       "visual": {
-        "tipo": "lista",
-        "titulo": "La miniserie",
-        "puntos": [
-          "0002 · Los cuatro órdenes jurisdiccionales",
-          "0003 · Los principios del proceso",
-          "0004 · Las garantías constitucionales",
-          "0005 · Los actos procesales y su nulidad",
-          "0006 · Justicia gratuita y alternativas al pleito"
+        "tipo": "coreografia",
+        "acciones": [
+          {"actor": "camara", "accion": "zoom", "a": [960, 460], "escala": 1.0, "t": 0, "dur": 0.5},
+          {"texto": "La miniserie", "accion": "rotulo", "estilo": "titulo", "en": [960, 250], "t": 0.01, "dur": 1.3},
+          {"prop": "estanteria", "accion": "aparecer", "en": [960, 560], "escala": 1.0, "t": 0.06},
+
+          {"prop": "carpeta", "accion": "aparecer", "en": [820, 446], "escala": 0.55, "t": 0.14},
+          {"texto": "0002 · los cuatro órdenes", "accion": "rotulo", "estilo": "pluma", "en": [960, 880], "t": 0.15, "dur": 1.0},
+          {"actor": "camara", "accion": "punch", "a": [820, 446], "escala": 1.06, "t": 0.16, "dur": 0.4},
+
+          {"texto": "0002 · los cuatro órdenes", "accion": "desaparecer", "t": 0.3, "dur": 0.3},
+          {"prop": "carpeta2", "accion": "aparecer", "en": [1100, 446], "escala": 0.55, "tipo": "carpeta", "t": 0.31},
+          {"texto": "0003 · los principios", "accion": "rotulo", "estilo": "pluma", "en": [960, 880], "t": 0.32, "dur": 1.0},
+          {"actor": "camara", "accion": "punch", "a": [1100, 446], "escala": 1.06, "t": 0.33, "dur": 0.4},
+
+          {"texto": "0003 · los principios", "accion": "desaparecer", "t": 0.42, "dur": 0.3},
+          {"prop": "carpeta3", "accion": "aparecer", "en": [820, 570], "escala": 0.55, "tipo": "carpeta", "t": 0.43},
+          {"texto": "0004 · las garantías", "accion": "rotulo", "estilo": "pluma", "en": [960, 880], "t": 0.44, "dur": 1.0},
+          {"actor": "camara", "accion": "punch", "a": [820, 570], "escala": 1.06, "t": 0.45, "dur": 0.4},
+
+          {"texto": "0004 · las garantías", "accion": "desaparecer", "t": 0.54, "dur": 0.3},
+          {"prop": "carpeta4", "accion": "aparecer", "en": [1100, 570], "escala": 0.55, "tipo": "carpeta", "t": 0.55},
+          {"texto": "0005 · actos y nulidad", "accion": "rotulo", "estilo": "pluma", "en": [960, 880], "t": 0.56, "dur": 1.0},
+          {"actor": "camara", "accion": "punch", "a": [1100, 570], "escala": 1.06, "t": 0.57, "dur": 0.4},
+
+          {"texto": "0005 · actos y nulidad", "accion": "desaparecer", "t": 0.66, "dur": 0.3},
+          {"prop": "carpeta5", "accion": "aparecer", "en": [820, 694], "escala": 0.55, "tipo": "carpeta", "t": 0.67},
+          {"texto": "0006 · justicia gratuita", "accion": "rotulo", "estilo": "pluma", "en": [960, 880], "t": 0.68, "dur": 1.0},
+          {"actor": "camara", "accion": "punch", "a": [820, 694], "escala": 1.06, "t": 0.69, "dur": 0.4},
+
+          {"texto": "0006 · justicia gratuita", "accion": "desaparecer", "t": 0.78, "dur": 0.3},
+          {"prop": "carpeta6", "accion": "aparecer", "en": [1100, 694], "escala": 0.55, "tipo": "carpeta", "t": 0.79},
+          {"texto": "La miniserie", "accion": "desaparecer", "t": 0.8, "dur": 0.3},
+          {"actor": "camara", "accion": "zoom", "a": [960, 540], "escala": 0.98, "t": 0.8, "dur": 1.0},
+          {"texto": "seis carpetas", "accion": "rotulo", "estilo": "titulo", "en": [960, 250], "t": 0.82, "dur": 1.0},
+          {"texto": "ADMITIDAS A TRÁMITE", "accion": "sello", "en": [960, 880], "t": 0.9, "dur": 0.5}
         ]
       }
     },
     {
       "voz": "Pregunta tipo examen, y va a los comentarios: el juez dicta sentencia de divorcio. ¿Qué tipo de sentencia es, y por qué no necesita un proceso de ejecución posterior? Tienes el video entero para responder sin mirar apuntes. Se levanta la sesión.",
       "visual": {
-        "tipo": "sello",
-        "texto": "¿?",
-        "apoyo": "Sentencia de divorcio: ¿qué tipo es y por qué no se ejecuta?"
+        "tipo": "coreografia",
+        "acciones": [
+          {"actor": "camara", "accion": "zoom", "a": [960, 440], "escala": 1.0, "t": 0, "dur": 0.5},
+          {"texto": "Pregunta de examen", "accion": "rotulo", "estilo": "titulo", "en": [960, 300], "t": 0.01, "dur": 1.2},
+          {"texto": "¿?", "accion": "sello", "en": [960, 540], "t": 0.08, "dur": 0.5},
+
+          {"texto": "Pregunta de examen", "accion": "desaparecer", "t": 0.16, "dur": 0.4},
+          {"texto": "¿?", "accion": "desaparecer", "t": 0.16, "dur": 0.4},
+          {"actor": "camara", "accion": "zoom", "a": [960, 580], "escala": 1.0, "t": 0.17, "dur": 0.8},
+          {"actor": "juez", "accion": "aparecer", "en": [620, 900], "t": 0.18},
+          {"prop": "anillo", "accion": "aparecer", "en": [1080, 640], "escala": 1.1, "t": 0.22},
+          {"prop": "anillo2", "accion": "aparecer", "en": [1180, 640], "escala": 1.1, "tipo": "anillo", "t": 0.24},
+          {"texto": "sentencia de divorcio", "accion": "rotulo", "estilo": "pluma", "en": [1120, 420], "t": 0.26, "dur": 1.0},
+          {"prop": "anillo", "accion": "moverse", "a": [960, 660], "t": 0.34, "dur": 0.9},
+          {"prop": "anillo2", "accion": "moverse", "a": [1300, 660], "t": 0.34, "dur": 0.9},
+
+          {"texto": "sentencia de divorcio", "accion": "desaparecer", "t": 0.42, "dur": 0.4},
+          {"prop": "anillo", "accion": "desaparecer", "t": 0.42, "dur": 0.4},
+          {"prop": "anillo2", "accion": "desaparecer", "t": 0.42, "dur": 0.4},
+          {"actor": "juez", "accion": "desaparecer", "t": 0.42, "dur": 0.4},
+          {"actor": "camara", "accion": "zoom", "a": [960, 480], "escala": 1.0, "t": 0.43, "dur": 0.8},
+          {"texto": "¿qué tipo de sentencia es?", "accion": "rotulo", "estilo": "pluma", "en": [960, 420], "t": 0.45, "dur": 1.4},
+          {"texto": "¿por qué no se ejecuta?", "accion": "rotulo", "estilo": "pluma", "en": [960, 540], "t": 0.56, "dur": 1.4},
+
+          {"texto": "¿qué tipo de sentencia es?", "accion": "desaparecer", "t": 0.72, "dur": 0.4},
+          {"texto": "¿por qué no se ejecuta?", "accion": "desaparecer", "t": 0.72, "dur": 0.4},
+          {"texto": "respóndelo en los comentarios", "accion": "rotulo", "estilo": "pluma", "en": [960, 460], "t": 0.74, "dur": 1.2},
+
+          {"texto": "respóndelo en los comentarios", "accion": "desaparecer", "t": 0.85, "dur": 0.4},
+          {"actor": "camara", "accion": "zoom", "a": [960, 360], "escala": 1.0, "t": 0.85, "dur": 0.5},
+          {"prop": "martillo", "accion": "aparecer", "en": [960, 200], "escala": 1.3, "t": 0.86},
+          {"prop": "martillo", "accion": "cerrarse_sobre", "a": [960, 440], "t": 0.9, "dur": 0.45},
+          {"texto": "se levanta la sesión", "accion": "rotulo", "estilo": "titulo", "en": [960, 620], "t": 0.93, "dur": 1.0},
+          {"actor": "camara", "accion": "punch", "a": [960, 440], "escala": 1.12, "t": 0.94, "dur": 0.5}
+        ]
       }
     }
   ]
